@@ -2,9 +2,22 @@
 
 return [
 
-    'user' => [
-        'title' => 'المستخدمين',
-        'add_new' => 'إضافة مستخدم جديد'
+    'statistic' => [
+        'title' => 'التقارير والتحليلات',
+    ],
+
+    'account_management' => [
+        'title' => 'إدارة الحسابات',
+    ],
+
+    'notification' => [
+        'title' => 'الإشعارات',
+        'management' => 'إدارة الإشعارات',
+        'no_notifications' => 'لا توجد إشعارات',
+    ],
+
+    'dashboard' => [
+        'title' => 'لوحة التحكم',
     ],
 
     'setting' => [
@@ -20,24 +33,6 @@ return [
         'social_media' => 'سوشيال ميديا'
     ],
 
-    'global' => [
-        'LE' => 'ج.م',
-        'choose' => 'اختر',
-        'created_at' => 'تاريخ الإنشاء',
-        'back' => 'العودة',
-        'show' => 'عرض',
-        'edit' => 'تعديل',
-        'update' => 'تحديث',
-        'save' => 'حفظ',
-        'delete' => 'حذف',
-        'details' => 'التفاصيل',
-        'home' => 'الرئيسية',
-        'dashboard' => 'لوحة التحكم',
-        'elements' => 'العناصر',
-        'support' => 'الدعم الفني',
-        'welcome' => 'مرحبًا بك',
-    ],
-
     'auth' => [
         'profile' => 'الحساب الشخصي',
         'email' => 'البريد الإلكتروني',
@@ -49,18 +44,49 @@ return [
         'logout' => 'تسجيل الخروج',
         'name' => 'الاسم',
         'image' => 'الصورة',
-        'upload_img' => 'تحميل صورة',
-        'allowed_img' => 'نوع الصورة المسموح',
         'phone' => 'الهاتف',
-        'street' => 'الشارع',
-        'country' => 'الدولة',
-        'city' => 'المدينة',
-        'zip_code' => 'كود المحافظة',
+    ],
+
+    'global' => [
+        'add' => 'أضف',
+        'save' => 'حفظ',
+        'edit' => 'تعديل',
+        'update' => 'تعديل',
+        'view' => 'عرض',
+        'delete' => 'حذف',
+        'close' => 'إغلاق',
+        'cancel' => 'إلغاء',
+        'search' => 'بحث',
+        'download' => 'تحميل',
+        'of' => ' من ',
+        'from' => 'من',
+        'to' => 'إلى',
+        'selected' => 'محدد',
+        'no_result' => 'لا يوجد نتايج',
+        'no_data' => 'لا يوجد بيانات',
+        'searching' => 'جاري البحث ...',
+        'search_error' => 'حدث خطأ في البحث',
+        'select' => 'حدد',
+        'and' => 'و',
+        'minute' => 'دقيقة',
+        'loading' => 'تحميل ...',
+        'error_loading_data' => 'خطأ في تحميل البيانات',
+        'all' => 'الكل',
+        'or' => 'أو',
+        'back' => 'العودة',
+        'yes' => 'نعم',
+        'no' => 'لا',
+        'sar' => 'ر.س',
+    ],
+
+    'guard' => [
+        'admin' => 'أدمن',
+        'client' => 'عميل',
     ],
 
     'alert' => [
         'are_you_sure' => 'هل أنت متأكد؟',
-        'invalid_email_or_password' => 'البريد الإلكتروني أو الباسورد غير صحيح',
+
         'success' => [
             'done_create' => 'تم حفظ البيانات',
             'done_update' => 'تم تعديل البيانات',
@@ -68,8 +94,15 @@ return [
         ],
         'error' => [
             'data_not_found' => 'لم يتم العثور على البيانات',
-            'user_not_found' => 'الأكونت غير موجود',
+            'user_not_found' => 'المستخدم غير موجود',
+            'invalid_email_or_password' => 'البريد الإلكتروني أو الباسورد غير صحيح',
             'old_password_incorrect' => 'كلمة المرور السابقة غير صحيحة'
         ],
     ],
+
+    'logo' => 'Logo',
+    'arabic' => 'العربية',
+    'english' => 'الانجليزية',
+    'welcome' => 'مرحبا, ',
+    'welcome_text' => 'يمكنك هنا متابعة أداء المنصة وإدارة العملاء بسهولة.'
 ];

@@ -20,7 +20,7 @@ class UserController extends Controller
             $users = User::select('id', 'name', 'email', 'created_at')->orderByDesc('created_at');
             return DataTables::of($users)->toJson();
         }
-        return view('backend.user.index');
+        return view('admin.user.index');
     }
 
     /**
@@ -28,7 +28,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('backend.user.create');
+        return view('admin.user.create');
     }
 
     /**
@@ -71,12 +71,12 @@ class UserController extends Controller
             return back()->with('error', __('trans.alert.error.data_not_found'));
         }
         // dd($user);
-        return view('backend.user.show', compact('user'));
+        return view('admin.user.show', compact('user'));
     }
 
     public function edit(User $user)
     {
-        return view('backend.user.edit', compact('user'));
+        return view('admin.user.edit', compact('user'));
     }
 
     public function update(Request $request, User $user)

@@ -11,13 +11,13 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
 
-    public function index(){
-        if (Auth::check()) {
+    public function index()
+    {
+        if (Auth::guard('admin')->check()) {
             return redirect()->route('admin.dashboard');
         }
 
-        return view('backend.auth.login');
-
+        return view('admin.auth.login');
     }
 
     public function login(Request $request)
@@ -35,7 +35,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email_or_password' => __('trans.alert.invalid_email_or_password'),
+            'email_or_password' => __('trans.alert.error.invalid_email_or_password'),
         ])->withInput();
     }
 
