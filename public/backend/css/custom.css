@@ -137,7 +137,7 @@ hr{
 }
 
 .avatar-fallback{
-    background: linear-gradient(168.02deg, #3563AD -4.4%, #34B3AF 108.78%);
+    background: #0077B6;
     color: #fff;
     width: 100px;
     height: 100px;
@@ -164,7 +164,7 @@ html:not(.layout-menu-collapsed) .bg-menu-theme .menu-inner .menu-item.open > .m
 }
 .bg-menu-theme .menu-item.active > .menu-link:not(.menu-toggle){
     background: #DCE6F4;
-    color: #3563AD;
+    color: #0077B6;
     padding-right: 19px;
     padding-left: 19px;
     font-weight: 400;
@@ -185,7 +185,7 @@ html:not(.layout-menu-collapsed) .bg-menu-theme .menu-inner .menu-item.open > .m
 }
 
 .input-group:focus-within .input-group-text {
-  border-color: #3563AD !important;
+  border-color: #0077B6 !important;
 }
 
 .multi_hide, .multi_delete {
@@ -227,7 +227,7 @@ html:not(.layout-menu-collapsed) .bg-menu-theme .menu-inner .menu-item.open > .m
 
 .client-navbar .dropdown-menu-end .dropdown-item:hover{
     background: #DCE6F4;
-    color: #3563AD !important;
+    color: #0077B6 !important;
 }
 
 .client-navbar .avatar img{
@@ -243,14 +243,6 @@ html:not(.layout-menu-collapsed) .bg-menu-theme .menu-inner .menu-item.open > .m
 
 input, input::placeholder, textarea::placeholder {
     color: #3C3C3C !important;
-}
-
-
-#days-container {
-    overflow-x: auto;
-    white-space: nowrap;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
 }
 
 #loader {

@@ -28,7 +28,10 @@
 
         <link rel="stylesheet" href="{{url('backend')}}/assets/vendor/fonts/boxicons.css" />
 
-        @if (AppLang() == 'ar')
+        <link rel="stylesheet" href="{{url('backend')}}/assets/vendor/css/core-rtl.css" class="template-customizer-core-css" />
+        <link rel="stylesheet" href="{{url('backend')}}/assets/vendor/css/theme-default-rtl.css" class="template-customizer-theme-css" />
+
+        {{-- @if (AppLang() == 'ar')
             <!-- Core CSS -->
             <link rel="stylesheet" href="{{url('backend')}}/assets/vendor/css/core-rtl.css" class="template-customizer-core-css" />
             <link rel="stylesheet" href="{{url('backend')}}/assets/vendor/css/theme-default-rtl.css" class="template-customizer-theme-css" />
@@ -38,7 +41,7 @@
             <link rel="stylesheet" href="{{url('backend')}}/assets/vendor/css/core.css" class="template-customizer-core-css" />
             <link rel="stylesheet" href="{{url('backend')}}/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
             <link rel="stylesheet" href="{{url('backend')}}/assets/css/demo.css" />
-        @endif
+        @endif --}}
 
         <!-- Vendors CSS -->
         <link rel="stylesheet" href="{{url('backend')}}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
@@ -49,11 +52,16 @@
         {{-- version number and this is the last update for this file (custom.css) --}}
         <link rel="stylesheet" href="{{ url('backend') }}/css/custom.css?v={{ filemtime(public_path('backend/css/custom.css')) }}" />
 
-        <!-- Helpers -->
-        <script src="{{url('backend')}}/assets/vendor/js/helpers.js"></script>
+       <!-- Helpers -->
+        <script src="{{ url('backend') }}/assets/vendor/js/helpers.js"></script>
+
         <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+        <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
+        <script src="{{ url('backend') }}/assets/vendor/js/template-customizer.js"></script>
         <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-        <script src="{{url('backend')}}/assets/js/config.js"></script>
+        <script src="{{ url('backend') }}/assets/js/config.js"></script>
+        {{-- custom css --}}
+        <link rel="stylesheet" href="{{ url('backend') }}/css/config.css?v={{ filemtime(public_path('backend/css/config.css')) }}" />
 
         <style>
             @font-face {

@@ -1,0 +1,14 @@
+@media (max-width: 575px) {
+    .layout-navbar.navbar-detached {
+        height: auto;
+    }
+    .navbar-nav{
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 1199px) {
+    .layout-navbar.navbar-detached {
+        width: 100% !important;
+    }
+}
