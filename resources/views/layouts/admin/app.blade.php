@@ -4,7 +4,7 @@
 
 <body>
 
-    <div class="layout-wrapper layout-content-navbar dark-theme">
+    <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
 
             @include('layouts.admin.sidebar')

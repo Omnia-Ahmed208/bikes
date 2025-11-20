@@ -104,18 +104,18 @@ if (document.getElementById('layout-menu')) {
     // Update style switcher icon and tooltip based on current style
     if (window.Helpers.isLightStyle()) {
       if (styleSwitcherToggleEl) {
-        styleSwitcherToggleEl.querySelector('i').classList.add('bx-moon-stars');
+        styleSwitcherToggleEl.querySelector('i').classList.add('ti-moon-stars');
         new bootstrap.Tooltip(styleSwitcherToggleEl, {
-          title: 'Dark mode',
+        //   title: 'Dark mode',
           fallbackPlacements: ['bottom']
         });
       }
       switchImage('light');
     } else {
       if (styleSwitcherToggleEl) {
-        styleSwitcherToggleEl.querySelector('i').classList.add('bx-sun');
+        styleSwitcherToggleEl.querySelector('i').classList.add('ti-sun');
         new bootstrap.Tooltip(styleSwitcherToggleEl, {
-          title: 'Light mode',
+        //   title: 'Light mode',
           fallbackPlacements: ['bottom']
         });
       }
@@ -455,7 +455,7 @@ if (typeof $ !== 'undefined') {
                 notFound:
                   '<div class="not-found px-3 py-2">' +
                   '<h6 class="suggestions-header text-primary mb-2">Pages</h6>' +
-                  '<p class="py-2 mb-0"><i class="bx bx-alert-circle bx-xs me-2"></i> No Results Found</p>' +
+                  '<p class="py-2 mb-0"><i class="ti ti-alert-circle ti-xs me-2"></i> No Results Found</p>' +
                   '</div>'
               }
             },
@@ -495,7 +495,7 @@ if (typeof $ !== 'undefined') {
                 notFound:
                   '<div class="not-found px-3 py-2">' +
                   '<h6 class="suggestions-header text-primary mb-2">Files</h6>' +
-                  '<p class="py-2 mb-0"><i class="bx bx-alert-circle bx-xs me-2"></i> No Results Found</p>' +
+                  '<p class="py-2 mb-0"><i class="ti ti-alert-circle ti-xs me-2"></i> No Results Found</p>' +
                   '</div>'
               }
             },
@@ -532,7 +532,7 @@ if (typeof $ !== 'undefined') {
                 notFound:
                   '<div class="not-found px-3 py-2">' +
                   '<h6 class="suggestions-header text-primary mb-2">Members</h6>' +
-                  '<p class="py-2 mb-0"><i class="bx bx-alert-circle bx-xs me-2"></i> No Results Found</p>' +
+                  '<p class="py-2 mb-0"><i class="ti ti-alert-circle ti-xs me-2"></i> No Results Found</p>' +
                   '</div>'
               }
             }

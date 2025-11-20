@@ -6,6 +6,12 @@
 <script src="{{url('backend')}}/assets/vendor/js/bootstrap.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{url('backend')}}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script src="{{ url('backend') }}/assets/vendor/libs/node-waves/node-waves.js"></script>
+
+<script src="{{ url('backend') }}/assets/vendor/libs/hammer/hammer.js"></script>
+<script src="{{ url('backend') }}/assets/vendor/libs/i18n/i18n.js"></script>
+<script src="{{ url('backend') }}/assets/vendor/libs/typeahead-js/typeahead.js"></script>
+
 <script src="{{url('backend')}}/assets/vendor/js/menu.js"></script>
 
 <!-- DB JS -->
@@ -13,6 +19,8 @@
 
 <!-- Vendors JS -->
 <script src="{{url('backend')}}/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+<script src="{{ url('backend') }}/assets/vendor/libs/swiper/swiper.js"></script>
+<script src="{{ url('backend') }}/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
 
 <!-- Main JS -->
 <script src="{{ url('backend') }}/assets/js/main.js"></script>

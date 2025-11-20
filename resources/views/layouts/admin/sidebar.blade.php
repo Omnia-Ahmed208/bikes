@@ -1,115 +1,102 @@
- <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-    <div class="app-brand demo py-4">
-        <a href="index.html" class="app-brand-link">
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+    <div class="app-brand demo">
+        <a href="{{ url('/') }}" class="app-brand-link">
             <span class="app-brand-logo demo">
-                {{-- img --}}
+                <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z"
+                        fill="#7367F0" />
+                    <path
+                        opacity="0.06"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z"
+                        fill="#161616" />
+                    <path
+                        opacity="0.06"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z"
+                        fill="#161616" />
+                    <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
+                    fill="#7367F0" />
+                </svg>
             </span>
             <span class="app-brand-text demo menu-text fw-bold">Logo</span>
         </a>
-
-        {{-- <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
-            <i class="ti menu-toggle-icon d-none d-xl-block ti-sm align-middle"></i>
-            <i class="ti ti-x d-block d-xl-none ti-sm align-middle"></i>
-        </a> --}}
     </div>
 
     <div class="menu-inner-shadow"></div>
 
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
-        {{-- <li class="menu-item active open">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <i class="menu-icon tf-icons ti ti-smart-home"></i>
-            <div data-i18n="Dashboards">Dashboards</div>
-            <div class="badge bg-label-primary rounded-pill ms-auto">3</div>
-            </a>
-            <ul class="menu-sub">
-            <li class="menu-item active">
-                <a href="index.html" class="menu-link">
-                <div data-i18n="Analytics">Analytics</div>
-                </a>
-            </li>
-            <li class="menu-item">
-                <a href="dashboards-crm.html" class="menu-link">
-                <div data-i18n="CRM">CRM</div>
-                </a>
-            </li>
-            <li class="menu-item">
-                <a href="dashboards-ecommerce.html" class="menu-link">
-                <div data-i18n="eCommerce">eCommerce</div>
-                </a>
-            </li>
-            </ul>
-        </li> --}}
-        <!-- Dashboard -->
-        <li class="menu-item">
-            <a href="{{ UrlLang('admin/dashboard') }}" class="menu-link">
-                {{-- <i class="menu-icon tf-icons bx bx-dashboard"></i> --}}
-                <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                fill="currentColor" viewBox="0 0 24 24"  class="menu-icon tf-icons">
-                <!--Boxicons v3.0 https://boxicons.com | License  https://docs.boxicons.com/free-->
-                <path d="m20,11h-6c-.55,0-1,.45-1,1v8c0,.55.45,1,1,1h6c.55,0,1-.45,1-1v-8c0-.55-.45-1-1-1Zm-1,8h-4v-6h4v6Z"></path><path d="m10,15h-6c-.55,0-1,.45-1,1v4c0,.55.45,1,1,1h6c.55,0,1-.45,1-1v-4c0-.55-.45-1-1-1Zm-1,4h-4v-2h4v2Z"></path><path d="m20,3h-6c-.55,0-1,.45-1,1v4c0,.55.45,1,1,1h6c.55,0,1-.45,1-1v-4c0-.55-.45-1-1-1Zm-1,4h-4v-2h4v2Z"></path><path d="m10,3h-6c-.55,0-1,.45-1,1v8c0,.55.45,1,1,1h6c.55,0,1-.45,1-1V4c0-.55-.45-1-1-1Zm-1,8h-4v-6h4v6Z"></path>
-                </svg>
-                <div data-i18n="Analytics">{{ __('trans.dashboard.title') }}</div>
+        <li class="menu-item active">
+            <a href="{{ UrlLang('admin/dashboard') }}" class="menu-link text-dark">
+                <i class="menu-icon tf-icons ti ti-home"></i>
+                <div>{{ __('trans.dashboard.title') }}</div>
             </a>
         </li>
 
-                <!-- account_management -->
+        <!-- account_management -->
         <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-user"></i>
-                <div data-i18n="Layouts">{{ __('trans.account_management.title') }}</div>
+            <a href="javascript:void(0)" class="menu-link text-dark menu-toggle">
+                <i class="menu-icon tf-icons ti ti-users"></i>
+                <div>{{ __('trans.account_management.title') }}</div>
             </a>
-
             {{-- <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="{{ UrlLang('admin/patients') }}" class="menu-link">
-                        <div data-i18n="Without menu">{{ __('trans.patient.title') }}</div>
+                    <a href="javascript:void(0);" class="menu-link text-dark">
+                        <div="Tabler">Tabler</div=>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="javascript:void(0);" class="menu-link text-dark">
+                        <div="Fontawesome">Fontawesome</div=>
                     </a>
                 </li>
             </ul> --}}
         </li>
 
+        <!-- statistics -->
         <li class="menu-item">
-            <a href="{{ UrlLang('admin/statistics') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-bar-chart-alt-2"></i>
-                <div data-i18n="Basic">{{ __('trans.statistic.title') }}</div>
+            <a href="javascript:void(0)" class="menu-link text-dark">
+                <i class="menu-icon tf-icons ti ti-chart-bar"></i>
+                <div>{{ __('trans.statistic.title') }}</div>
             </a>
         </li>
 
+        <!-- notifications -->
         <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-bell"></i>
-                <div data-i18n="Basic">{{ __('trans.notification.title') }}</div>
+            <a href="{{ UrlLang('admin/notifications') }}" class="menu-link text-dark">
+                <i class="menu-icon tf-icons ti ti-bell"></i>
+                <div>{{ __('trans.notification.title') }}</div>
             </a>
         </li>
 
+        <!-- setting -->
         <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-cog"></i>
-                <div data-i18n="Layouts">{{ __('trans.setting.title') }}</div>
+            <a href="javascript:void(0)" class="menu-link text-dark menu-toggle">
+                <i class="menu-icon tf-icons ti ti-settings"></i>
+                <div>{{ __('trans.setting.title') }}</div>
             </a>
             {{-- <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="{{ UrlLang('admin/setting') }}" class="menu-link">
-                        <div data-i18n="Without menu">{{ __('trans.setting.title') }}</div>
+                    <a href="javascript:void(0);" class="menu-link text-dark">
+                        <div="Tabler">Tabler</div=>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="javascript:void(0);" class="menu-link text-dark">
+                        <div="Fontawesome">Fontawesome</div=>
                     </a>
                 </li>
             </ul> --}}
         </li>
+
     </ul>
 </aside>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
