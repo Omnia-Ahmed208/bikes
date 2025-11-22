@@ -1,234 +1,162 @@
-<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme rounded position-relative h-100">
-    <div class="app-brand demo" style="height: 125px">
-        <div href="javascript:void(0);" class="h-100 w-100">
-            <span class="app-brand-logo demo text-center w-100 h-100 d-flex justify-content-center align-items-center position-relative">
-                <div id="sidebarImage">
-                    @if ($doctor->image)
-                        <img src="{{ asset($doctor->image) }}" alt="" class="rounded-circle" style="width: 112px; height: 112px; object-fit: cover;">
-                    @else
-                        <div class="avatar-fallback" style="width: 112px; height: 112px">
-                            {{ Str::upper(mb_substr($doctor->name, 0, 1)) }}
-                        </div>
-                    @endif
-                </div>
-
-                {{-- edit --}}
-                <i class="menu-item-icon tf-icons bx bx-edit-alt text-white bg-primary rounded-circle p-2 position-absolute"
-                @if (AppDir() === 'ar')
-                    style="left: 40px; bottom: 5px;cursor: pointer;"
-                @else
-                    style="right: 40px; bottom: 5px;cursor: pointer;"
-                @endif
-                data-bs-toggle="modal" data-bs-target="#editProfileModal"
-                ></i>
-            </span>
-        </div>
-
-        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-            <i class="bx bx-chevron-left bx-sm align-middle"></i>
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+    <div class="app-brand demo">
+        <a href="{{ url('/') }}" class="app-brand-link">
+            {{-- <span class="app-brand-logo demo">
+                <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z"
+                        fill="#0077b6" />
+                    <path
+                        opacity="0.06"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z"
+                        fill="#161616" />
+                    <path
+                        opacity="0.06"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z"
+                        fill="#161616" />
+                    <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
+                    fill="#0077b6" />
+                </svg>
+            </span> --}}
+            <span class="app-brand-text demo menu-text fw-bold">Logo</span>
         </a>
     </div>
 
-    <h5 class="text-dark fw-bold text-center">{{ __('trans.doctor.dr') }} {{ $doctor->name }}</h5>
-
     <div class="menu-inner-shadow"></div>
 
-    <ul class="menu-inner py-1 pb-3">
-        <!-- profile -->
-        <li class="menu-item">
-            <a href="{{ UrlLang('doctor/profile') }}" class="menu-link">
-                <div data-i18n="profile">{{ __('trans.doctor.profile') }}</div>
+    <ul class="menu-inner py-1">
+        <!-- Dashboards -->
+        <li class="menu-item active">
+            <a href="{{ UrlLang('admin/dashboard') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-layout-dashboard"></i>
+                <div>{{ __('trans.dashboard.title') }}</div>
             </a>
         </li>
 
+        <!-- live_tracking -->
         <li class="menu-item">
-            <a href="{{ UrlLang('doctor/bank-account') }}" class="menu-link">
-                <div data-i18n="bank_account">{{ __('trans.doctor.bank_account') }}</div>
+            <a href="javascript:void(0)" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-map"></i>
+                <div>{{ __('trans.live_tracking.title') }}</div>
             </a>
         </li>
 
+        <!-- fleet_management -->
         <li class="menu-item">
-            <a href="{{ UrlLang('doctor/appointments/create') }}" class="menu-link">
-                <div data-i18n="appointments">{{ __('trans.doctor.appointments') }}</div>
+            <a href="javascript:void(0)" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-route"></i>
+                <div>{{ __('trans.fleet_management.title') }}</div>
             </a>
         </li>
 
+        <!-- smart_maintenance -->
         <li class="menu-item">
-            <a href="{{ UrlLang('doctor/reviews') }}" class="menu-link">
-                <div data-i18n="reviews">{{ __('trans.doctor.reviews') }}</div>
+            <a href="javascript:void(0)" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-tools"></i>
+                <div>{{ __('trans.smart_maintenance.title') }}</div>
             </a>
         </li>
 
+        <!-- energy_monitoring -->
         <li class="menu-item">
-            <a href="{{ UrlLang('doctor/privacy-terms') }}" class="menu-link">
-                <div data-i18n="privacy_terms">{{ __('trans.doctor.privacy_terms') }}</div>
+            <a href="javascript:void(0)" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-dashboard"></i>
+                <div>{{ __('trans.energy_monitoring.title') }}</div>
             </a>
         </li>
 
+        <!-- ads -->
         <li class="menu-item">
-            <a href="{{ UrlLang('doctor/contact-us') }}" class="menu-link">
-                <div data-i18n="contact_us">{{ __('trans.doctor.contact_us') }}</div>
+            <a href="javascript:void(0)" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-ad"></i>
+                <div>{{ __('trans.ads.title') }}</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="javascript:void(0);" class="menu-link">
+                        <div="Tabler">{{ __('trans.campaign.title') }}</div=>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="javascript:void(0);" class="menu-link">
+                        <div="Fontawesome">{{ __('trans.schedule.title') }}</div=>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- geographical_area -->
+        <li class="menu-item">
+            <a href="javascript:void(0)" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-map-pin"></i>
+                <div>{{ __('trans.geographical_area.title') }}</div>
             </a>
         </li>
 
+        <!-- camera -->
         <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link" data-bs-toggle="modal" data-bs-target="#logoutModal">
-                <div data-i18n="logout">{{ __('trans.auth.logout') }}</div>
+            <a href="javascript:void(0)" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-camera"></i>
+                <div>{{ __('trans.camera.title') }}</div>
+            </a>
+            {{-- <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="javascript:void(0);" class="menu-link">
+                        <div="Tabler">{{ __('trans.campaign.title') }}</div=>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="javascript:void(0);" class="menu-link">
+                        <div="Fontawesome">{{ __('trans.schedule.title') }}</div=>
+                    </a>
+                </li>
+            </ul> --}}
+        </li>
+
+        <!-- statistics -->
+        <li class="menu-item">
+            <a href="javascript:void(0)" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-chart-bar"></i>
+                <div>{{ __('trans.statistic.title') }}</div>
             </a>
         </li>
+
+        <!-- notifications -->
+        <li class="menu-item">
+            <a href="{{ UrlLang('admin/notifications') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-bell"></i>
+                <div>{{ __('trans.notification.title') }}</div>
+            </a>
+        </li>
+
+        <!-- setting -->
+        <li class="menu-item">
+            <a href="javascript:void(0)" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-settings"></i>
+                <div>{{ __('trans.setting.title') }}</div>
+            </a>
+            {{-- <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="javascript:void(0);" class="menu-link">
+                        <div="Tabler">Tabler</div=>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="javascript:void(0);" class="menu-link">
+                        <div="Fontawesome">Fontawesome</div=>
+                    </a>
+                </li>
+            </ul> --}}
+        </li>
+
     </ul>
 </aside>
-
-
-{{-- edit profile --}}
-<div class="modal fade" id="editProfileModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body d-flex flex-column align-items-center p-0">
-                <div id="img-profile-section">
-                    @if ($doctor->image)
-                        <img id="profilePreview" src="{{ asset($doctor->image) }}" alt=""
-                        class="w-px-150 h-px-150 rounded-circle" style="object-fit: cover;">
-                    @else
-                        <div class="avatar-fallback w-px-150 h-px-150" id="profilePreviewFallback">
-                            {{ Str::upper(mb_substr($doctor->name, 0, 1)) }}
-                        </div>
-                    @endif
-                </div>
-                <form id="editProfileImageForm" enctype="multipart/form-data" class="mt-4">
-                    @csrf
-                    <div class="mb-3 position-relative">
-                        <input id="imageInput" type="file" name="image" class="form-control position-absolute" style="opacity: 0;z-index: 1;" accept="image/*">
-                        <a href="javascript:void(0)" class="btn btn-primary w-100" id="uploadImageBtn">{{ __('trans.doctor.edit_image') }}</a>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">{{ __('trans.global.save') }}</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-{{-- logout --}}
-<div class="modal fade" id="logoutModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body d-flex flex-column align-items-center p-0">
-                <h4 class="fw-bold text-dark text-center">{{ __('trans.alert.are_you_sure_to_logout') }}</h4>
-                <p>{{ __('trans.alert.logout_text') }}</p>
-            </div>
-            <div class="modal-footer pb-2">
-                <div class="row w-100">
-                    <div class="col-6">
-                        <a href="{{ UrlLang('doctor/logout') }}" class="btn btn-primary w-100" id="logoutBtn">{{ __('trans.auth.logout') }}</a>
-                    </div>
-                    <div class="col-6">
-                        <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">{{ __('trans.global.cancel') }}</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-@push('js')
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const imageInput = document.getElementById("imageInput");
-
-            imageInput.addEventListener("change", function (e) {
-                const file = e.target.files[0];
-                const reader = new FileReader();
-
-                reader.onload = function (e) {
-                    const profilePreview = document.getElementById("profilePreview");
-                    const profilePreviewFallback = document.getElementById("profilePreviewFallback");
-
-                    if(profilePreviewFallback){
-                        profilePreviewFallback.innerHTML =
-                        `<img src="${e.target.result}" alt="" class="w-px-150 h-px-150 my-4 rounded-circle" style="object-fit: cover;">`;
-                    }
-                    else if(profilePreview){
-                        profilePreview.src = e.target.result;
-                    }
-                };
-
-                reader.readAsDataURL(file);
-            });
-
-
-            const form = document.getElementById("editProfileImageForm");
-            form.addEventListener("submit", function (e) {
-                e.preventDefault();
-
-                let formData = new FormData(form);
-
-                fetch("{{ route('doctor.profile.update_image') }}", {
-                    method: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
-                    },
-                    body: formData
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        bootstrap.Modal.getInstance(document.getElementById("editProfileModal")).hide();
-
-                        if (data.image_url) {
-                            // sidebar image
-                            const sidebarImage = document.getElementById("sidebarImage");
-                            let img = sidebarImage.querySelector("img");
-                            if (img) {
-                                img.src = data.image_url;
-                            } else {
-                                sidebarImage.innerHTML =
-                                `<img src="${data.image_url}" alt="" class="rounded-circle" style="width: 112px; height: 112px; object-fit: cover;">`;
-                            }
-
-                            // navbar images
-                            const navbarImages = document.querySelectorAll(".avatar.avatar-navbar");
-                            navbarImages.forEach(image => {
-                                const internalImage = image.querySelector("img");
-                                if (internalImage) {
-                                    internalImage.src = data.image_url;
-                                } else{
-                                    image.innerHTML = `<img src="${data.image_url}" alt="" class="rounded-circle">`;
-                                }
-                            })
-                        }
-
-                        Swal.fire({
-                            icon: 'success',
-                            text: data.message,
-                            showConfirmButton: false,
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            text: data.message,
-                            showConfirmButton: false,
-                        });
-                    }
-                })
-                .catch(err => {
-                    console.error(err);
-
-                    Swal.fire({
-                        icon: 'success',
-                        text: "{{ __('trans.alert.error.something_went_wrong') }}",
-                        showConfirmButton: false,
-                    });
-                });
-            });
-
-        });
-
-    </script>
-@endpush

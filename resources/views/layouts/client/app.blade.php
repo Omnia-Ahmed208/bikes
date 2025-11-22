@@ -3,10 +3,13 @@
 @section('body')
 
 <body>
+
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
 
-            <div class="layout-page p-0">
+            @include('layouts.client.sidebar')
+
+            <div class="layout-page">
                 <!-- Navigation -->
                 @include('layouts.client.navbar')
 
@@ -50,6 +53,7 @@
 
     @include('layouts.footer')
 
+    {{-- @yield('scripts') --}}
 
 </body>
 

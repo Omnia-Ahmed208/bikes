@@ -37,9 +37,10 @@
     }
 }
 
-.img_primary{
-    filter: invert(31%) sepia(86%) saturate(658%) hue-rotate(190deg) brightness(92%) contrast(97%);
+.img_primary {
+    filter: invert(26%) sepia(100%) saturate(4434%) hue-rotate(180deg) brightness(94%) contrast(90%);
 }
+
 .img_white{
     filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%) hue-rotate(190deg) brightness(100%) contrast(100%);
 }

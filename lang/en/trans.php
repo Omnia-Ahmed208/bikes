@@ -2,6 +2,46 @@
 
 return [
 
+    '' => [
+        'title' => '',
+    ],
+
+    'camera' => [
+        'title' => 'Camera ',
+    ],
+
+    'geographical_area' => [
+        'title' => 'Geographical Areas',
+    ],
+
+    'campaign' => [
+        'title' => 'Campaigns',
+    ],
+
+    'schedule' => [
+        'title' => 'Schedule',
+    ],
+
+    'ads' => [
+        'title' => 'Mobile Advertising',
+    ],
+
+    'energy_monitoring' => [
+        'title' => 'Energy and fuel monitoring',
+    ],
+
+    'smart_maintenance' => [
+        'title' => 'Smart Maintenance',
+    ],
+
+    'fleet_management' => [
+        'title' => 'Fleet Management',
+    ],
+
+    'live_tracking' => [
+        'title' => 'Live Tracking',
+    ],
+
     'statistic' => [
         'title' => 'Statistics',
     ],

@@ -2,6 +2,47 @@
 
 return [
 
+    '' => [
+        'title' => '',
+    ],
+
+    'camera' => [
+        'title' => 'الكاميرات ',
+    ],
+
+
+    'geographical_area' => [
+        'title' => 'المناطق الجغرافية',
+    ],
+
+    'campaign' => [
+        'title' => 'الحملات',
+    ],
+
+    'schedule' => [
+        'title' => 'الجدولة',
+    ],
+
+    'ads' => [
+        'title' => 'الإعلانات المتنقلة',
+    ],
+
+    'energy_monitoring' => [
+        'title' => 'مراقبة الطاقة والوقود',
+    ],
+
+    'smart_maintenance' => [
+        'title' => 'الصيانة الذكية'
+    ],
+
+    'fleet_management' => [
+        'title' => 'إدارة الأسطول',
+    ],
+
+    'live_tracking' => [
+        'title' => 'التتبع الحي',
+    ],
+
     'statistic' => [
         'title' => 'التقارير والتحليلات',
     ],
