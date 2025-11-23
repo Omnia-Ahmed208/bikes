@@ -1,0 +1,36 @@
+Ads price
+- country_id
+- region_id
+- price
+
+
+campaign
+- title
+- country_id
+- region_id
+- bikes_count
+- notes
+- status ==> live, finished, scheduled, stopped
+- approval_status ==> accepted, rejected form admin
+- progress ==> percentage
+- views_count
+
+- image / vedio
+- duration in seconds
+- date_from
+- date_to
+- time_from
+- time_to
+- price
+- user_id
+
+اسم الحملة
+المدينة
+المنطقة
+عدد المركبات: 5
+مدة العرض: 15s
+مدة الحملة: 12 ساعة
+تاريخ ووقت الحملة:
+12 / 11 / 2025 - 09:00 ص -  18 / 11 / 2025 - 11:00 م
+
+
