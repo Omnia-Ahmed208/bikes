@@ -1,10 +1,8 @@
+/* [dir=rtl] body{ background: #eee;} */
+
 /* hide template customizer setting for colors */
 .template-customizer-open-btn{
     display: none !important;
-}
-
-.text-dark{
-    color: #1C1F22 !important;
 }
 
 #loader {
@@ -83,4 +81,10 @@
 .dropdown-item:hover, .dropdown-item:focus {
     color: #0077B6;
     background-color: #E3F3FA;
+}
+
+.select2-results__option[role=option][aria-selected=true]{background: #0077B6 !important;}
+.select2-container--default .select2-results__option--highlighted:not([aria-selected=true]) {
+    background-color: #dce6f447 !important;
+    color: #0077B6 !important;
 }

@@ -65,7 +65,7 @@
   --bs-border-radius-2xl: 2rem;
   --bs-border-radius-pill: 50rem;
   --bs-link-color: #0077b6;
-  --bs-link-hover-color: #685dd8;
+  --bs-link-hover-color: #166f9f;
   --bs-code-color: #e83e8c;
   --bs-highlight-bg: #ffecd9;
 }
@@ -1809,7 +1809,7 @@ progress {
 
 .table-primary {
   --bs-table-color: #4b465c;
-  --bs-table-bg: #f4f3fe;
+  --bs-table-bg: #E8F3FB;
   --bs-table-border-color: #d2d0de;
   --bs-table-striped-bg: #f1f0fb;
   --bs-table-striped-color: #4b465c;
@@ -4229,9 +4229,9 @@ textarea.form-control-lg {
   --bs-list-group-item-padding-y: 0.57rem;
   --bs-list-group-action-color: rgba(75, 70, 92, 0.7);
   --bs-list-group-action-hover-color: #0077b6;
-  --bs-list-group-action-hover-bg: #f4f3fe;
+  --bs-list-group-action-hover-bg: #E8F3FB;
   --bs-list-group-action-active-color: #0077b6;
-  --bs-list-group-action-active-bg: #f4f3fe;
+  --bs-list-group-action-active-bg: #E8F3FB;
   --bs-list-group-disabled-color: #a5a3ae;
   --bs-list-group-disabled-bg: transparent;
   --bs-list-group-active-color: #fff;
@@ -5972,7 +5972,7 @@ textarea.form-control-lg {
   color: #0077b6 !important;
 }
 .link-primary:hover, .link-primary:focus {
-  color: #685dd8 !important;
+  color: #166f9f !important;
 }
 
 .link-secondary {

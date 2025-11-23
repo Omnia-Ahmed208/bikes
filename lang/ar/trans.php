@@ -2,14 +2,24 @@
 
 return [
 
-    '' => [
-        'title' => '',
+    'month' => [
+        'january' => 'يناير',
+        'february' => 'فبراير',
+        'march' => 'مارس',
+        'april' => 'ابريل',
+        'may' => 'مايو',
+        'june' => 'يونيو',
+        'july' => 'يوليو',
+        'august' => 'اغسطس',
+        'september' => 'سبتمبر',
+        'october' => 'اكتوبر',
+        'november' => 'نوفمبر',
+        'december' => 'ديسمبر',
     ],
 
     'camera' => [
         'title' => 'الكاميرات ',
     ],
-
 
     'geographical_area' => [
         'title' => 'المناطق الجغرافية',
@@ -17,6 +27,28 @@ return [
 
     'campaign' => [
         'title' => 'الحملات',
+        'add_new' => 'اضافة حملة',
+        'live_campaign' => 'الحملات المباشرة',
+        'stopped_campaign' => 'الحملات المتوقفة',
+        'finished_campaign' => 'الحملات المنتهية',
+        'scheduled_campaign' => 'الحملات المجدولة',
+        'name' => 'عنوان الحملة',
+        'media' => 'الوسائط',
+        'region' => 'المنطقة',
+        'bikes_count' => 'عدد المركبات',
+        'duration' => 'مدة الحملة',
+        'price' => 'السعر',
+        'status' => 'الحالة',
+        'date' => 'التاريخ',
+        'actions' => 'الاجراءات',
+        'remaining' => 'متبقي',
+        'days' => 'أيام',
+        'percentage' => 'نسبة اكتمال الحملة',
+
+        'live' => 'نشطة',
+        'stopped' => 'متوقفة مؤقتًا',
+        'finished' => 'منتهية',
+        'scheduled' => 'مجدولة',
     ],
 
     'schedule' => [
@@ -95,6 +127,7 @@ return [
         'update' => 'تعديل',
         'view' => 'عرض',
         'delete' => 'حذف',
+        'copy' => 'نسخ',
         'close' => 'إغلاق',
         'cancel' => 'إلغاء',
         'search' => 'بحث',
@@ -118,6 +151,7 @@ return [
         'yes' => 'نعم',
         'no' => 'لا',
         'sar' => 'ر.س',
+        'view_more' => 'عرض المزيد',
     ],
 
     'guard' => [

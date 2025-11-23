@@ -59,7 +59,7 @@
   --bs-border-radius-2xl: 2rem;
   --bs-border-radius-pill: 50rem;
   --bs-link-color: #0077b6;
-  --bs-link-hover-color: #685dd8;
+  --bs-link-hover-color: #166f9f;
   --bs-code-color: #e83e8c;
   --bs-highlight-bg: #ffecd9;
 }
@@ -1803,7 +1803,7 @@ progress {
 
 .table-primary {
   --bs-table-color: #000;
-  --bs-table-bg: #f4f3fe;
+  --bs-table-bg: #E8F3FB;
   --bs-table-border-color: #c3c2cb;
   --bs-table-striped-bg: #efeef9;
   --bs-table-striped-color: #000;
@@ -5921,7 +5921,7 @@ textarea.form-control-lg {
   color: #0077b6 !important;
 }
 .link-primary:hover, .link-primary:focus {
-  color: #685dd8 !important;
+  color: #166f9f !important;
 }
 
 .link-secondary {

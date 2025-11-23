@@ -36,7 +36,7 @@
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
         <li class="menu-item active">
-            <a href="{{ UrlLang('admin/dashboard') }}" class="menu-link">
+            <a href="{{ UrlLang('client/dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-layout-dashboard"></i>
                 <div>{{ __('trans.dashboard.title') }}</div>
             </a>
@@ -82,7 +82,7 @@
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="javascript:void(0);" class="menu-link">
+                    <a href="{{ UrlLang('client/campaigns') }}" class="menu-link">
                         <div="Tabler">{{ __('trans.campaign.title') }}</div=>
                     </a>
                 </li>
@@ -132,7 +132,7 @@
 
         <!-- notifications -->
         <li class="menu-item">
-            <a href="{{ UrlLang('admin/notifications') }}" class="menu-link">
+            <a href="javascript:void(0)" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-bell"></i>
                 <div>{{ __('trans.notification.title') }}</div>
             </a>

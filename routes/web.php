@@ -23,5 +23,7 @@ Route::prefix('client')->group(function () {
         Route::post('/logout','Client\AuthController@logout')->name('client.logout');
 
         Route::get('dashboard', 'Client\DashboardController@index')->name('client.dashboard');
+
+        Route::resource('campaigns', 'Client\CampaignController');
     });
 });

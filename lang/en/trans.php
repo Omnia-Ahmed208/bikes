@@ -2,8 +2,19 @@
 
 return [
 
-    '' => [
-        'title' => '',
+    'month' => [
+        'january' => 'January',
+        'february' => 'February',
+        'march' => 'March',
+        'april' => 'April',
+        'may' => 'May',
+        'june' => 'June',
+        'july' => 'July',
+        'august' => 'August',
+        'september' => 'September',
+        'october' => 'October',
+        'november' => 'November',
+        'december' => 'December',
     ],
 
     'camera' => [
@@ -16,6 +27,28 @@ return [
 
     'campaign' => [
         'title' => 'Campaigns',
+        'add_new' => 'Add New',
+        'live_campaign' => 'Live Campaigns',
+        'stopped_campaign' => 'Stopped Campaigns',
+        'finished_campaign' => 'Finished Campaigns',
+        'scheduled_campaign' => 'Scheduled Campaigns',
+        'name' => 'Campaign Title',
+        'media' => 'Media',
+        'region' => 'Region',
+        'bikes_count' => 'Bikes Count',
+        'duration' => 'Duration',
+        'price' => 'Price',
+        'status' => 'Status',
+        'date' => 'Date',
+        'actions' => 'Actions',
+        'remaining' => 'Remaining',
+        'days' => 'Days',
+        'percentage' => 'Percentage',
+
+        'live' => 'Live',
+        'stopped' => 'Stopped',
+        'finished' => 'Finished',
+        'scheduled' => 'Scheduled',
     ],
 
     'schedule' => [
@@ -93,6 +126,8 @@ return [
         'edit' => 'Edit',
         'update' => 'Update',
         'view' => 'View',
+        'delete' => 'Delete',
+        'copy' => 'Copy',
         'close' => 'Close',
         'cancel' => 'Cancel',
         'search' => 'Search',
@@ -115,6 +150,7 @@ return [
         'yes' => 'Yes',
         'no' => 'No',
         'sar' => 'SAR',
+        'view_more' => 'View More',
     ],
 
     'guard' => [
