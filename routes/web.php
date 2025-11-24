@@ -11,19 +11,21 @@ Route::get('/admin', function () {
     return redirect('/admin/login');
 });
 
+
 Route::get('/', function () {
     return redirect('/client/login');
 });
 
-Route::prefix('client')->group(function () {
-    Route::get('/login', 'Client\AuthController@index')->name('client.login');
-    Route::post('/login', 'Client\AuthController@login')->name('client.login.post');
+Route::prefix('client')->name('client.')->group(function () {
+    Route::get('/login', 'Client\AuthController@index')->name('login');
+    Route::post('/login', 'Client\AuthController@login')->name('login.post');
 
     Route::middleware(['auth'])->group(function () {
-        Route::post('/logout','Client\AuthController@logout')->name('client.logout');
+        Route::post('/logout','Client\AuthController@logout')->name('logout');
 
-        Route::get('dashboard', 'Client\DashboardController@index')->name('client.dashboard');
+        Route::get('dashboard', 'Client\DashboardController@index')->name('dashboard');
 
+        Route::get('/ajax/get/regions', 'Client\CampaignController@getRegions');
         Route::resource('campaigns', 'Client\CampaignController');
     });
 });

@@ -18,10 +18,11 @@ return new class extends Migration
             $table->string('file')->nullable();
             $table->enum('file_type', ['video', 'image'])->nullable();
 
-            $table->integer('duration')->comment('In minutes')->nullable();
+            $table->integer('media_duration')->comment('In seconds')->nullable();
+            $table->string('campaign_duration')->nullable();
 
-            $table->time('time_from')->nullable();
-            $table->time('time_to')->nullable();
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
 
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
@@ -31,8 +32,8 @@ return new class extends Migration
             $table->enum('status', ['live', 'finished', 'scheduled', 'stopped'])->default('scheduled')->nullable();
             $table->enum('approval_status', ['accepted', 'rejected', 'pending'])->default('pending')->nullable();
 
-            $table->integer('views_count')->nullable();
-            $table->string('progress')->nullable();
+            $table->integer('views_count')->default('0')->nullable();
+            $table->integer('progress')->default('0')->nullable();
 
             $table->string('notes')->nullable();
 

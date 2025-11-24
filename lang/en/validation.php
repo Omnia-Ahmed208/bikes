@@ -48,6 +48,7 @@ return [
     'digits_between' => 'The :attribute field must be between :min and :max digits.',
     'dimensions' => 'The :attribute field has invalid image dimensions.',
     'distinct' => 'The :attribute field has a duplicate value.',
+    'doesnt_contain' => 'The :attribute field must not contain one of the following: :values.',
     'doesnt_end_with' => 'The :attribute field must not end with one of the following: :values.',
     'doesnt_start_with' => 'The :attribute field must not start with one of the following: :values.',
     'email' => 'The :attribute field must be a valid email address.',
@@ -193,6 +194,34 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'email' => 'email',
+        'password' => 'password',
+        'phone' => 'phone',
+        'img' => 'img',
+        'name' => 'name',
+        'logo' => 'logo',
+        'icon' => 'icon',
+        'another_phone' => 'another phone',
+        'address' => 'address',
+        'title' => 'title',
+        'country' => 'country',
+        'region' => 'region',
+        'bikes_count' => 'bikes count',
+        'notes' => 'notes',
+        'start_date' => 'start date',
+        'end_date' => 'end date',
+        'start_time' => 'start time',
+        'end_time' => 'end time',
+        'date' => 'date',
+        'duration' => 'duration',
+        'campaign_duration' => 'campaign duration',
+        'media' => 'media',
+        'media_duration' => 'media duration',
+        'price' => 'price',
+        'total_price' => 'total price',
+        'status' => 'status',
+        'date_time' => 'date and time',
+    ],
 
 ];

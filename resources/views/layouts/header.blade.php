@@ -69,12 +69,12 @@
 
         <style>
             @font-face {
-                font-family: 'noto';
-                src: url("{{ asset('backend/fonts/NotoSansArabic-Regular.ttf') }}") format('truetype');
+                font-family: 'ibm_plex_arabic';
+                src: url("{{ asset('backend/fonts/IBMPlexSansArabic-Regular.ttf') }}") format('truetype');
                 font-weight: normal;
                 font-style: normal;
             }
-            body{font-family: 'noto';}
+            body{font-family: 'ibm_plex_arabic';}
         </style>
 
         @yield('css')

@@ -35,7 +35,7 @@
 
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
-        <li class="menu-item active">
+        <li class="menu-item">
             <a href="{{ UrlLang('client/dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-layout-dashboard"></i>
                 <div>{{ __('trans.dashboard.title') }}</div>

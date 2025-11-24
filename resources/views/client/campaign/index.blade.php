@@ -3,7 +3,7 @@
 @section('content')
 
    <!-- Content -->
-   <div class="container flex-grow-1 container-p-y">
+   <div class="container-xxl flex-grow-1 container-p-y">
         @php
             $startYear = \Carbon\Carbon::now()->startOfYear()->format('d-m-Y');
             $endYear = \Carbon\Carbon::now()->endOfYear()->format('d-m-Y');
@@ -21,7 +21,7 @@
                     value="{{ $startYear }} to {{ $endYear }}" />
                 </div>
 
-                <a href="" class="btn btn-primary">
+                <a href="{{ UrlLang('client/campaigns/create') }}" class="btn btn-primary">
                     <i class="ti ti-plus me-2"></i>
                     {{ __('trans.campaign.add_new') }}
                 </a>
@@ -47,7 +47,7 @@
                 </div>
             </div> --}}
 
-            <div class="card live_campaign">
+            <div class="card">
                 <div class="card-header p-3">
                     <div class="d-flex justify-content-between align-items-center flex-wrap">
                         <h5 class="fw-bold mb-1">{{ __('trans.campaign.live_campaign') }}</h5>
@@ -58,7 +58,7 @@
                 <div class="card-body px-0 pt-0">
                     <div class="row px-3">
                         <div class="col-lg-6">
-                            <div class="card shadow-none border">
+                            <div class="card shadow-none border mb-2" style="padding: 14px;">
                                 <div class="card-body p-0">
                                     <div class="img position-relative mb-3">
                                         <img src="{{ url('backend/img/motocycle_orange.png') }}"
@@ -100,7 +100,7 @@
                         </div>
 
                         <div class="col-lg-6">
-                            <div class="card shadow-none border">
+                            <div class="card shadow-none border mb-2" style="padding: 14px">
                                 <div class="card-body p-0">
                                     <div class="img position-relative mb-3">
                                         <img src="{{ url('backend/img/food_delivery.png') }}"
@@ -149,8 +149,6 @@
    </div>
     <!-- / Content -->
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
 @endsection
 
 
@@ -166,12 +164,6 @@
             width: auto;
             color: #000;
             background: transparent;
-        }
-
-        .live_campaign .card{
-            padding: 14px;
-            border-color: #E1E5E8 !important;
-            border-radius: 14px;
         }
     </style>
 @endsection

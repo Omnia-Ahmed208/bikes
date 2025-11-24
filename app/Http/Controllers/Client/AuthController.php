@@ -14,7 +14,8 @@ class AuthController extends Controller
     public function index()
     {
         if (Auth::check()) {
-            return redirect()->route('client.dashboard');
+            // return redirect()->route('client.dashboard');
+            return redirect()->route('client.campaigns.index');
         }
 
         return view('client.auth.login');

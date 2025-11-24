@@ -88,3 +88,74 @@
     background-color: #dce6f447 !important;
     color: #0077B6 !important;
 }
+
+.card{
+    border-color: #E1E5E8 !important;
+    border-radius: 14px;
+}
+
+/* ==================== progress steps ==================== */
+.progress-steps .step-container {
+    position: relative;
+    text-align: center;
+    transform: translateY(-33%);
+}
+
+.progress-steps .step-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #D4D9DC;
+    border: 1px solid #D4D9DC;
+    /* color: #444C53; */
+    line-height: 30px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.progress-steps .step-circle.active {
+    background-color: #fff;
+    border-color: #0077b6;
+    color: #0077b6;
+}
+
+.progress-steps .step-circle.complete {
+    background-color: #0077b6;
+    border-color: #0077b6;
+    color: #fff;
+}
+
+.progress-steps .step-label.active{
+    color: #0077b6;
+    font-weight: bold;
+}
+
+
+/* ==================== drag and drop ==================== */
+.dragable_media_box .upload_image_box {
+    position: relative;
+    border: 2px dashed #0077b6;
+    display: inline-block;
+    border-radius: 16px;
+    transition: transform 0.3s;
+    input[type="file"] {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        opacity: 0;
+        top: 0;
+        left: 0;
+    }
+}
+.dragable_media_box .draging {
+    transform: scale(1.1);
+}
+.dragable_media_box #preview img{max-width: 100%}
+
+.swal2-rtl .swal2-close{
+    box-shadow: none !important;
+}

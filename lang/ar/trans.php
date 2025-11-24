@@ -27,16 +27,20 @@ return [
 
     'campaign' => [
         'title' => 'الحملات',
-        'add_new' => 'اضافة حملة',
+        'add_new' => 'إضافة حملة',
         'live_campaign' => 'الحملات المباشرة',
         'stopped_campaign' => 'الحملات المتوقفة',
         'finished_campaign' => 'الحملات المنتهية',
         'scheduled_campaign' => 'الحملات المجدولة',
         'name' => 'عنوان الحملة',
         'media' => 'الوسائط',
+        'country' => 'المدينة',
         'region' => 'المنطقة',
         'bikes_count' => 'عدد المركبات',
-        'duration' => 'مدة الحملة',
+        'duration' => 'المدة',
+        'media_duration' => 'مدة العرض',
+        'campaign_duration' => 'مدة الحملة',
+        'date_time' => 'تاريخ ووقت الحملة',
         'price' => 'السعر',
         'status' => 'الحالة',
         'date' => 'التاريخ',
@@ -49,6 +53,21 @@ return [
         'stopped' => 'متوقفة مؤقتًا',
         'finished' => 'منتهية',
         'scheduled' => 'مجدولة',
+
+        'campaign_details' => 'تفاصيل الحملة',
+        'media_and_capacity' => 'الوسائط والسعة',
+        'payment' => 'الدفع',
+        'file_size' => 'صيغ JPEG وJPG وPNG وMP4، حتى 5 ميجابايت',
+        'drag_and_drop' => 'اختر ملفًا أو اسحبه وأفلته هنا',
+        'browse_file' => 'تصفح الملف',
+        'second' => 'ثانية',
+        '12_hour' => '12 ساعة',
+        '1_day' => '1 يوم',
+        '3_days' => '3 ايام',
+        'summary' => 'ملخص الحملة',
+        'total_price' => 'إجمالي المبلغ',
+        'pay_and_publish' => 'إتمام الدفع ونشر الحملة',
+        'under_review' => 'جاري إرسال الحملة للمراجعة قبل النشر.'
     ],
 
     'schedule' => [
@@ -152,6 +171,8 @@ return [
         'no' => 'لا',
         'sar' => 'ر.س',
         'view_more' => 'عرض المزيد',
+        'next' => 'التالي',
+        'previous' => 'السابق',
     ],
 
     'guard' => [
@@ -166,6 +187,7 @@ return [
             'done_create' => 'تم حفظ البيانات',
             'done_update' => 'تم تعديل البيانات',
             'done_delete' => 'تم حذف البيانات',
+            'payment_success' => 'تم الدفع بنجاح'
         ],
         'error' => [
             'data_not_found' => 'لم يتم العثور على البيانات',
