@@ -51,7 +51,7 @@
                 <div class="card-header p-3">
                     <div class="d-flex justify-content-between align-items-center flex-wrap">
                         <h5 class="fw-bold mb-1">{{ __('trans.campaign.live_campaign') }}</h5>
-                        <a class="btn btn-primary text-white mb-1">{{ __('trans.global.view_more') }}</a>
+                        <a href="{{ UrlLang('client/campaigns/live') }}" class="btn btn-primary text-white mb-1">{{ __('trans.global.view_more') }}</a>
                     </div>
                 </div>
 

@@ -118,6 +118,11 @@ class CampaignController extends Controller
         //
     }
 
+    public function campaigns_live(request $request)
+    {
+        return view('client.campaign.live');
+    }
+
     public function getRegions(Request $request)
     {
         $regions = Region::where([

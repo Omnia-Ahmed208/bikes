@@ -26,6 +26,7 @@ Route::prefix('client')->name('client.')->group(function () {
         Route::get('dashboard', 'Client\DashboardController@index')->name('dashboard');
 
         Route::get('/ajax/get/regions', 'Client\CampaignController@getRegions');
+        Route::get('campaigns/live', 'Client\CampaignController@campaigns_live')->name('campaigns.live');
         Route::resource('campaigns', 'Client\CampaignController');
     });
 });
