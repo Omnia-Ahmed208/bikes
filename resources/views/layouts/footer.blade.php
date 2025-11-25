@@ -21,6 +21,7 @@
 <script src="{{url('backend')}}/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 <script src="{{ url('backend') }}/assets/vendor/libs/swiper/swiper.js"></script>
 <script src="{{ url('backend') }}/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+<script src="{{ url('backend') }}/assets/js/tables-datatables-extensions.js"></script>
 
 <!-- Main JS -->
 <script src="{{ url('backend') }}/assets/js/main.js"></script>

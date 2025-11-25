@@ -43,15 +43,14 @@
         {{-- <link rel="stylesheet" href="{{ url('backend') }}/assets/vendor/libs/swiper/swiper.css" /> --}}
 
         <!-- db -->
-        @yield('db_css')
-        {{--
-            <link rel="stylesheet" href="{{ url('backend') }}/assets/vendor/libs/node-waves/node-waves.css" />
-            <link rel="stylesheet" href="{{ url('backend') }}/assets/vendor/libs/typeahead-js/typeahead.css" />
-            <link rel="stylesheet" href="{{ url('backend') }}/assets/vendor/libs/apex-charts/apex-charts.css" />
-            <link rel="stylesheet" href="{{ url('backend') }}/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
-            <link rel="stylesheet" href="{{ url('backend') }}/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
-            <link rel="stylesheet" href="{{ url('backend') }}/assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css" />
-        --}}
+        {{-- @yield('db_css') --}}
+        {{-- <link rel="stylesheet" href="{{ url('backend') }}/assets/vendor/libs/node-waves/node-waves.css" /> --}}
+        {{-- <link rel="stylesheet" href="{{ url('backend') }}/assets/vendor/libs/typeahead-js/typeahead.css" /> --}}
+        {{-- <link rel="stylesheet" href="{{ url('backend') }}/assets/vendor/libs/apex-charts/apex-charts.css" /> --}}
+        <link rel="stylesheet" href="{{ url('backend') }}/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+        <link rel="stylesheet" href="{{ url('backend') }}/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+        <link rel="stylesheet" href="{{ url('backend') }}/assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css" />
+
 
         <!-- Page CSS -->
         {{-- <link rel="stylesheet" href="{{ url('backend') }}/assets/vendor/css/pages/cards-advance.css" /> --}}

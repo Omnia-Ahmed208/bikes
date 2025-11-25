@@ -172,6 +172,11 @@ return [
         'view_more' => 'View More',
         'next' => 'Next',
         'previous' => 'Previous',
+        'lengthMenu' => 'Entries per page: _MENU_',
+        'zero_records' => 'No Records Found.',
+        'info_empty' => 'There are no records.',
+        'info_filtered' => '_START_ of _TOTAL_',
+        // 'info_filtered' => 'showing _START_ to _END_ of _TOTAL_ entries',
     ],
 
     'guard' => [

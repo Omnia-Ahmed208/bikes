@@ -20,4 +20,14 @@ class Campaign extends Model
     {
         return $this->belongsTo(Region::class);
     }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return date('d/m/Y', strtotime($value));
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return date('d/m/Y', strtotime($value));
+    }
 }

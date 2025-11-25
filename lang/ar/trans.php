@@ -173,6 +173,11 @@ return [
         'view_more' => 'عرض المزيد',
         'next' => 'التالي',
         'previous' => 'السابق',
+        'lengthMenu' => ' الصفوف لكل صفحة: _MENU_',
+        'zero_records' => 'لم يتم العثور على بيانات',
+        'info_empty' => 'لا يوجد بيانات متاحة',
+        'info_filtered' => '_START_ من _TOTAL_',
+        // 'info_filtered' => 'عرض _START_ إلى _END_ من أصل _TOTAL_ سجل',
     ],
 
     'guard' => [

@@ -9,6 +9,13 @@ use App\Models\Region;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Yajra\DataTables\DataTables;
+
+
 class CampaignController extends Controller
 {
     /**
@@ -81,7 +88,7 @@ class CampaignController extends Controller
         $campaign->price = 0;
         $campaign->save();
 
-        // return redirect()->route('client.campaigns.index')->with('success',  __('trans.alert.success.done_create'));
+        // return redirect()->route('client.campaigns.live')->with('success',  __('trans.alert.success.done_create'));
         return back()->with('payment_success',  __('trans.alert.success.done_create'));
 
     }
@@ -120,6 +127,12 @@ class CampaignController extends Controller
 
     public function campaigns_live(request $request)
     {
+        if ($request->ajax()) {
+            $campaigns = Campaign::with(['region'])->orderBy('id', 'desc')->get();
+
+            return DataTables::of($campaigns)->toJson();
+        }
+
         return view('client.campaign.live');
     }
 

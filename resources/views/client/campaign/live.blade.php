@@ -56,9 +56,33 @@
                 </div>
             </div>
 
-            <div class="tab-content shadow-none p-0">
-                <div class="row patient_list">
-                    {{-- content --}}
+            <div class="tab-content shadow-none p-0 mt-4">
+                {{-- <div class="tab-pane fade active show" id="navs-pills-top-all" role="tabpanel"> --}}
+                    <div class="card">
+                        {{-- <h5 class="card-header">Scrollable Table</h5> --}}
+                        <div class="card-datatable text-nowrap">
+                            <table class="custom_table table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"></th>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">{{ __('trans.campaign.media') }}</th>
+                                        <th class="text-center">{{ __('trans.campaign.name') }}</th>
+                                        <th class="text-center">{{ __('trans.campaign.region') }}</th>
+                                        <th class="text-center">{{ __('trans.campaign.bikes_count') }}</th>
+                                        <th class="text-center">{{ __('trans.campaign.campaign_duration') }}</th>
+                                        <th class="text-center">{{ __('trans.campaign.price') }}</th>
+                                        <th class="text-center">{{ __('trans.campaign.status') }}</th>
+                                        <th class="text-center">{{ __('trans.campaign.date') }}</th>
+                                        <th class="text-center">{{ __('trans.campaign.actions') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                {{-- </div> --}}
+
                 </div>
             </div>
         </div>
@@ -83,5 +107,154 @@
             border: 1px solid #0077b6 !important;
             color: #0077b6 !important;
         }
+
+        .dataTables_scrollBody{
+            max-height: auto !important;
+            height: auto !important;
+        }
+
+        .dataTables_length{margin: 0 !important; font-size: 14px !important;}
+        select[name="DataTables_Table_0_length"]{padding: 0 0 0 30px !important; border: 0; box-shadow: none !important;}
+        @media (max-width: 575.98px) {
+            [dir=rtl] div.dataTables_wrapper .dataTables_filter{text-align-last: start}
+            [dir=rtl] div.dataTables_wrapper .dataTables_filter input{margin: 0; display: block;}
+        }
     </style>
 @endsection
+
+@push('js')
+    <script>
+        var custom_table = $('.custom_table');
+
+        if (custom_table.length) {
+            var table = custom_table.DataTable({
+                ajax: [
+                    {
+                        url: "{{ route('client.campaigns.live') }}",
+                        type: "GET",
+                        data: function(d) {
+                            // Add filter parameters
+                            d.status_filter = $('input[name="status_filter"]:checked').val();
+                        },
+                        dataSrc: function(response) {
+                            return response.data;
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("AJAX Error:", xhr.responseText);
+                        }
+                    }
+                ],
+                columns: [
+                    { data: 'id' },
+                    { data: 'id' },
+                    { data: 'file',
+                        render: function (data, type, full, meta) {
+                            return `<img src="{{ url('') }}/${data}" class="rounded" width="40" height="40">`;
+                        }
+                    },
+                    { data: 'title' },
+                    { data: 'region.name' },
+                    { data: 'bikes_count' },
+                    { data: 'campaign_duration',
+                        render: function (data, type, full, meta) {
+                            const translations = {
+                                "12_hour": "{{ __('trans.campaign.12_hour') }}",
+                                "1_day": "{{ __('trans.campaign.1_day') }}",
+                                "3_days": "{{ __('trans.campaign.3_days') }}",
+                            };
+                            return translations[data] ?? data;
+                        }
+                    },
+                    { data: 'price',
+                        render: function (data, type, full, meta) {
+                            return data + ' <img class="img-fluid mb-1" src="{{ url('') }}/backend/img/sar.png" width="14" height="14">';
+                        }
+                    },
+                    { data: 'status' },
+                    { data: 'created_at' },
+                    { data: null, defaultContent: '' }
+                ],
+                columnDefs: [
+                    {
+                        // status
+                        targets: -3,
+                        render: function (data, type, full, meta) {
+                            var $status_text = full['status'];
+                            var $status = {
+                                "live": { title: "{{ __('trans.campaign.live') }}", class: 'bg-label-success' },
+                                "scheduled": { title: "{{ __('trans.campaign.scheduled') }}", class: ' bg-label-secondary' },
+                                "finished": { title: "{{ __('trans.campaign.finished') }}", class: ' bg-label-danger' },
+                                "stopped": { title: "{{ __('trans.campaign.stopped') }}", class: ' bg-label-warning' },
+                            };
+                            if (typeof $status[$status_text] === 'undefined') {
+                                return data;
+                            }
+                            return (
+                                // '<span class="rounded-pill badge ' + $status[$status_text].class + '">' + $status[$status_text].title + '</span>'
+                                `<span class="rounded-pill badge ${$status[$status_text].class}"
+                                    style="font-size: 0.8rem; padding: 10px 16px;">
+                                    ${$status[$status_text].title}
+                                </span>`
+                            );
+                        }
+                    },
+                    {
+                        // Actions
+                        targets: -1,
+                        searchable: false,
+                        orderable: false,
+                        render: function (data, type, full, meta) {
+                            return (
+                                '<a href="javascript:;" class="item-edit text-body">'+
+                                '<i class="text-dark bg-label-secondary p-2 mx-1 rounded ti ti-pencil"></i>'+
+                                '</a>'+
+                                '<a href="javascript:;" class="item-edit text-body">'+
+                                '<i class="text-dark bg-label-secondary p-2 mx-1 rounded ti ti-copy"></i>'+
+                                '</a>'
+                            );
+                        }
+                    },
+                    {
+                        // For Checkboxes
+                        targets: 0,
+                        searchable: false,
+                        orderable: false,
+                        render: function () {
+                            return '<input type="checkbox" class="dt-checkboxes form-check-input">';
+                        },
+                        checkboxes: {
+                            selectRow: false,
+                            selectAllRender: '<input type="checkbox" class="form-check-input">'
+                        }
+                    },
+                ],
+                language: {
+                    lengthMenu: "{{ __('trans.global.lengthMenu') }}",
+                    zeroRecords: "{{ __('trans.global.zero_records') }}",
+                    infoEmpty: "{{ __('trans.global.info_empty') }}",
+                    infoFiltered: "(تمت تصفية _MAX_ سجلات)",
+                    search: "{{ __('trans.global.search') }}:",
+                    loadingRecords: "{{ __('trans.global.search') }}...",
+                    info: "{{ __('trans.global.info_filtered') }}",
+                    emptyTable: "{{ __('trans.global.info_empty') }}",
+                    paginate: {
+                        next: "{{ __('trans.global.next') }}",
+                        previous: "{{ __('trans.global.previous') }}"
+                    }
+                },
+                // Scroll options
+                scrollY: false,
+                scrollX: true,
+                dom: '<"row d-flex flex-wrap justify-content-between align-items-center"<"col-12 col-sm-6 d-flex ms-2"f>>t'+
+                    '<"row align-items-center"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6 d-flex justify-content-end align-items-center"lp>>',
+
+                initComplete: function() {
+                    // export btn
+                    var $searchInput = $(this.api().table().container()).find('div.dataTables_filter');
+                    // parent div of searchinput => $searchInput.parent().parent().append('<a href="javascript:;" class="btn btn-sm btn-primary ms-2"> <i class="ti ti-download me-1"></i> Export</a>');
+                    $searchInput.parent().parent().append('<a href="javascript:;" class="btn btn-sm btn-primary w-auto mx-3"> <i class="ti ti-download me-1"></i> {{ __('trans.global.download') }}</a>');
+                }
+            });
+        }
+    </script>
+@endpush
