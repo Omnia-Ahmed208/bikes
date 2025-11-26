@@ -48,6 +48,8 @@ return [
         'remaining' => 'Remaining',
         'days' => 'Days',
         'percentage' => 'Percentage',
+        'image' => 'Image',
+        'video' => 'Video',
 
         'live' => 'Live',
         'stopped' => 'Stopped',

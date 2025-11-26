@@ -124,137 +124,156 @@
 
 @push('js')
     <script>
+        let selectedStatus = "all";
         var custom_table = $('.custom_table');
 
-        if (custom_table.length) {
-            var table = custom_table.DataTable({
-                ajax: [
-                    {
-                        url: "{{ route('client.campaigns.live') }}",
-                        type: "GET",
-                        data: function(d) {
-                            // Add filter parameters
-                            d.status_filter = $('input[name="status_filter"]:checked').val();
-                        },
-                        dataSrc: function(response) {
-                            return response.data;
-                        },
-                        error: function(xhr, status, error) {
-                            console.error("AJAX Error:", xhr.responseText);
-                        }
-                    }
-                ],
-                columns: [
-                    { data: 'id' },
-                    { data: 'id' },
-                    { data: 'file',
-                        render: function (data, type, full, meta) {
-                            return `<img src="{{ url('') }}/${data}" class="rounded" width="40" height="40">`;
-                        }
-                    },
-                    { data: 'title' },
-                    { data: 'region.name' },
-                    { data: 'bikes_count' },
-                    { data: 'campaign_duration',
-                        render: function (data, type, full, meta) {
-                            const translations = {
-                                "12_hour": "{{ __('trans.campaign.12_hour') }}",
-                                "1_day": "{{ __('trans.campaign.1_day') }}",
-                                "3_days": "{{ __('trans.campaign.3_days') }}",
-                            };
-                            return translations[data] ?? data;
-                        }
-                    },
-                    { data: 'price',
-                        render: function (data, type, full, meta) {
-                            return data + ' <img class="img-fluid mb-1" src="{{ url('') }}/backend/img/sar.png" width="14" height="14">';
-                        }
-                    },
-                    { data: 'status' },
-                    { data: 'created_at' },
-                    { data: null, defaultContent: '' }
-                ],
-                columnDefs: [
-                    {
-                        // status
-                        targets: -3,
-                        render: function (data, type, full, meta) {
-                            var $status_text = full['status'];
-                            var $status = {
-                                "live": { title: "{{ __('trans.campaign.live') }}", class: 'bg-label-success' },
-                                "scheduled": { title: "{{ __('trans.campaign.scheduled') }}", class: ' bg-label-secondary' },
-                                "finished": { title: "{{ __('trans.campaign.finished') }}", class: ' bg-label-danger' },
-                                "stopped": { title: "{{ __('trans.campaign.stopped') }}", class: ' bg-label-warning' },
-                            };
-                            if (typeof $status[$status_text] === 'undefined') {
-                                return data;
-                            }
-                            return (
-                                // '<span class="rounded-pill badge ' + $status[$status_text].class + '">' + $status[$status_text].title + '</span>'
-                                `<span class="rounded-pill badge ${$status[$status_text].class}"
-                                    style="font-size: 0.8rem; padding: 10px 16px;">
-                                    ${$status[$status_text].title}
-                                </span>`
-                            );
-                        }
-                    },
-                    {
-                        // Actions
-                        targets: -1,
-                        searchable: false,
-                        orderable: false,
-                        render: function (data, type, full, meta) {
-                            return (
-                                '<a href="javascript:;" class="item-edit text-body">'+
-                                '<i class="text-dark bg-label-secondary p-2 mx-1 rounded ti ti-pencil"></i>'+
-                                '</a>'+
-                                '<a href="javascript:;" class="item-edit text-body">'+
-                                '<i class="text-dark bg-label-secondary p-2 mx-1 rounded ti ti-copy"></i>'+
-                                '</a>'
-                            );
-                        }
-                    },
-                    {
-                        // For Checkboxes
-                        targets: 0,
-                        searchable: false,
-                        orderable: false,
-                        render: function () {
-                            return '<input type="checkbox" class="dt-checkboxes form-check-input">';
-                        },
-                        checkboxes: {
-                            selectRow: false,
-                            selectAllRender: '<input type="checkbox" class="form-check-input">'
-                        }
-                    },
-                ],
-                language: {
-                    lengthMenu: "{{ __('trans.global.lengthMenu') }}",
-                    zeroRecords: "{{ __('trans.global.zero_records') }}",
-                    infoEmpty: "{{ __('trans.global.info_empty') }}",
-                    infoFiltered: "(تمت تصفية _MAX_ سجلات)",
-                    search: "{{ __('trans.global.search') }}:",
-                    loadingRecords: "{{ __('trans.global.search') }}...",
-                    info: "{{ __('trans.global.info_filtered') }}",
-                    emptyTable: "{{ __('trans.global.info_empty') }}",
-                    paginate: {
-                        next: "{{ __('trans.global.next') }}",
-                        previous: "{{ __('trans.global.previous') }}"
+        var table = custom_table.DataTable({
+            ajax: {
+                url: "{{ route('client.campaigns.live') }}",
+                type: "GET",
+                data: function(d) {
+                    d.status = selectedStatus;
+                },
+                dataSrc: function(response) {
+                    return response.data;
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            },
+            columns: [
+                { data: 'id' },
+                { data: 'id' },
+                { data: 'file',
+                    render: function (data, type, full, meta) {
+                        return `<img src="{{ url('') }}/${data}" class="rounded" width="40" height="40">`;
                     }
                 },
-                // Scroll options
-                scrollY: false,
-                scrollX: true,
-                dom: '<"row d-flex flex-wrap justify-content-between align-items-center"<"col-12 col-sm-6 d-flex ms-2"f>>t'+
-                    '<"row align-items-center"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6 d-flex justify-content-end align-items-center"lp>>',
-
-                initComplete: function() {
-                    // export btn
-                    var $searchInput = $(this.api().table().container()).find('div.dataTables_filter');
-                    // parent div of searchinput => $searchInput.parent().parent().append('<a href="javascript:;" class="btn btn-sm btn-primary ms-2"> <i class="ti ti-download me-1"></i> Export</a>');
-                    $searchInput.parent().parent().append('<a href="javascript:;" class="btn btn-sm btn-primary w-auto mx-3"> <i class="ti ti-download me-1"></i> {{ __('trans.global.download') }}</a>');
+                { data: 'title' },
+                { data: 'region.name' },
+                { data: 'bikes_count' },
+                { data: 'campaign_duration',
+                    render: function (data, type, full, meta) {
+                        const translations = {
+                            "12_hour": "{{ __('trans.campaign.12_hour') }}",
+                            "1_day": "{{ __('trans.campaign.1_day') }}",
+                            "3_days": "{{ __('trans.campaign.3_days') }}",
+                        };
+                        return translations[data] ?? data;
+                    }
+                },
+                { data: 'price',
+                    render: function (data, type, full, meta) {
+                        return data + ' <img class="img-fluid mb-1" src="{{ url('') }}/backend/img/sar.png" width="14" height="14">';
+                    }
+                },
+                { data: 'status' },
+                { data: 'created_at' },
+                { data: null, defaultContent: '' }
+            ],
+            columnDefs: [
+                {
+                    // status
+                    targets: -3,
+                    render: function (data, type, full, meta) {
+                        var $status_text = full['status'];
+                        var $status = {
+                            "live": { title: "{{ __('trans.campaign.live') }}", class: 'bg-label-success' },
+                            "scheduled": { title: "{{ __('trans.campaign.scheduled') }}", class: ' bg-label-secondary' },
+                            "finished": { title: "{{ __('trans.campaign.finished') }}", class: ' bg-label-danger' },
+                            "stopped": { title: "{{ __('trans.campaign.stopped') }}", class: ' bg-label-warning' },
+                        };
+                        if (typeof $status[$status_text] === 'undefined') {
+                            return data;
+                        }
+                        return (
+                            // '<span class="rounded-pill badge ' + $status[$status_text].class + '">' + $status[$status_text].title + '</span>'
+                            `<span class="rounded-pill badge ${$status[$status_text].class}"
+                                style="font-size: 0.8rem; padding: 10px 16px;">
+                                ${$status[$status_text].title}
+                            </span>`
+                        );
+                    }
+                },
+                {
+                    // Actions
+                    targets: -1,
+                    searchable: false,
+                    orderable: false,
+                    render: function (data, type, full, meta) {
+                        return (
+                            '<a href="javascript:;" class="item-edit text-body">'+
+                            '<i class="text-dark bg-label-secondary p-2 mx-1 rounded ti ti-pencil"></i>'+
+                            '</a>'+
+                            '<a href="javascript:;" class="item-edit text-body">'+
+                            '<i class="text-dark bg-label-secondary p-2 mx-1 rounded ti ti-copy"></i>'+
+                            '</a>'
+                        );
+                    }
+                },
+                {
+                    // For Checkboxes
+                    targets: 0,
+                    searchable: false,
+                    orderable: false,
+                    render: function () {
+                        return '<input type="checkbox" class="dt-checkboxes form-check-input">';
+                    },
+                    checkboxes: {
+                        selectRow: false,
+                        selectAllRender: '<input type="checkbox" class="form-check-input">'
+                    }
+                },
+            ],
+            language: {
+                lengthMenu: "{{ __('trans.global.lengthMenu') }}",
+                zeroRecords: "{{ __('trans.global.zero_records') }}",
+                infoEmpty: "{{ __('trans.global.info_empty') }}",
+                infoFiltered: "(تمت تصفية _MAX_ سجلات)",
+                search: "{{ __('trans.global.search') }}:",
+                loadingRecords: "{{ __('trans.global.search') }}...",
+                info: "{{ __('trans.global.info_filtered') }}",
+                emptyTable: "{{ __('trans.global.info_empty') }}",
+                paginate: {
+                    next: "{{ __('trans.global.next') }}",
+                    previous: "{{ __('trans.global.previous') }}"
                 }
-            });
-        }
+            },
+            // Scroll options
+            scrollY: false,
+            scrollX: true,
+            dom: '<"row d-flex flex-wrap justify-content-between align-items-center"<"col-12 col-sm-6 d-flex ms-2"f>>t'+
+                '<"row align-items-center"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6 d-flex justify-content-end align-items-center"lp>>',
+
+            initComplete: function() {
+                // export btn
+                var $searchInput = $(this.api().table().container()).find('div.dataTables_filter');
+                // parent div of searchinput => $searchInput.parent().parent().append('<a href="javascript:;" class="btn btn-sm btn-primary ms-2"> <i class="ti ti-download me-1"></i> Export</a>');
+                $searchInput.parent().parent().append(
+                    '<a href="javascript:;" class="export_btn btn btn-sm btn-primary w-auto mx-3">' +
+                        '<i class="ti ti-download me-1"></i> {{ __("trans.global.download") }}' +
+                    '</a>'
+                );
+            }
+        });
+
+        $('.campaign_tabs button').on('click', function() {
+            selectedStatus = $(this).data('type'); // get data-type of button
+            table.ajax.reload();
+        });
+
+        // event delegation for dynamic button
+        $(document).on('click', '.export_btn', function (e) {
+            e.preventDefault();
+
+            // const status_filter = $('input[name="testResult_status_filter"]:checked').val() ?? 'all';
+            // const sort_filter = $('input[name="testResult_sort_filter"]:checked').val() ?? 'all';
+            // const search = $('#searchTestResultInput').val();
+
+            // Example export call:
+            // const url = `/doctor/patients/${patient_id}/medical-tests/export?status_filter=${status_filter}&sort_filter=${sort_filter}&search=${search}`;
+            let url = `/client/campaigns/export?status=${selectedStatus}`;
+            window.location.href = url;
+        });
     </script>
 @endpush

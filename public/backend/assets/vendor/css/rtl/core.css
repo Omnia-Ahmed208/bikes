@@ -6327,7 +6327,8 @@ input:-internal-autofill-selected {
 
 .bg-label-secondary {
   background-color: #f2f2f3 !important;
-  color: #a8aaae !important;
+  /* color: #a8aaae !important; */
+  color: #757575 !important;
 }
 
 .bg-label-success {
