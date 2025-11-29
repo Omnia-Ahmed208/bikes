@@ -170,12 +170,14 @@
 
 .dataTables_length{margin: 0 !important; font-size: 14px !important;}
 select[name="DataTables_Table_0_length"]{padding: 0 0 0 30px !important; border: 0; box-shadow: none !important;}
+
+.dataTables_filter,
+.filter_section {
+    visibility: hidden;
+}
+
 @media (max-width: 575.98px) {
     .col-sm-12.col-md-6:has(#DataTables_Table_0_length){flex-wrap: wrap; justify-content: center !important;}
     [dir=rtl] div.dataTables_wrapper .dataTables_filter input{margin: 0; display: block; width: 95%}
 }
 
-.dataTables_filter,
-.filter_section {
-    visibility: hidden;   /* نخفيهم بدون تغيير المساحة */
-}
