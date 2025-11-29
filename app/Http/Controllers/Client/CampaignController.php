@@ -131,10 +131,32 @@ class CampaignController extends Controller
     public function campaigns_live(request $request)
     {
         if ($request->ajax()) {
-            $query = Campaign::with(['region'])->orderBy('id', 'desc');
+            $query = Campaign::with(['region']);
 
             if($request->status != 'all'){
                 $query->where('status', $request->status);
+            }
+
+            if ($request->filled('status_filter') && $request->status_filter != 'all') {
+                $query->where('status', $request->status_filter);
+            }
+
+            if ($request->filled('sort_filter') && $request->sort_filter != 'all') {
+                switch ($request->sort_filter) {
+                    case 'name':
+                        $query->orderBy('title', 'asc');
+                        break;
+                    case 'latest':
+                        $query->orderBy('created_at', 'desc');
+                        break;
+                    case 'oldest':
+                        $query->orderBy('created_at', 'asc');
+                        break;
+                    default:
+                        $query->orderBy('id', 'asc');
+                }
+            } else {
+                $query->orderBy('id', 'asc');
             }
 
             $campaigns = $query->get();
@@ -147,10 +169,32 @@ class CampaignController extends Controller
 
     public function campaigns_live_export(request $request)
     {
-        $query = Campaign::with(['region'])->orderBy('id', 'desc');
+        $query = Campaign::with(['region']);
 
         if($request->status != 'all'){
             $query->where('status', $request->status);
+        }
+
+         if ($request->filled('status_filter') && $request->status_filter != 'all') {
+            $query->where('status', $request->status_filter);
+        }
+
+        if ($request->filled('sort_filter')) {
+            switch ($request->sort_filter) {
+                case 'name':
+                    $query->orderBy('title', 'asc');
+                    break;
+                case 'latest':
+                    $query->orderBy('created_at', 'desc');
+                    break;
+                case 'oldest':
+                    $query->orderBy('created_at', 'asc');
+                    break;
+                default:
+                    $query->orderBy('id', 'desc');
+            }
+        } else {
+            $query->orderBy('id', 'desc');
         }
 
         $campaigns = $query->get();

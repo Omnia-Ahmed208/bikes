@@ -76,11 +76,13 @@ html:not([dir=rtl]) .bg-menu-theme.menu-horizontal .menu-inner > .menu-item > .m
 }
 
 body {
-  background: #f8f7fa;
+  /* background: #f8f7fa; */
+  background: #eee;
 }
 
 .bg-body {
-  background: #f8f7fa !important;
+  /* background: #f8f7fa !important; */
+  background: #eee !important;
 }
 
 .text-primary {

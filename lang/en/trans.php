@@ -127,6 +127,17 @@ return [
         'social_media' => 'Social Media'
     ],
 
+    'filter' => [
+        'sort' => 'Sort',
+        'all' => 'All',
+        'name' => 'Name',
+        'latest' => 'Latest',
+        'oldest' => 'Oldest',
+        'status' => 'Status',
+        'apply' => 'Apply',
+        'reset' => 'Reset',
+    ],
+
    'auth' => [
         'profile' => 'Profile',
         'email' => 'Email',

@@ -57,34 +57,129 @@
             </div>
 
             <div class="tab-content shadow-none p-0 mt-4">
-                {{-- <div class="tab-pane fade active show" id="navs-pills-top-all" role="tabpanel"> --}}
-                    <div class="card">
-                        {{-- <h5 class="card-header">Scrollable Table</h5> --}}
-                        <div class="card-datatable text-nowrap">
-                            <table class="custom_table table">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center"></th>
-                                        <th class="text-center">#</th>
-                                        <th class="text-center">{{ __('trans.campaign.media') }}</th>
-                                        <th class="text-center">{{ __('trans.campaign.name') }}</th>
-                                        <th class="text-center">{{ __('trans.campaign.region') }}</th>
-                                        <th class="text-center">{{ __('trans.campaign.bikes_count') }}</th>
-                                        <th class="text-center">{{ __('trans.campaign.campaign_duration') }}</th>
-                                        <th class="text-center">{{ __('trans.campaign.price') }}</th>
-                                        <th class="text-center">{{ __('trans.campaign.status') }}</th>
-                                        <th class="text-center">{{ __('trans.campaign.date') }}</th>
-                                        <th class="text-center">{{ __('trans.campaign.actions') }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="text-center"></tbody>
-                            </table>
+                <div class="card">
+                    <div class="table-header">
+                        <div class="filter_section d-flex align-items-center me-2">
+                            <form action="{{ route('client.campaigns.live') }}" method="get" class="mb-0">
+                                <a class="bg-label-secondary py-2 px-3 rounded" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="{{ asset('backend/img/icons/filter-horizontal.svg') }}" alt="">
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-start p-2 py-0">
+                                    <li>
+                                        <a class="dropdown-item bg-transparent py-0" href="#">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1 py-2">
+                                                    <h5 class="fw-semibold d-block text-dark mb-0">{{ __('trans.filter.sort') }}:</h5>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item py-1" href="javascript:void(0);">
+                                            <input type="radio" class="form-check-input rounded-circle me-2"
+                                            name="sort_filter" value="all" checked>
+                                            {{ __('trans.filter.all') }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item py-1" href="javascript:void(0);">
+                                            <input type="radio" class="form-check-input rounded-circle me-2"
+                                            name="sort_filter" value="name" @if (Request::get('sort_filter') == 'name') checked @endif>
+                                            {{ __('trans.filter.name') }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item py-1" href="javascript:void(0);">
+                                            <input type="radio" class="form-check-input rounded-circle me-2"
+                                            name="sort_filter" value="latest" @if (Request::get('sort_filter') == 'latest') checked @endif>
+                                            {{ __('trans.filter.latest') }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item py-1" href="javascript:void(0);">
+                                            <input type="radio" class="form-check-input rounded-circle me-2"
+                                            name="sort_filter" value="oldest" @if (Request::get('sort_filter') == 'oldest') checked @endif>
+                                            {{ __('trans.filter.oldest') }}
+                                        </a>
+                                    </li>
+
+                                    <hr>
+                                    <li>
+                                        <a class="dropdown-item bg-transparent py-0" href="#">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <h5 class="fw-semibold d-block text-dark mb-0">{{ __('trans.campaign.status') }}:</h5>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item py-1" href="javascript:void(0);">
+                                            <input type="radio" class="form-check-input rounded-circle me-2" name="status_filter" value="all" checked>
+                                            {{ __('trans.filter.all') }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item py-1" href="javascript:void(0);">
+                                            <input type="radio" class="form-check-input rounded-circle me-2"
+                                            name="status_filter" value="live" @if (Request::get('status_filter') == 'live') checked @endif>
+                                            {{ __('trans.campaign.live') }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item py-1" href="javascript:void(0);">
+                                            <input type="radio" class="form-check-input rounded-circle me-2"
+                                            name="status_filter" value="scheduled" @if (Request::get('status_filter') == 'scheduled') checked @endif>
+                                            {{ __('trans.campaign.scheduled') }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item py-1" href="javascript:void(0);">
+                                            <input type="radio" class="form-check-input rounded-circle me-2"
+                                            name="status_filter" value="finished" @if (Request::get('status_filter') == 'finished') checked @endif>
+                                            {{ __('trans.campaign.finished') }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item py-1" href="javascript:void(0);">
+                                            <input type="radio" class="form-check-input rounded-circle me-2"
+                                            name="status_filter" value="stopped" @if (Request::get('status_filter') == 'stopped') checked @endif>
+                                            {{ __('trans.campaign.stopped') }}
+                                        </a>
+                                    </li>
+
+                                    <hr>
+                                    <div class="filter_btns d-flex my-2">
+                                        <button type="submit" class="btn btn-primary m-1">{{ __('trans.filter.apply') }}</button>
+                                        <a href="{{ route('client.campaigns.live') }}" class="btn btn-outline-primary m-1">{{ __('trans.filter.reset') }}</a>
+                                    </div>
+                                </ul>
+                            </form>
                         </div>
                     </div>
-                {{-- </div> --}}
 
+                    <div class="card-datatable text-nowrap">
+                        <table class="custom_table table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">{{ __('trans.campaign.media') }}</th>
+                                    <th class="text-center">{{ __('trans.campaign.name') }}</th>
+                                    <th class="text-center">{{ __('trans.campaign.region') }}</th>
+                                    <th class="text-center">{{ __('trans.campaign.bikes_count') }}</th>
+                                    <th class="text-center">{{ __('trans.campaign.campaign_duration') }}</th>
+                                    <th class="text-center">{{ __('trans.campaign.price') }}</th>
+                                    <th class="text-center">{{ __('trans.campaign.status') }}</th>
+                                    <th class="text-center">{{ __('trans.campaign.date') }}</th>
+                                    <th class="text-center">{{ __('trans.campaign.actions') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
     <!-- / Content -->
@@ -107,18 +202,6 @@
             border: 1px solid #0077b6 !important;
             color: #0077b6 !important;
         }
-
-        .dataTables_scrollBody{
-            max-height: auto !important;
-            height: auto !important;
-        }
-
-        .dataTables_length{margin: 0 !important; font-size: 14px !important;}
-        select[name="DataTables_Table_0_length"]{padding: 0 0 0 30px !important; border: 0; box-shadow: none !important;}
-        @media (max-width: 575.98px) {
-            [dir=rtl] div.dataTables_wrapper .dataTables_filter{text-align-last: start}
-            [dir=rtl] div.dataTables_wrapper .dataTables_filter input{margin: 0; display: block;}
-        }
     </style>
 @endsection
 
@@ -133,6 +216,8 @@
                 type: "GET",
                 data: function(d) {
                     d.status = selectedStatus;
+                    d.sort_filter = $('input[name="sort_filter"]:checked').val();
+                    d.status_filter = $('input[name="status_filter"]:checked').val();
                 },
                 dataSrc: function(response) {
                     return response.data;
@@ -141,8 +226,10 @@
                     console.log(xhr.responseText);
                 }
             },
+            order: [],
+            ordering: false,
             columns: [
-                { data: 'id' },
+                // { data: 'id' },
                 { data: 'id' },
                 { data: 'file',
                     render: function (data, type, full, meta) {
@@ -187,7 +274,6 @@
                             return data;
                         }
                         return (
-                            // '<span class="rounded-pill badge ' + $status[$status_text].class + '">' + $status[$status_text].title + '</span>'
                             `<span class="rounded-pill badge ${$status[$status_text].class}"
                                 style="font-size: 0.8rem; padding: 10px 16px;">
                                 ${$status[$status_text].title}
@@ -209,19 +295,6 @@
                             '<i class="text-dark bg-label-secondary p-2 mx-1 rounded ti ti-copy"></i>'+
                             '</a>'
                         );
-                    }
-                },
-                {
-                    // For Checkboxes
-                    targets: 0,
-                    searchable: false,
-                    orderable: false,
-                    render: function () {
-                        return '<input type="checkbox" class="dt-checkboxes form-check-input">';
-                    },
-                    checkboxes: {
-                        selectRow: false,
-                        selectAllRender: '<input type="checkbox" class="form-check-input">'
                     }
                 },
             ],
@@ -246,14 +319,29 @@
                 '<"row align-items-center"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6 d-flex justify-content-end align-items-center"lp>>',
 
             initComplete: function() {
+                var apiContainer = $(this.api().table().container());
+                var searchDiv = apiContainer.find('.dataTables_filter');
+                // add filter section before search input
+                $('.filter_section').insertBefore(searchDiv);
+
+                searchDiv.find('input').css('margin', '0 0 0 10px');
+                // hida search label text
+                searchDiv.find('label').contents().filter(function () {
+                    return this.nodeType === 3;
+                }).remove();
+
+                searchDiv.find('input').attr('placeholder', '{{ __('trans.global.search') }} ...');
+
                 // export btn
-                var $searchInput = $(this.api().table().container()).find('div.dataTables_filter');
-                // parent div of searchinput => $searchInput.parent().parent().append('<a href="javascript:;" class="btn btn-sm btn-primary ms-2"> <i class="ti ti-download me-1"></i> Export</a>');
-                $searchInput.parent().parent().append(
-                    '<a href="javascript:;" class="export_btn btn btn-sm btn-primary w-auto mx-3">' +
+                searchDiv.parent().parent().append(
+                    '<a href="javascript:;" class="export_btn btn btn-outline-primary w-auto mx-3">' +
                         '<i class="ti ti-download me-1"></i> {{ __("trans.global.download") }}' +
                     '</a>'
                 );
+
+                // show sextion after make transition of filter seaction and hide label
+                $('.dataTables_filter, .filter_section').css('visibility', 'visible');
+
             }
         });
 
@@ -265,15 +353,18 @@
         // event delegation for dynamic button
         $(document).on('click', '.export_btn', function (e) {
             e.preventDefault();
+            const sort_filter = $('input[name="sort_filter"]:checked').val() ?? 'all';
+            const status_filter = $('input[name="status_filter"]:checked').val() ?? 'all';
 
-            // const status_filter = $('input[name="testResult_status_filter"]:checked').val() ?? 'all';
-            // const sort_filter = $('input[name="testResult_sort_filter"]:checked').val() ?? 'all';
-            // const search = $('#searchTestResultInput').val();
-
-            // Example export call:
-            // const url = `/doctor/patients/${patient_id}/medical-tests/export?status_filter=${status_filter}&sort_filter=${sort_filter}&search=${search}`;
-            let url = `/client/campaigns/export?status=${selectedStatus}`;
+            let url = `/client/campaigns/export?status=${selectedStatus}&sort_filter=${sort_filter}&status_filter=${status_filter}`;
             window.location.href = url;
         });
+
+        // Filter form submission
+        $('.filter_section form').on('submit', function(e) {
+            e.preventDefault();
+            table.ajax.reload();
+        });
+
     </script>
 @endpush
