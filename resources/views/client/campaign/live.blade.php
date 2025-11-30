@@ -186,6 +186,11 @@
                 <div class="row" id="grid-container">
                     <!-- Cards will be populated here -->
                 </div>
+
+                <!-- Grid Pagination -->
+                <div class="card bg-transparent shadow-none mt-4" id="grid-pagination">
+                    <!-- Pagination will be rendered here -->
+                </div>
             </div>
 
         </div>
@@ -219,6 +224,9 @@
         let currentView = "list"; // Default view
         let campaignsData = []; // Store campaigns data
         let filterSectionCloned = false; // Track if filter is already in grid view
+        let isDataLoading = true; // Track loading state
+        let currentPage = 1; // Current page for grid view
+        let itemsPerPage = 6; // Items per page for grid view
         var custom_table = $('.custom_table');
 
         var table = custom_table.DataTable({
@@ -232,6 +240,8 @@
                 },
                 dataSrc: function(response) {
                     campaignsData = response.data;
+                    isDataLoading = false; // Data loaded successfully
+
                     if (currentView === 'grid') {
                         renderGridView();
                     }
@@ -239,6 +249,7 @@
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
+                    isDataLoading = false; // Stop loading even on error
                 }
             },
             order: [],
@@ -353,6 +364,8 @@
 
         $('.campaign_tabs button').on('click', function() {
             selectedStatus = $(this).data('type');
+            currentPage = 1; // Reset to first page when changing tabs
+            isDataLoading = true; // Set loading when reloading data
             table.ajax.reload();
         });
 
@@ -367,12 +380,21 @@
 
         $('.filter_section form').on('submit', function(e) {
             e.preventDefault();
+            currentPage = 1; // Reset to first page when filtering
+            isDataLoading = true; // Set loading when filtering
             table.ajax.reload();
         });
 
         // Grid/List Toggle
         $('.grid_btn').on('click', function(e) {
             e.preventDefault();
+
+            // Prevent switching if data is still loading
+            if (isDataLoading) {
+                // Show a brief notification
+                console.log('Please wait for data to load...');
+                return;
+            }
 
             $('.grid_btn').removeClass('active');
             $(this).addClass('active');
@@ -423,6 +445,7 @@
                 $('.filter_section').addClass('me-2');
                 $('.filter_section .filter_icon').removeClass('bg-white').addClass('bg-label-secondary');
 
+                isDataLoading = true; // Set loading when reloading table
                 table.ajax.reload();
             }
         });
@@ -434,10 +457,19 @@
 
             if (!campaignsData || campaignsData.length === 0) {
                 gridContainer.html('<div class="col-12"><p class="text-center">{{ __("trans.global.zero_records") }}</p></div>');
+                $('#grid-pagination').hide();
                 return;
             }
 
-            campaignsData.forEach(function(campaign) {
+            // Calculate pagination
+            const totalItems = campaignsData.length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const currentItems = campaignsData.slice(startIndex, endIndex);
+
+            // Render cards for current page
+            currentItems.forEach(function(campaign) {
                 const statusBadge = getStatusBadge(campaign.status);
                 const imageUrl = "{{ url('') }}/" + campaign.file;
 
@@ -485,6 +517,9 @@
 
                 gridContainer.append(card);
             });
+
+            // Render pagination
+            renderGridPagination(totalPages, totalItems);
         }
 
         // Get Status Badge
@@ -499,5 +534,223 @@
             const config = statusConfig[status] || { title: status, class: 'bg-label-secondary' };
             return `<span class="rounded-pill badge ${config.class}" style="font-size: 0.8rem; padding: 10px 16px;">${config.title}</span>`;
         }
+
+        // Render Grid Pagination
+        function renderGridPagination(totalPages, totalItems) {
+            const paginationContainer = $('#grid-pagination');
+            paginationContainer.empty();
+
+            if (totalPages <= 1) {
+                paginationContainer.hide();
+                return;
+            }
+
+            paginationContainer.show();
+
+            const startItem = ((currentPage - 1) * itemsPerPage) + 1;
+            const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+
+            let paginationHTML = `
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="mb-2">
+                            <span>عرض ${startItem} إلى ${endItem} من ${totalItems} نتيجة</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <select class="form-select form-select-sm" id="grid-page-length" style="width: auto;">
+                                    <option value="6" ${itemsPerPage === 6 ? 'selected' : ''}>6</option>
+                                    <option value="12" ${itemsPerPage === 12 ? 'selected' : ''}>12</option>
+                                    <option value="24" ${itemsPerPage === 24 ? 'selected' : ''}>24</option>
+                                    <option value="48" ${itemsPerPage === 48 ? 'selected' : ''}>48</option>
+                                </select>
+                            </div>
+                            <ul class="pagination mb-0">
+                                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                                    <a class="page-link" href="javascript:void(0);" data-page="${currentPage - 1}">
+                                        {{ __('trans.global.previous') }}
+                                    </a>
+                                </li>
+            `;
+
+            // Page numbers
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+            if (endPage - startPage < maxVisiblePages - 1) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+
+            if (startPage > 1) {
+                paginationHTML += `
+                    <li class="page-item">
+                        <a class="page-link" href="javascript:void(0);" data-page="1">1</a>
+                    </li>
+                `;
+                if (startPage > 2) {
+                    paginationHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                }
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHTML += `
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="javascript:void(0);" data-page="${i}">${i}</a>
+                    </li>
+                `;
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    paginationHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                }
+                paginationHTML += `
+                    <li class="page-item">
+                        <a class="page-link" href="javascript:void(0);" data-page="${totalPages}">${totalPages}</a>
+                    </li>
+                `;
+            }
+
+            paginationHTML += `
+                                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                                    <a class="page-link" href="javascript:void(0);" data-page="${currentPage + 1}">
+                                        {{ __('trans.global.next') }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            paginationContainer.html(paginationHTML);
+        }
+
+        // Handle pagination click
+        $(document).on('click', '#grid-pagination .page-link', function(e) {
+            e.preventDefault();
+            if ($(this).parent().hasClass('disabled')) return;
+
+            const page = parseInt($(this).data('page'));
+            if (page && page !== currentPage && page > 0) {
+                currentPage = page;
+                renderGridView();
+                // Scroll to top of grid
+                $('html, body').animate({
+                    scrollTop: $("#grid-view").offset().top - 100
+                }, 300);
+            }
+        });
+
+        // Handle items per page change
+        $(document).on('change', '#grid-page-length', function() {
+            itemsPerPage = parseInt($(this).val());
+            currentPage = 1; // Reset to first page
+            renderGridView();
+        });
+
+        // Render Grid Pagination
+        function renderGridPagination(totalPages, totalItems) {
+            const paginationContainer = $('#grid-pagination');
+            paginationContainer.empty();
+
+            if (totalPages <= 1) {
+                paginationContainer.hide();
+                return;
+            }
+
+            paginationContainer.show();
+
+            const startItem = ((currentPage - 1) * itemsPerPage) + 1;
+            const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+
+            let paginationHTML = `
+                <div class="d-flex justify-content-center align-items-center flex-wrap">
+                    <div class="d-flex align-items-center">
+                        <ul class="pagination mb-0">
+                            <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                                <a class="page-link" href="javascript:void(0);" data-page="${currentPage - 1}">
+                                    {{ __('trans.global.previous') }}
+                                </a>
+                            </li>
+            `;
+
+            // Page numbers
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+            if (endPage - startPage < maxVisiblePages - 1) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+
+            if (startPage > 1) {
+                paginationHTML += `
+                    <li class="page-item">
+                        <a class="page-link" href="javascript:void(0);" data-page="1">1</a>
+                    </li>
+                `;
+                if (startPage > 2) {
+                    paginationHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                }
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHTML += `
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="javascript:void(0);" data-page="${i}">${i}</a>
+                    </li>
+                `;
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    paginationHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                }
+                paginationHTML += `
+                    <li class="page-item">
+                        <a class="page-link" href="javascript:void(0);" data-page="${totalPages}">${totalPages}</a>
+                    </li>
+                `;
+            }
+
+            paginationHTML += `
+                            <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                                <a class="page-link" href="javascript:void(0);" data-page="${currentPage + 1}">
+                                    {{ __('trans.global.next') }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+
+            paginationContainer.html(paginationHTML);
+        }
+
+        // Handle pagination click
+        $(document).on('click', '#grid-pagination .page-link', function(e) {
+            e.preventDefault();
+            if ($(this).parent().hasClass('disabled')) return;
+
+            const page = parseInt($(this).data('page'));
+            if (page && page !== currentPage) {
+                currentPage = page;
+                renderGridView();
+                // Scroll to top of grid
+                $('html, body').animate({
+                    scrollTop: $("#grid-view").offset().top - 100
+                }, 300);
+            }
+        });
+
+        // Handle items per page change
+        $(document).on('change', '#grid-page-length', function() {
+            itemsPerPage = parseInt($(this).val());
+            currentPage = 1; // Reset to first page
+            renderGridView();
+        });
+
     </script>
 @endpush
