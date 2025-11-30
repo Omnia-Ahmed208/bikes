@@ -8,7 +8,7 @@
        <a href="{{ UrlLang('client/campaigns') }}">
             <h3 class="mb-1">
                <i class="ti ti-arrow-{{ AppLang() == 'ar' ? 'right' : 'left' }} fw-bold"></i>
-               {{ __('trans.campaign.add_new') }}
+               {{ __('trans.campaign.edit') }}
            </h3>
        </a>
 
@@ -46,7 +46,7 @@
             </div>
         @endif
 
-        <form id="multi-step-form" class="mt-4" action="{{ route('client.campaigns.store') }}" method="post" enctype="multipart/form-data">
+        <form id="multi-step-form" class="mt-4" action="{{ route('client.campaigns.update', $campaign->id) }}" method="post" enctype="multipart/form-data">
             @csrf
 
             {{-- campaign details --}}
@@ -60,7 +60,7 @@
                             <label class="h5 mb-2" for="title">{{ __('trans.campaign.name') }}</label>
                             <input type="text" class="form-control" id="title" name="title"
                             placeholder="{{ __('trans.campaign.name') }}"
-                            value="{{ old('title') }}"
+                            value="{{ old('title', $campaign->title) }}"
                             required/>
                         </div>
 
@@ -69,7 +69,7 @@
                             <select class="form-select select2 @error('country_id') is-invalid @enderror" id="country_id" name="country_id" required>
                                 <option value="" disabled selected>{{ __('trans.global.select') }}</option>
                                 @foreach ($countries as $country)
-                                    <option value="{{ $country->id }}" @if(old('country_id') == $country->id) selected @endif>{{ $country->name }}</option>
+                                    <option value="{{ $country->id }}" @if(old('country_id', $campaign->country_id) == $country->id) selected @endif>{{ $country->name }}</option>
                                 @endforeach
                             </select>
 
@@ -87,7 +87,7 @@
                             <label class="h5 mb-2" for="bikes_count">{{ __('trans.campaign.bikes_count') }}</label>
                             <input type="text" class="form-control" id="bikes_count" name="bikes_count"
                             placeholder="{{ __('trans.campaign.bikes_count') }}"
-                            value="{{ old('bikes_count') }}"
+                            value="{{ old('bikes_count', $campaign->bikes_count) }}"
                             oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                             required/>
                         </div>
@@ -107,7 +107,39 @@
                     </div>
 
                     <div class="card-body">
-                        <div class="mb-3 dragable_media_box">
+                        @if ($campaign->file)
+                            <div class="old_file_box mb-3 bg-label-secondary p-2 rounded border d-flex align-items-center justify-content-between">
+                                <div class="d-flex text-dark file_preview">
+                                    <a href="{{ asset($campaign->file) }}" class="mx-2" target="_blank">
+                                        @if ($campaign->file_type == 'image')
+                                            <img src="{{ asset($campaign->file) }}" width="40" height="40"
+                                            style="object-fit: cover" class="rounded" alt="img">
+                                        @else
+                                            <video width="60" height="40" class="rounded" muted>
+                                                <source src="{{ asset($campaign->file) }}" type="video/mp4">
+                                            </video>
+                                        @endif
+                                    </a>
+
+                                    <div class="me-2">
+                                        <div class="img-title fw-bold">
+                                            {{ basename($campaign->file) }}
+                                        </div>
+                                        <div class="img-size">
+                                            {{ formatBytes(filesize($campaign->file)) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="delete_btn">
+                                    <button type="button" class="btn" onclick="deleteFile('{{ $campaign->file }}')">
+                                        <img src="{{ asset('backend/img/icons/delete.svg') }}" alt="delete icon">
+                                    </button>
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="mb-3 dragable_media_box d-none">
                             <label class="h5 mb-2" for="media">{{ __('trans.campaign.media') }}</label>
                             <div class="upload_image_box w-100 p-4 mt-2 rounded fw-bold text-center">
                                 <span class="dragBox">
@@ -121,7 +153,7 @@
 
                                     <input type="file" name="media" id="uploadFile" onChange="dragNdrop(event)"
                                     ondragover="drag()" ondrop="drop()" accept="image/jpeg, image/png, image/jpg, video/mp4"
-                                    required/>
+                                    />
                                 </span>
 
                                 <label for="uploadFile" class="btn btn-outline-primary position-relative" style="z-index: 1">
@@ -137,7 +169,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" id="media_duration" name="media_duration"
                                 placeholder="{{ __('trans.campaign.media_duration') }}"
-                                value="{{ old('media_duration') }}"
+                                value="{{ old('media_duration', $campaign->media_duration) }}"
                                 required>
 
                                 <span class="input-group-text text-dark px-lg-4" style="font-size: 18px">{{ __('trans.campaign.second') }}</span>
@@ -148,16 +180,22 @@
                             <label class="h5 mb-2" for="campaign_duration">{{ __('trans.campaign.campaign_duration') }}</label>
                             <select class="form-select select2 @error('campaign_duration') is-invalid @enderror" id="campaign_duration" name="campaign_duration" required>
                                 <option value="" disabled selected>{{ __('trans.global.select') }}</option>
-                                <option value="12_hour" @if(old('campaign_duration') == '12_hour') selected @endif>{{ __('trans.campaign.12_hour') }}</option>
-                                <option value="1_day" @if(old('campaign_duration') == '1_day') selected @endif>{{ __('trans.campaign.1_day') }}</option>
-                                <option value="3_days" @if(old('campaign_duration') == '3_days') selected @endif>{{ __('trans.campaign.3_days') }}</option>
+                                <option value="12_hour" @if(old('campaign_duration', $campaign->campaign_duration) == '12_hour') selected @endif>{{ __('trans.campaign.12_hour') }}</option>
+                                <option value="1_day" @if(old('campaign_duration', $campaign->campaign_duration) == '1_day') selected @endif>{{ __('trans.campaign.1_day') }}</option>
+                                <option value="3_days" @if(old('campaign_duration', $campaign->campaign_duration) == '3_days') selected @endif>{{ __('trans.campaign.3_days') }}</option>
                             </select>
                         </div>
 
                         <div class="mb-3">
                             <label class="h5 mb-2" for="date_time">{{ __('trans.campaign.date_time') }}</label>
+                            {{-- <input type="text" class="form-control dateRange dateRange_total"
+                            id="date_time" name="date_time" dir="{{ AppDir() }}" required/> --}}
+
                             <input type="text" class="form-control dateRange dateRange_total"
-                            id="date_time" name="date_time" dir="{{ AppDir() }}" required/>
+                                id="date_time" name="date_time"
+                                dir="{{ AppDir() }}"
+                                value="{{ old('date_time', $campaign->start_date . ' ' . $campaign->start_time . ' to ' . $campaign->end_date . ' ' . $campaign->end_time) }}"
+                                required/>
                         </div>
 
                         <div class="d-flex justify-content-between">
@@ -256,7 +294,7 @@
             window.translations = {
                 to: "{{ __('trans.global.to') }}"
             };
-
+    
             flatpickr(".dateRange", {
                 mode: "range",
                 enableTime: true,
@@ -279,6 +317,7 @@
 
             function fetchRegions() {
                 var countryId = $('#country_id').val();
+                let old_region_id = "{{ old('region_id', $campaign->region_id) }}";
 
                 if (countryId) {
                     $.ajax({
@@ -291,30 +330,73 @@
                             $("#region_id").html("<option disabled selected>{{ __('trans.global.loading') }}...</option>");
                         },
                         success: function(res) {
-                            console.log(res, countryId)
                             $("#region_id").html("<option disabled selected>{{ __('trans.global.select') }}</option>");
                             $.each(res.data, function(key, val) {
-                                $("#region_id").append("<option value='" + val.id + "'>" + val.name + "</option>");
+                                $("#region_id").append("<option value='" + val.id + "' >" + val.name + "</option>");
                             });
+
+                            if (old_region_id) {
+                                $("#region_id").val(old_region_id).trigger('change');
+                            }
                         }
                     });
                 }
             }
 
+            fetchRegions();
             $('#country_id').on('change', fetchRegions);
             $(window).on('load', fetchRegions);
 
         });
 
+        // =============================== Format Bytes size ===============================
+        function formatBytesJS(bytes, decimals = 2) {
+            if (!+bytes) return '0 B';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
         // =============================== Drag and Drop ===============================
         function dragNdrop(event) {
-            var fileName = URL.createObjectURL(event.target.files[0]);
-            var preview = document.getElementById("preview");
-            preview.innerHTML = `
-                ${event.target.files[0].name}
-                <a href="${URL.createObjectURL(event.target.files[0])}" class="mx-2" target="_blank">
-                    {{ __('trans.global.view') }}
-                </a>
+            let file = event.target.files[0];
+            if (!file) return;
+
+            let url = URL.createObjectURL(file);
+
+            // أخفي صندوق الملف القديم (لو موجود)
+            let oldBox = document.querySelector('.old_file_box');
+            if (oldBox) {
+                oldBox.classList.remove('d-none');
+            }
+
+            let upload_box = document.querySelector('.dragable_media_box');
+            if (upload_box) {
+                upload_box.classList.add('d-none');
+            }
+
+            // اكتشاف الامتداد
+            let extension = file.name.split('.').pop().toLowerCase();
+
+            let filePreview = '';
+
+            if (['jpg','jpeg','png','gif','svg','webp'].includes(extension)) {
+                filePreview = `<img src="${url}" width="40" height="40" class="rounded" style="object-fit: cover">`;
+            } else if (extension === 'mp4') {
+                filePreview = `
+                    <video width="60" height="40" class="rounded" muted>
+                        <source src="${url}" type="video/mp4">
+                    </video>`;
+            }
+
+            document.querySelector('.old_file_box .file_preview').innerHTML = `
+                <a href="${url}" class="mx-2" target="_blank">${filePreview}</a>
+                <div class="me-2">
+                    <div class="img-title fw-bold">${file.name}</div>
+                    <div class="img-size">${formatBytesJS(file.size)}</div>
+                </div>
             `;
         }
         function drag() {
@@ -322,6 +404,13 @@
         }
         function drop() {
             document.getElementById('uploadFile').parentNode.className = 'dragBox';
+        }
+
+        // =============================== Delete file ===============================
+        function deleteFile() {
+            document.querySelector('.old_file_box').classList.add('d-none');
+            document.querySelector('.dragable_media_box').classList.remove('d-none');
+            document.getElementById('uploadFile').value = "";
         }
 
     </script>

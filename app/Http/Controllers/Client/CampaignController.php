@@ -109,7 +109,13 @@ class CampaignController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $campaign = Campaign::findOr($id, function () {
+            return back()->with('error', __('trans.alert.error.data_not_found'));
+        });
+
+        $countries = Country::get();
+
+        return view('client.campaign.edit', compact('campaign', 'countries'));
     }
 
     /**

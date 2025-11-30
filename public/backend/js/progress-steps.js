@@ -126,7 +126,12 @@ $(document).ready(function() {
         $('#summary_bikes_count').text($('#bikes_count').val());
         $('#summary_media_duration').text($('#media_duration').val() + 's');
         $('#summary_campaign_duration').text($('#campaign_duration option:selected').text());
-        $('#summary_date_time').text($('.dateRange_total').val());
+        // $('#summary_date_time').text($('.dateRange_total').val());
+
+          // هنا ننسخ التاريخ من input ونحول 'to' إلى الترجمة
+        let dateTime = $('.dateRange_total').val();
+        dateTime = dateTime.replace(' to ', ' ' + window.translations.to + ' ');
+        $('#summary_date_time').text(dateTime);
     }
 
     updateStepCircles();

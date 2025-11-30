@@ -28,6 +28,7 @@ return [
     'campaign' => [
         'title' => 'Campaigns',
         'add_new' => 'Add New',
+        'edit' => 'Edit Campaign',
         'live_campaign' => 'Live Campaigns',
         'stopped_campaign' => 'Stopped Campaigns',
         'finished_campaign' => 'Finished Campaigns',

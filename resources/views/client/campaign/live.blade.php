@@ -228,6 +228,7 @@
         let currentPage = 1; // Current page for grid view
         let itemsPerPage = 6; // Items per page for grid view
         var custom_table = $('.custom_table');
+        let editRoute = "{{ route('client.campaigns.edit', ':id') }}";
 
         var table = custom_table.DataTable({
             ajax: {
@@ -310,8 +311,9 @@
                     searchable: false,
                     orderable: false,
                     render: function (data, type, full, meta) {
+                        editUrl = editRoute.replace(':id', full.id);
                         return (
-                            '<a href="javascript:;" class="item-edit text-body">'+
+                            '<a href="'+ editUrl +'" class="item-edit text-body">'+
                             '<i class="text-dark bg-label-secondary p-2 mx-1 rounded ti ti-pencil"></i>'+
                             '</a>'+
                             '<a href="javascript:;" class="item-edit text-body">'+
@@ -472,6 +474,7 @@
             currentItems.forEach(function(campaign) {
                 const statusBadge = getStatusBadge(campaign.status);
                 const imageUrl = "{{ url('') }}/" + campaign.file;
+                let editUrl = editRoute.replace(':id', campaign.id);
 
                 const card = `
                     <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
@@ -501,7 +504,7 @@
                                 </div>
 
                                 <div class="actions d-flex mt-3">
-                                    <a href="javascript:;" class="btn btn-primary w-100 me-1">
+                                    <a href="${editUrl}" class="btn btn-primary w-100 me-1">
                                         <i class="ti ti-pencil me-2"></i>
                                         {{ __('trans.global.edit') }}
                                     </a>

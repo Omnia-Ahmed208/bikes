@@ -28,6 +28,7 @@ return [
     'campaign' => [
         'title' => 'الحملات',
         'add_new' => 'إضافة حملة',
+        'edit' => 'تعديل بيانات الحملة',
         'live_campaign' => 'الحملات المباشرة',
         'stopped_campaign' => 'الحملات المتوقفة',
         'finished_campaign' => 'الحملات المنتهية',
