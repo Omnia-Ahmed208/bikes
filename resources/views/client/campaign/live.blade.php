@@ -151,7 +151,7 @@
                                     <hr>
                                     <div class="filter_btns d-flex my-2">
                                         <button type="submit" class="btn btn-primary m-1">{{ __('trans.filter.apply') }}</button>
-                                        <a href="{{ route('client.campaigns.live') }}" class="btn btn-outline-primary m-1">{{ __('trans.filter.reset') }}</a>
+                                        <a href="javascript:void(0);" class="reset_btn btn btn-outline-primary m-1">{{ __('trans.filter.reset') }}</a>
                                     </div>
                                 </ul>
                             </form>
@@ -368,6 +368,8 @@
             selectedStatus = $(this).data('type');
             currentPage = 1; // Reset to first page when changing tabs
             isDataLoading = true; // Set loading when reloading data
+            // $('input[name="sort_filter"][value="all"]').prop('checked', true);
+            // $('input[name="status_filter"][value="all"]').prop('checked', true);
             table.ajax.reload();
         });
 
@@ -755,5 +757,15 @@
             renderGridView();
         });
 
+        // reset_btn
+        $(document).on('click', '.reset_btn', function(e) {
+            e.preventDefault();
+            // selectedStatus = "all";
+            currentPage = 1; // Reset to first page
+            isDataLoading = true; // Set loading when reloading data
+            $('input[name="sort_filter"][value="all"]').prop('checked', true);
+            $('input[name="status_filter"][value="all"]').prop('checked', true);
+            table.ajax.reload();
+        });
     </script>
 @endpush
