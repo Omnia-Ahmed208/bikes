@@ -113,6 +113,28 @@ return [
 
     'dashboard' => [
         'title' => 'Dashboard',
+        'total_campaigns' => 'Total Campaigns',
+        'live_campaigns' => 'Live Campaigns',
+        'scheduled_campaigns' => 'Scheduled Campaigns',
+        'finished_campaigns' => 'Finished Campaigns',
+        'geographical_distribution' => 'Geographical Distribution',
+        'map' => 'Map',
+        'expenses_and_capacity' => 'Expenses and Capacity',
+        'expenses' => 'Expenses',
+        'daily' => 'Daily',
+        'weekly' => 'Weekly',
+        'monthly' => 'Monthly',
+        'yearly' => 'Yearly',
+        'advertising_campaigns' => 'Advertising Campaigns',
+        'advertising_campaigns_desc' => 'This indicator shows the advertising campaign performance based on the number of views, duration, and the number of views.',
+        'time_shown' => 'Time of Shown',
+        'total_duration' => 'Total Duration',
+        'views' => 'Views',
+        'general_performance' => 'General Performance',
+        'strong_performance' => 'Strong Performance',
+        'good_performance' => 'Good Performance',
+        'average_performance' => 'Average Performance',
+        'weak_performance' => 'Weak Performance',
     ],
 
     'setting' => [

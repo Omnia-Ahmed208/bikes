@@ -1,19 +1,116 @@
 'use strict';
 
-function renderBarChart(elementId, labels, data, barColor, isRtl = false) {
+  let cardColor, shadeColor, labelColor, headingColor, barBgColor, borderColor;
+
+  if (isDarkStyle) {
+    cardColor = config.colors_dark.cardColor;
+    labelColor = config.colors_dark.textMuted;
+    headingColor = config.colors_dark.headingColor;
+    shadeColor = 'dark';
+    barBgColor = '#8692d014';
+    borderColor = config.colors_dark.borderColor;
+  } else {
+    cardColor = config.colors.cardColor;
+    labelColor = config.colors.textMuted;
+    headingColor = config.colors.headingColor;
+    shadeColor = '';
+    barBgColor = '#4b465c14';
+    borderColor = config.colors.borderColor;
+  }
+
+  // Donut Chart Colors
+  const chartColors = {
+    donut: {
+      series1: config.colors.success,
+      series2: '#28c76fb3',
+      series3: '#28c76f80',
+      series4: config.colors_label.success
+    }
+  };
+
+function renderMiniChart(elementId, data = [], color = "#0077B6")  {
+    if (!document.querySelector(elementId)) return;
+
+    const revenueGeneratedEl = document.querySelector(elementId),
+        revenueGeneratedConfig = {
+        chart: {
+            height: 90,
+            type: 'area',
+            parentHeightOffset: 0,
+            toolbar: {
+            show: false
+            },
+            sparkline: {
+            enabled: true
+            }
+        },
+        markers: {
+            colors: 'transparent',
+            strokeColors: 'transparent'
+        },
+        grid: {
+            show: false
+        },
+        colors: [color],
+        fill: {
+            type: 'gradient',
+            gradient: {
+            shade: shadeColor,
+            shadeIntensity: 0.8,
+            opacityFrom: 0.6,
+            opacityTo: 0.1
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            width: 2,
+            curve: 'smooth'
+        },
+        series: [
+            {
+            data: data
+            }
+        ],
+        xaxis: {
+            show: true,
+            lines: {
+            show: false
+            },
+            labels: {
+            show: false
+            },
+            stroke: {
+            width: 0
+            },
+            axisBorder: {
+            show: false
+            }
+        },
+        yaxis: {
+            stroke: {
+            width: 0
+            },
+            show: false
+        },
+        tooltip: {
+            enabled: false
+        }
+        };
+    if (typeof revenueGeneratedEl !== undefined && revenueGeneratedEl !== null) {
+        const revenueGenerated = new ApexCharts(revenueGeneratedEl, revenueGeneratedConfig);
+        revenueGenerated.render();
+    }
+}
+
+
+function renderBarChart(elementId, labels = [], data = [], barColor = '#0077B6', isRtl = false) {
     const chartElement = document.getElementById(elementId);
     if (!chartElement) {
         console.error('Chart element not found:', elementId);
         return null;
     }
-
-    // Color Variables
-    let cardColor, headingColor, labelColor, borderColor, legendColor;
-    cardColor = config.colors.cardColor;
-    headingColor = config.colors.headingColor;
-    labelColor = config.colors.labelColor;
-    legendColor = config.colors.bodyColor;
-    borderColor = config.colors.borderColor;
 
     const ctx = chartElement.getContext("2d");
 
@@ -26,119 +123,48 @@ function renderBarChart(elementId, labels, data, barColor, isRtl = false) {
     const processedLabels = isRtl ? [...labels].reverse() : labels;
     const processedData = isRtl ? [...data].reverse() : data;
 
-    // حساب الـ max ديناميكياً مع هامش
-    const maxDataValue = Math.max(...data);
-    const suggestedMax = maxDataValue === 0 ? 10 : Math.ceil(maxDataValue * 1.2);
 
-    const barChart = new Chart(ctx, {
+    const barChart = document.getElementById(elementId);
+    if (!barChart) return; // exit if element not found
+
+    new Chart(barChart, {
         type: 'bar',
         data: {
             labels: processedLabels,
-            datasets: [
-                {
-                    data: processedData,
-                    backgroundColor: barColor,
-                    borderColor: 'transparent',
-                    maxBarThickness: 15,
-                    borderRadius: {
-                        topRight: 0,
-                        topLeft: 0
-                    }
-                }
-            ]
+            datasets: [{
+                data: processedData,
+                backgroundColor: barColor,
+                borderColor: 'transparent',
+                maxBarThickness: 15,
+                borderRadius: 3 // simplified, works for Chart.js 4.x
+                // borderRadius: {
+                //     topRight: 0,
+                //     topLeft: 0
+                // }
+            }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            animation: {
-                duration: 500
-            },
-            aspectRatio: false,
-            rtl: isRtl,
+            animation: { duration: 500 },
             plugins: {
                 tooltip: {
-                    enabled: false,
-                    external: function(context) {
-                        // Custom tooltip function
-                        const { chart, tooltip } = context;
-
-                        // إنشاء عنصر tooltip إذا لم يكن موجود
-                        let tooltipEl = chart.canvas.parentNode.querySelector('.chartjs-custom-tooltip');
-                        if (!tooltipEl) {
-                            tooltipEl = document.createElement('div');
-                            tooltipEl.className = 'chartjs-custom-tooltip';
-                            tooltipEl.style.position = 'absolute';
-                            tooltipEl.style.pointerEvents = 'none';
-                            tooltipEl.style.transition = 'all 0.2s ease';
-                            chart.canvas.parentNode.appendChild(tooltipEl);
-                        }
-
-                        // إخفاء tooltip إذا لم يعد مطلوب
-                        if (tooltip.opacity === 0) {
-                            tooltipEl.style.opacity = 0;
-                            return;
-                        }
-
-                        // إنشاء محتوى tooltip
-                        if (tooltip.body) {
-                            const dataPoint = tooltip.dataPoints[0];
-                            const label = dataPoint.label;
-                            const value = dataPoint.parsed.y;
-
-                            tooltipEl.innerHTML = `
-                                <div class="apexcharts-custom-tooltip bg-primary text-white rounded px-2 py-1 d-flex align-items-center" style="
-                                    background-color: #3563AD !important;
-                                    color: white !important;
-                                    padding: 6px 12px !important;
-                                    border-radius: 6px !important;
-                                    font-size: 12px !important;
-                                    font-weight: 500 !important;
-                                    box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
-                                    white-space: nowrap !important;
-                                    direction: ${isRtl ? 'rtl' : 'ltr'} !important;
-                                ">
-                                    <span>${label}: ${value}</span>
-                                </div>
-                            `;
-                        }
-
-                        // تحديد موضع tooltip
-                        const { offsetLeft: positionX, offsetTop: positionY } = chart.canvas;
-
-                        // حساب الموضع مع مراعاة RTL
-                        let tooltipX = positionX + tooltip.caretX;
-                        let tooltipY = positionY + tooltip.caretY;
-
-                        // تعديل الموضع في RTL
-                        if (isRtl) {
-                            tooltipX = tooltipX - tooltipEl.offsetWidth - 10;
-                        } else {
-                            tooltipX = tooltipX + 10;
-                        }
-
-                        tooltipY = tooltipY - tooltipEl.offsetHeight - 10;
-
-                        // تطبيق الموضع والشفافية
-                        tooltipEl.style.opacity = 1;
-                        tooltipEl.style.left = tooltipX + 'px';
-                        tooltipEl.style.top = tooltipY + 'px';
-                        tooltipEl.style.zIndex = 9999;
-                    }
+                    rtl: isRtl,
+                    // These colors need to be defined somewhere in your code
+                    backgroundColor: '#fff',
+                    titleColor: '#000',
+                    bodyColor: '#333',
+                    borderWidth: 1,
+                    borderColor: '#ccc'
                 },
-                legend: {
-                    display: false
-                }
+                legend: { display: false }
             },
             scales: {
                 x: {
                     reverse: isRtl,
-                    grid: {
-                        color: borderColor,
-                        drawBorder: false,
-                        borderColor: borderColor
-                    },
+                    grid: { color: '#e0e0e0', drawBorder: false },
                     ticks: {
-                        color: labelColor,
+                        color: '#333',
                         maxRotation: 45,
                         minRotation: 0,
                         align: isRtl ? 'end' : 'center',
@@ -148,32 +174,26 @@ function renderBarChart(elementId, labels, data, barColor, isRtl = false) {
                 y: {
                     position: isRtl ? 'right' : 'left',
                     min: 0,
-                    max: suggestedMax,
+                    max: 400,
+                    // max: suggestedMax,
                     grid: {
-                        color: borderColor,
+                        color: '#e0e0e0',
                         drawBorder: false,
-                        borderColor: borderColor
+                        borderColor: '#e0e0e0'
                     },
                     ticks: {
-                        color: labelColor,
+                        color: '#333',
                         align: isRtl ? 'end' : 'start',
                         precision: 0,
-                        stepSize: Math.ceil(suggestedMax / 5) // خطوات ديناميكية
+                        ticks: { stepSize: 100, color: '#333' }
+                        // stepSize: Math.ceil(suggestedMax / 5) // خطوات ديناميكية
                     }
-                }
-            },
-            layout: {
-                padding: {
-                    top: 10,
-                    bottom: 10,
-                    left: isRtl ? 20 : 5,
-                    right: isRtl ? 5 : 20
                 }
             }
         }
     });
 
-    // حفظ مرجع للشارت لتدميره لاحقاً
+    // // حفظ مرجع للشارت لتدميره لاحقاً
     chartElement.chart = barChart;
 
     // إضافة CSS للـ canvas لدعم RTL

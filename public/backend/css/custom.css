@@ -57,6 +57,40 @@
     filter: grayscale(100%) brightness(60%) contrast(80%);
 }
 
+.percentage-success{
+    border: 1px solid #4CAF50;
+    color: #4CAF50;
+    font-size: 12px;
+}
+.percentage-danger{
+    border: 1px solid #D32F2F;
+    color: #D32F2F;
+    font-size: 12px;
+}
+.percentage-secondary{
+    border: 1px solid #757575;
+    color: #757575;
+    font-size: 12px;
+}
+.percentage-success-text{
+    color: #4CAF50;
+}
+.percentage-danger-text{
+    color: #D32F2F;
+}
+.percentage-secondary-text{
+    color: #757575;
+}
+.percentage-success-bg{
+    background-color: #4CAF50;
+}
+.percentage-danger-bg{
+    background-color: #D32F2F;
+}
+.percentage-secondary-bg{
+    background-color: #757575;
+}
+
 [dir=rtl] .bg-menu-theme.menu-vertical .menu-item.active > .menu-link:not(.menu-toggle) {
     background: #E3F3FA !important;
     color: #0077B6 !important;
@@ -181,3 +215,23 @@ select[name="DataTables_Table_0_length"]{padding: 0 0 0 30px !important; border:
     [dir=rtl] div.dataTables_wrapper .dataTables_filter input{margin: 0; display: block; width: 95%}
 }
 
+
+.sm-icons{
+    background: #EEEEEE;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.xs-icons{
+    background: #EEEEEE;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

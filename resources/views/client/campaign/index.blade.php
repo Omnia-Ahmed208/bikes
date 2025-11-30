@@ -28,116 +28,261 @@
             </div>
         </div>
 
-        <div class="row m-0 mt-4">
-            {{-- <div class="col-lg-6 mb-4">
-                <div class="card h-100 mb-4">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="fw-bold">{{ __('trans.statistics.consultations') }}</h5>
+        <div class="card my-4 shadow-none border">
+            <div class="card-body stats-card-body">
+                <div class="row stats-first-row">
+                    <div class="col-lg-6">
+                        <div class="row px-4">
+                            <div class="col-6">
+                                <h4 class="fw-bold">{{ __('trans.dashboard.total_campaigns') }}</h4>
+                                <div class="d-flex align-items-center">
+                                    <div class="sm-icons p-3">
+                                        <i class="ti ti-ad ti-md"></i>
+                                    </div>
+                                    <h4 class="fw-bold mx-2 mb-0">
+                                        {{ $campaigns_count }}
+                                    </h4>
+                                    <div class="percentage-{{ $total_campaigns_status }} p-1 px-2 rounded-pill">
+                                        {{ $total_campaigns_percentage_abs }}%
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6" style="justify-items: end">
+                                <div id="totalUsersChart" class="text-center"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="row px-4">
+                            <div class="col-6">
+                                <h4 class="fw-bold">{{ __('trans.dashboard.live_campaigns') }}</h4>
+                                <div class="d-flex align-items-center">
+                                    <div class="sm-icons p-3">
+                                        <i class="ti ti-ad ti-md"></i>
+                                    </div>
+                                    <h4 class="fw-bold mx-2 mb-0">
+                                        {{ $live_campaigns_count }}
+                                    </h4>
+                                    <div class="percentage-success p-1 px-2 rounded-pill">0.43%</div>
+                                </div>
+                            </div>
+                            <div class="col-6" style="justify-items: end">
+                                <div id="totalUsersChart2" class="text-center"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr style="border-color: #E1E5E8">
+
+                <div class="row stats-second-row">
+                    <div class="col-lg-6">
+                        <div class="row px-4">
+                            <div class="col-6">
+                                <h4 class="fw-bold">{{ __('trans.dashboard.scheduled_campaigns') }}</h4>
+                                <div class="d-flex align-items-center">
+                                    <div class="sm-icons p-3">
+                                        <i class="ti ti-ad ti-md"></i>
+                                    </div>
+                                    <h4 class="fw-bold mx-2 mb-0">
+                                        {{ $scheduled_campaigns_count }}
+                                    </h4>
+                                    <div class="percentage-secondary p-1 px-2 rounded-pill">0.43%</div>
+                                </div>
+                            </div>
+                            <div class="col-6" style="justify-items: end">
+                                <div id="totalUsersChart3" class="text-center"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="row px-4">
+                            <div class="col-6">
+                                <h4 class="fw-bold">{{ __('trans.dashboard.finished_campaigns') }}</h4>
+                                <div class="d-flex align-items-center">
+                                    <div class="sm-icons p-3">
+                                        <i class="ti ti-ad ti-md"></i>
+                                    </div>
+                                    <h4 class="fw-bold mx-2 mb-0">
+                                        {{ $finished_campaigns_count }}
+                                    </h4>
+                                    <div class="percentage-danger p-1 px-2 rounded-pill">0.43%</div>
+                                </div>
+                            </div>
+                            <div class="col-6" style="justify-items: end">
+                                <div id="totalUsersChart4" class="text-center"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="card shadow-none border h-100 mb-4">
+                    <div class="card-body pb-0">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h4 class="fw-bold mb-1">{{ __('trans.dashboard.expenses_and_capacity') }}</h4>
                             <div>
-                                <select name="consultations_users_type" class="form-select select2" id="consultations_users_type">
-                                    <option value="doctors">{{ __('trans.statistics.doctors') }}</option>
-                                    <option value="patients">{{ __('trans.statistics.patients') }}</option>
+                                <select name="campaign_period" class="form-select select2 mb-1" id="campaign_period">
+                                    <option value="daily">{{ __('trans.dashboard.daily') }}</option>
+                                    <option value="weekly" selected>{{ __('trans.dashboard.weekly') }}</option>
+                                    <option value="monthly">{{ __('trans.dashboard.monthly') }}</option>
+                                    <option value="yearly">{{ __('trans.dashboard.yearly') }}</option>
                                 </select>
                             </div>
                         </div>
 
-                        <canvas id="adsChart" style="max-height: 340px !important;"></canvas>
-                    </div>
-                </div>
-            </div> --}}
+                        <div class="d-flex align-items-center">
+                            <h6 class="fw-bold me-2">{{ __('trans.dashboard.expenses') }}</h6>
+                            <h5 class="fw-bold">
+                                {{ number_format(50000, 0) }}
+                                <img src="{{ asset('backend/img/sar.png') }}" class="mb-2" width="20" alt="currency">
+                            </h5>
+                        </div>
 
-            <div class="card">
-                <div class="card-header p-3">
-                    <div class="d-flex justify-content-between align-items-center flex-wrap">
-                        <h5 class="fw-bold mb-1">{{ __('trans.campaign.live_campaign') }}</h5>
-                        <a href="{{ UrlLang('client/campaigns/live') }}" class="btn btn-primary text-white mb-1">{{ __('trans.global.view_more') }}</a>
-                    </div>
-                </div>
+                        {{-- progress --}}
+                        <div class="progress rounded mt-3 mb-2" style="height: 40px">
+                            <div class="progress-bar bg-success rounded-start" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar rounded-0" role="progressbar" style="width: 30%; background:#D4D9DC" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-danger rounded-end" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
 
-                <div class="card-body px-0 pt-0">
-                    <div class="row px-3">
-                        @foreach ($campaigns as $item)
-                            <div class="col-lg-6">
-                                <div class="card shadow-none border mb-2" style="padding: 14px;">
-                                    <div class="card-body p-0">
-                                        <div class="img position-relative mb-3" style="height: 300px;">
-                                            <img src="{{ asset($item->file) }}" class="img-fluid w-100 h-100" alt="">
-
-                                            @php
-                                                $endDateTime = \Carbon\Carbon::parse($item->end_date . ' ' . $item->end_time);
-                                                $remaining = $endDateTime->diffForHumans(now(), [
-                                                    'parts' => 2,      // عدد الأجزاء (مثلاً: 5 أيام و 3 ساعات)
-                                                    'short' => true,   // صيغة مختصرة
-                                                    'syntax' => \Carbon\CarbonInterface::DIFF_ABSOLUTE,
-                                                    // 'syntax' => \Carbon\CarbonInterface::DIFF_RELATIVE_TO_NOW,
-                                                ]);
-
-                                                $item->remaining_time = $remaining;
-                                            @endphp
-
-                                            @if (!$endDateTime->isPast())
-                                                <div class="position-absolute top-0 start-0  badge rounded-pill bg-label-primary m-2">
-                                                    {{ __('trans.campaign.remaining') }}
-                                                    ({{ $item->remaining_time }})
-                                                </div>
-                                            @endif
-                                        </div>
-
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <h5 class="title">{{ $item->title }}</h5>
-                                            @if ($item->status == 'live')
-                                                <div class="status btn rounded-pill btn-label-success waves-effect">{{ __('trans.campaign.live') }}</div>
-                                            @elseif($item->status == 'scheduled')
-                                                <div class="status btn rounded-pill btn-label-secondary waves-effect">{{ __('trans.campaign.scheduled') }}</div>
-                                            @elseif($item->status == 'finished')
-                                                <div class="status btn rounded-pill btn-label-danger waves-effect">{{ __('trans.campaign.finished') }}</div>
-                                            @elseif($item->status == 'stopped')
-                                                <div class="status btn rounded-pill btn-label-warning waves-effect">{{ __('trans.campaign.stopped') }}</div>
-                                            @endif
-                                        </div>
-
-                                        <h6 class="mb-0">{{ __('trans.campaign.percentage') }}</h6>
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="progress flex-grow-1" style="height: 4px">
-                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 90%"
-                                                    aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <h6 class="text-nowrap fw-medium mb-0">90%</h6>
-                                        </div>
-
-                                        <div class="actions d-flex mt-3">
-                                            <a href="{{ route('client.campaigns.edit', $item->id) }}" class="btn btn-primary w-100 me-1">
-                                                <i class="ti ti-pencil me-2"></i>
-                                                {{ __('trans.global.edit') }}
-                                            </a>
-                                            <a href="" class="btn btn-outline-primary w-100 ms-1">
-                                                <i class="ti ti-copy me-2"></i>
-                                                {{ __('trans.global.copy') }}
-                                            </a>
-                                        </div>
-                                    </div>
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="me-3 d-flex align-items-center text-dark">
+                                    <div class="percentage-success-bg rounded-circle me-1" style="width: 8px; height: 8px"></div>
+                                    {{ __('trans.dashboard.live_campaigns') }}:
                                 </div>
+                                <div class="percent">50%</div>
                             </div>
-                        @endforeach
 
-                        {{-- <div class="col-lg-6">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="me-3 d-flex align-items-center text-dark">
+                                    <div class="percentage-secondary-bg rounded-circle me-1" style="width: 8px; height: 8px"></div>
+                                    {{ __('trans.dashboard.scheduled_campaigns') }}:
+                                </div>
+                                <div class="percent">30%</div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="me-3 d-flex align-items-center text-dark">
+                                    <div class="percentage-danger-bg rounded-circle me-1" style="width: 8px; height: 8px"></div>
+                                    {{ __('trans.dashboard.finished_campaigns') }}:
+                                </div>
+                                <div class="percent">20%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-4">
+                <div class="card shadow-none border h-100 mb-4">
+                    <div class="card-body" style="height: 200px">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="fw-bold mb-1">{{ __('trans.dashboard.geographical_distribution') }}</h4>
+                            <div>
+                                <button class="btn btn-outline-secondary text-dark mb-1"> <i class="ti ti-map me-2"></i> {{ __('trans.dashboard.map') }}</button>
+                            </div>
+                        </div>
+
+                        {{-- <canvas id="adsChart" style="max-height: 200px !important;"></canvas> --}}
+                        <canvas id="adsChart" style="display:block;height: 100% !important;padding-bottom: 20px"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-none border mb-4 p-4">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card-body p-0">
+                        <h4>{{ __('trans.dashboard.advertising_campaigns') }}</h4>
+                        <p>{{ __('trans.dashboard.advertising_campaigns_desc') }}</p>
+
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="xs-icons text-dark p-2">
+                                <i class="ti ti-clock ti-xs"></i>
+                            </div>
+                            <p class="fw-bold mx-2 mb-0">
+                                {{ __('trans.dashboard.time_shown') }}
+                            </p>
+                            <p class="mb-0">1,245,000</p>
+                        </div>
+
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="xs-icons text-dark p-2">
+                                <i class="ti ti-clock ti-xs"></i>
+                            </div>
+                            <p class="fw-bold mx-2 mb-0">
+                                {{ __('trans.dashboard.total_duration') }}
+                            </p>
+                            <p class="mb-0">86 ساعة</p>
+                        </div>
+
+                        <div class="alert alert-success">
+                            <h5 class="mb-0">
+                                <i class="ti ti-check-circle text-success me-2"></i>
+                                {{ __('trans.dashboard.general_performance') }}: 80% - {{ __('trans.dashboard.strong_performance') }}
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-none border">
+            <div class="card-header p-3">
+                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                    <h4 class="fw-bold mb-1">{{ __('trans.campaign.live_campaign') }}</h4>
+                    <a href="{{ UrlLang('client/campaigns/live') }}" class="btn btn-primary text-white mb-1">{{ __('trans.global.view_more') }}</a>
+                </div>
+            </div>
+
+            <div class="card-body px-0 pt-0">
+                <div class="row px-3">
+                    @foreach ($campaigns as $item)
+                        <div class="col-lg-6">
                             <div class="card shadow-none border mb-2" style="padding: 14px;">
                                 <div class="card-body p-0">
-                                    <div class="img position-relative mb-3">
-                                        <img src="{{ url('backend/img/motocycle_orange.png') }}"
-                                        class="img-fluid w-100" alt="">
+                                    <div class="img position-relative mb-3" style="height: 300px;">
+                                        <img src="{{ asset($item->file) }}" class="img-fluid w-100 h-100" alt="">
 
-                                        <div class="position-absolute top-0 start-0  badge rounded-pill bg-label-primary m-2">
-                                            {{ __('trans.campaign.remaining') }}
-                                            (x)
-                                            {{ __('trans.campaign.days') }}
-                                        </div>
+                                        @php
+                                            $endDateTime = \Carbon\Carbon::parse($item->end_date . ' ' . $item->end_time);
+                                            $remaining = $endDateTime->diffForHumans(now(), [
+                                                'parts' => 2,      // عدد الأجزاء (مثلاً: 5 أيام و 3 ساعات)
+                                                'short' => true,   // صيغة مختصرة
+                                                'syntax' => \Carbon\CarbonInterface::DIFF_ABSOLUTE,
+                                                // 'syntax' => \Carbon\CarbonInterface::DIFF_RELATIVE_TO_NOW,
+                                            ]);
+
+                                            $item->remaining_time = $remaining;
+                                        @endphp
+
+                                        @if (!$endDateTime->isPast())
+                                            <div class="position-absolute top-0 start-0  badge rounded-pill bg-label-primary m-2">
+                                                {{ __('trans.campaign.remaining') }}
+                                                ({{ $item->remaining_time }})
+                                            </div>
+                                        @endif
                                     </div>
 
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="title">{{ __('trans.campaign.name') }}</h5>
-                                        <div class="status btn rounded-pill btn-label-success waves-effect">{{ __('trans.campaign.live') }}</div>
+                                        <h5 class="title">{{ $item->title }}</h5>
+                                        @if ($item->status == 'live')
+                                            <div class="status btn rounded-pill btn-label-success waves-effect">{{ __('trans.campaign.live') }}</div>
+                                        @elseif($item->status == 'scheduled')
+                                            <div class="status btn rounded-pill btn-label-secondary waves-effect">{{ __('trans.campaign.scheduled') }}</div>
+                                        @elseif($item->status == 'finished')
+                                            <div class="status btn rounded-pill btn-label-danger waves-effect">{{ __('trans.campaign.finished') }}</div>
+                                        @elseif($item->status == 'stopped')
+                                            <div class="status btn rounded-pill btn-label-warning waves-effect">{{ __('trans.campaign.stopped') }}</div>
+                                        @endif
                                     </div>
 
                                     <h6 class="mb-0">{{ __('trans.campaign.percentage') }}</h6>
@@ -150,7 +295,7 @@
                                     </div>
 
                                     <div class="actions d-flex mt-3">
-                                        <a href="" class="btn btn-primary w-100 me-1">
+                                        <a href="{{ route('client.campaigns.edit', $item->id) }}" class="btn btn-primary w-100 me-1">
                                             <i class="ti ti-pencil me-2"></i>
                                             {{ __('trans.global.edit') }}
                                         </a>
@@ -162,51 +307,93 @@
                                 </div>
                             </div>
                         </div>
+                    @endforeach
 
-                        <div class="col-lg-6">
-                            <div class="card shadow-none border mb-2" style="padding: 14px">
-                                <div class="card-body p-0">
-                                    <div class="img position-relative mb-3">
-                                        <img src="{{ url('backend/img/food_delivery.png') }}"
-                                        class="img-fluid w-100" alt="">
+                    {{-- <div class="col-lg-6">
+                        <div class="card shadow-none border mb-2" style="padding: 14px;">
+                            <div class="card-body p-0">
+                                <div class="img position-relative mb-3">
+                                    <img src="{{ url('backend/img/motocycle_orange.png') }}"
+                                    class="img-fluid w-100" alt="">
 
-                                        <div class="position-absolute top-0 start-0  badge rounded-pill bg-label-primary m-2">
-                                            {{ __('trans.campaign.remaining') }}
-                                            (x)
-                                            {{ __('trans.campaign.days') }}
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="title">{{ __('trans.campaign.name') }}</h5>
-                                        <div class="status btn rounded-pill btn-label-warning waves-effect">
-                                            {{ __('trans.campaign.stopped') }}
-                                        </div>
-                                    </div>
-
-                                    <h6 class="mb-0">{{ __('trans.campaign.percentage') }}</h6>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <div class="progress flex-grow-1" style="height: 4px">
-                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 90%"
-                                                aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <h6 class="text-nowrap fw-medium mb-0">90%</h6>
-                                    </div>
-
-                                    <div class="actions d-flex mt-3">
-                                        <a href="" class="btn btn-primary w-100 me-1">
-                                            <i class="ti ti-pencil me-2"></i>
-                                            {{ __('trans.global.edit') }}
-                                        </a>
-                                        <a href="" class="btn btn-outline-primary w-100 ms-1">
-                                            <i class="ti ti-copy me-2"></i>
-                                            {{ __('trans.global.copy') }}
-                                        </a>
+                                    <div class="position-absolute top-0 start-0  badge rounded-pill bg-label-primary m-2">
+                                        {{ __('trans.campaign.remaining') }}
+                                        (x)
+                                        {{ __('trans.campaign.days') }}
                                     </div>
                                 </div>
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="title">{{ __('trans.campaign.name') }}</h5>
+                                    <div class="status btn rounded-pill btn-label-success waves-effect">{{ __('trans.campaign.live') }}</div>
+                                </div>
+
+                                <h6 class="mb-0">{{ __('trans.campaign.percentage') }}</h6>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="progress flex-grow-1" style="height: 4px">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 90%"
+                                            aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h6 class="text-nowrap fw-medium mb-0">90%</h6>
+                                </div>
+
+                                <div class="actions d-flex mt-3">
+                                    <a href="" class="btn btn-primary w-100 me-1">
+                                        <i class="ti ti-pencil me-2"></i>
+                                        {{ __('trans.global.edit') }}
+                                    </a>
+                                    <a href="" class="btn btn-outline-primary w-100 ms-1">
+                                        <i class="ti ti-copy me-2"></i>
+                                        {{ __('trans.global.copy') }}
+                                    </a>
+                                </div>
                             </div>
-                        </div> --}}
+                        </div>
                     </div>
+
+                    <div class="col-lg-6">
+                        <div class="card shadow-none border mb-2" style="padding: 14px">
+                            <div class="card-body p-0">
+                                <div class="img position-relative mb-3">
+                                    <img src="{{ url('backend/img/food_delivery.png') }}"
+                                    class="img-fluid w-100" alt="">
+
+                                    <div class="position-absolute top-0 start-0  badge rounded-pill bg-label-primary m-2">
+                                        {{ __('trans.campaign.remaining') }}
+                                        (x)
+                                        {{ __('trans.campaign.days') }}
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="title">{{ __('trans.campaign.name') }}</h5>
+                                    <div class="status btn rounded-pill btn-label-warning waves-effect">
+                                        {{ __('trans.campaign.stopped') }}
+                                    </div>
+                                </div>
+
+                                <h6 class="mb-0">{{ __('trans.campaign.percentage') }}</h6>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="progress flex-grow-1" style="height: 4px">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 90%"
+                                            aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h6 class="text-nowrap fw-medium mb-0">90%</h6>
+                                </div>
+
+                                <div class="actions d-flex mt-3">
+                                    <a href="" class="btn btn-primary w-100 me-1">
+                                        <i class="ti ti-pencil me-2"></i>
+                                        {{ __('trans.global.edit') }}
+                                    </a>
+                                    <a href="" class="btn btn-outline-primary w-100 ms-1">
+                                        <i class="ti ti-copy me-2"></i>
+                                        {{ __('trans.global.copy') }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -228,6 +415,21 @@
             width: auto;
             color: #000;
             background: transparent;
+        }
+
+        .stats-first-row, .stats-second-row {
+            position: relative;
+        }
+        .stats-first-row .col-lg-6:first-child::after,
+        .stats-second-row .col-lg-6:first-child::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 50%; /* نص المسافة بين العمودين */
+            width: 1px; /* سمك الخط */
+            background-color: #E1E5E8; /* لون الخط */
+            transform: translateX(50%); /* لضبطه تمامًا بين العمودين */
         }
     </style>
 @endsection
@@ -295,11 +497,16 @@
             });
 
 
+            renderMiniChart("#totalUsersChart", @json($total_campaigns_chart), "#4CAF50");
+            renderMiniChart("#totalUsersChart2", [100, 120, 20, 20, 40, 30, 120, 30, 60, 40, 50, 30, 20], "#4CAF50");
+            renderMiniChart("#totalUsersChart3", [10, 10, 10, 10, 10, 10], "#757575");
+            renderMiniChart("#totalUsersChart4", [20, 40, 20, 120, 90, 130, 80,100], "#D32F2F");
+
             renderBarChart(
                 'adsChart',
                 ['ads_1', 'ads_2', 'ads_3'],
                 [10, 20, 30],
-                '#3563AD',
+                '#0077B6',
                 @json(AppDir() === 'rtl')
             );
 

@@ -113,6 +113,28 @@ return [
 
     'dashboard' => [
         'title' => 'لوحة التحكم',
+        'total_campaigns' => 'إجمالي الحملات',
+        'live_campaigns' => 'الحملات النشطة',
+        'scheduled_campaigns' => 'الحملات المجدولة',
+        'finished_campaigns' => 'الحملات المنتهية',
+        'geographical_distribution' => 'توزيع الإعلانات جغرافيًا',
+        'map' => 'خريطة',
+        'expenses_and_capacity' => 'المصروفات والسعة',
+        'expenses' => 'المصروفات',
+        'daily' => 'يومي',
+        'weekly' => 'اسبوعي',
+        'monthly' => 'شهري',
+        'yearly' => 'سنوي',
+        'advertising_campaigns' => 'أداء الحملات الإعلانية',
+        'advertising_campaigns_desc' => 'يوضح هذا المؤشر مستوى أداء الحملات بناءً على عدد مرات العرض، مدة التشغيل، وعدد المشاهدات.',
+        'time_shown' => 'عدد مرات العرض',
+        'total_duration' => 'المدة الإجمالية',
+        'views' => 'المشاهدات',
+        'general_performance' => 'الأداء العام للحملات',
+        'strong_performance' => 'أداء قوي',
+        'good_performance' => 'أداء جيد',
+        'average_performance' => 'أداء متوسط',
+        'weak_performance' => 'أداء ضعيف',
     ],
 
     'setting' => [

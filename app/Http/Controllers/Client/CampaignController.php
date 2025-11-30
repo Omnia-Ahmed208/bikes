@@ -9,8 +9,6 @@ use App\Models\Country;
 use App\Models\Region;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -30,7 +28,49 @@ class CampaignController extends Controller
         ->take(2)
         ->get();
 
-        return view('client.campaign.index', compact('campaigns'));
+        $userId = Auth::user()->id;
+
+        $campaigns_count = Campaign::where('user_id', Auth::user()->id)->count();
+        $live_campaigns_count = Campaign::where('user_id', Auth::user()->id)->where('status', 'live')->count();
+        $scheduled_campaigns_count = Campaign::where('user_id', Auth::user()->id)->where('status', 'scheduled')->count();
+        $finished_campaigns_count = Campaign::where('user_id', Auth::user()->id)->where('status', 'finished')->count();
+
+        $calcChange = fn($current, $previous) => $previous > 0
+            ? round((($current - $previous) / $previous) * 100, 2)
+            : 100;
+
+        $months = collect(range(5, 0))->map(fn($i) => now()->subMonths($i)->format('Y-m'));
+
+        // ==== الإحصائيات الحالية ====
+        $current_campaigns = Campaign::where('user_id', $userId)
+        ->whereDate('created_at', today())
+        ->count();
+        $previous_campaigns = Campaign::where('user_id', $userId)
+            ->whereDate('created_at', today()->subDay())
+            ->count();
+        $total_campaigns_percentage = $calcChange($current_campaigns, $previous_campaigns);
+        $total_campaigns_percentage_abs = abs($total_campaigns_percentage);
+        $total_campaigns_status = $total_campaigns_percentage >= 0 ? 'success' : 'danger';
+
+        // ==== بيانات الرسوم ====
+        $total_campaigns_chart = $months->map(fn($month) =>
+            Campaign::whereYear('created_at', substr($month, 0, 4))
+                ->whereMonth('created_at', substr($month, 5, 2))
+                ->count()
+        );
+
+        return view('client.campaign.index', compact([
+            'campaigns',
+            'campaigns_count',
+            'total_campaigns_status',
+            'total_campaigns_percentage_abs',
+            'total_campaigns_chart',
+            
+            'live_campaigns_count',
+            'scheduled_campaigns_count',
+            'finished_campaigns_count',
+
+        ]));
     }
 
     /**
