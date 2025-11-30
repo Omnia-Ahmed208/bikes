@@ -107,6 +107,18 @@
                     </div>
 
                     <div class="card-body">
+                        <div class="mb-3 old_file_box bg-label-secondary rounded border
+                            d-flex align-items-center justify-content-between p-2 d-none">
+                            <div class="d-flex text-dark file_preview">
+                            </div>
+
+                            <div class="delete_btn">
+                                <button type="button" class="btn" onclick="deleteFile()">
+                                    <img src="{{ asset('backend/img/icons/delete.svg') }}" alt="delete icon">
+                                </button>
+                            </div>
+                        </div>
+
                         <div class="mb-3 dragable_media_box">
                             <label class="h5 mb-2" for="media">{{ __('trans.campaign.media') }}</label>
                             <div class="upload_image_box w-100 p-4 mt-2 rounded fw-bold text-center">
@@ -128,8 +140,6 @@
                                     {{ __('trans.campaign.browse_file') }}
                                 </label>
                             </div>
-
-                            <div id="preview" class="mt-3"></div>
                         </div>
 
                         <div class="mb-3">
@@ -156,8 +166,12 @@
 
                         <div class="mb-3">
                             <label class="h5 mb-2" for="date_time">{{ __('trans.campaign.date_time') }}</label>
+
                             <input type="text" class="form-control dateRange dateRange_total"
-                            id="date_time" name="date_time" dir="{{ AppDir() }}" required/>
+                                id="date_time" name="date_time"
+                                dir="{{ AppDir() }}"
+                                value="{{ old('date_time') }}"
+                                required/>
                         </div>
 
                         <div class="d-flex justify-content-between">
@@ -257,6 +271,7 @@
                 to: "{{ __('trans.global.to') }}"
             };
 
+
             flatpickr(".dateRange", {
                 mode: "range",
                 enableTime: true,
@@ -264,6 +279,7 @@
                 dateFormat: "Y-m-d H:i",
                 locale: "{{ app()->getLocale() == 'ar' ? 'ar' : 'en' }}",
                 disableMobile: true,
+                defaultDate: "{{ old('date_time') }}".split(" — "),
                 onChange: function(selectedDates, dateStr, instance) {
                     // Format display in single input
                     if (selectedDates.length === 2) {
@@ -279,6 +295,7 @@
 
             function fetchRegions() {
                 var countryId = $('#country_id').val();
+                let old_region_id = "{{ old('region_id') }}";
 
                 if (countryId) {
                     $.ajax({
@@ -291,11 +308,14 @@
                             $("#region_id").html("<option disabled selected>{{ __('trans.global.loading') }}...</option>");
                         },
                         success: function(res) {
-                            console.log(res, countryId)
                             $("#region_id").html("<option disabled selected>{{ __('trans.global.select') }}</option>");
                             $.each(res.data, function(key, val) {
                                 $("#region_id").append("<option value='" + val.id + "'>" + val.name + "</option>");
                             });
+
+                            if (old_region_id) {
+                                $("#region_id").val(old_region_id).trigger('change');
+                            }
                         }
                     });
                 }
@@ -306,15 +326,54 @@
 
         });
 
+        // =============================== Format Bytes size ===============================
+        function formatBytesJS(bytes, decimals = 2) {
+            if (!+bytes) return '0 B';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
         // =============================== Drag and Drop ===============================
         function dragNdrop(event) {
-            var fileName = URL.createObjectURL(event.target.files[0]);
-            var preview = document.getElementById("preview");
-            preview.innerHTML = `
-                ${event.target.files[0].name}
-                <a href="${URL.createObjectURL(event.target.files[0])}" class="mx-2" target="_blank">
-                    {{ __('trans.global.view') }}
-                </a>
+            let file = event.target.files[0];
+            if (!file) return;
+
+            let url = URL.createObjectURL(file);
+
+            // أخفي صندوق الملف القديم (لو موجود)
+            let oldBox = document.querySelector('.old_file_box');
+            if (oldBox) {
+                oldBox.classList.remove('d-none');
+            }
+
+            let upload_box = document.querySelector('.dragable_media_box');
+            if (upload_box) {
+                upload_box.classList.add('d-none');
+            }
+
+            // اكتشاف الامتداد
+            let extension = file.name.split('.').pop().toLowerCase();
+
+            let filePreview = '';
+
+            if (['jpg','jpeg','png','gif','svg','webp'].includes(extension)) {
+                filePreview = `<img src="${url}" width="40" height="40" class="rounded" style="object-fit: cover">`;
+            } else if (extension === 'mp4') {
+                filePreview = `
+                    <video width="60" height="40" class="rounded" muted>
+                        <source src="${url}" type="video/mp4">
+                    </video>`;
+            }
+
+            document.querySelector('.old_file_box .file_preview').innerHTML = `
+                <a href="${url}" class="mx-2" target="_blank">${filePreview}</a>
+                <div class="me-2">
+                    <div class="img-title fw-bold">${file.name}</div>
+                    <div class="img-size">${formatBytesJS(file.size)}</div>
+                </div>
             `;
         }
         function drag() {
@@ -322,6 +381,13 @@
         }
         function drop() {
             document.getElementById('uploadFile').parentNode.className = 'dragBox';
+        }
+
+        // =============================== Delete file ===============================
+        function deleteFile() {
+            document.querySelector('.old_file_box').classList.add('d-none');
+            document.querySelector('.dragable_media_box').classList.remove('d-none');
+            document.getElementById('uploadFile').value = "";
         }
 
     </script>

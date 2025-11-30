@@ -57,7 +57,71 @@
 
                 <div class="card-body px-0 pt-0">
                     <div class="row px-3">
-                        <div class="col-lg-6">
+                        @foreach ($campaigns as $item)
+                            <div class="col-lg-6">
+                                <div class="card shadow-none border mb-2" style="padding: 14px;">
+                                    <div class="card-body p-0">
+                                        <div class="img position-relative mb-3" style="height: 300px;">
+                                            <img src="{{ asset($item->file) }}" class="img-fluid w-100 h-100" alt="">
+
+                                            @php
+                                                $endDateTime = \Carbon\Carbon::parse($item->end_date . ' ' . $item->end_time);
+                                                $remaining = $endDateTime->diffForHumans(now(), [
+                                                    'parts' => 2,      // عدد الأجزاء (مثلاً: 5 أيام و 3 ساعات)
+                                                    'short' => true,   // صيغة مختصرة
+                                                    'syntax' => \Carbon\CarbonInterface::DIFF_ABSOLUTE,
+                                                    // 'syntax' => \Carbon\CarbonInterface::DIFF_RELATIVE_TO_NOW,
+                                                ]);
+
+                                                $item->remaining_time = $remaining;
+                                            @endphp
+
+                                            @if (!$endDateTime->isPast())
+                                                <div class="position-absolute top-0 start-0  badge rounded-pill bg-label-primary m-2">
+                                                    {{ __('trans.campaign.remaining') }}
+                                                    ({{ $item->remaining_time }})
+                                                </div>
+                                            @endif
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h5 class="title">{{ $item->title }}</h5>
+                                            @if ($item->status == 'live')
+                                                <div class="status btn rounded-pill btn-label-success waves-effect">{{ __('trans.campaign.live') }}</div>
+                                            @elseif($item->status == 'scheduled')
+                                                <div class="status btn rounded-pill btn-label-secondary waves-effect">{{ __('trans.campaign.scheduled') }}</div>
+                                            @elseif($item->status == 'finished')
+                                                <div class="status btn rounded-pill btn-label-danger waves-effect">{{ __('trans.campaign.finished') }}</div>
+                                            @elseif($item->status == 'stopped')
+                                                <div class="status btn rounded-pill btn-label-warning waves-effect">{{ __('trans.campaign.stopped') }}</div>
+                                            @endif
+                                        </div>
+
+                                        <h6 class="mb-0">{{ __('trans.campaign.percentage') }}</h6>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="progress flex-grow-1" style="height: 4px">
+                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 90%"
+                                                    aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <h6 class="text-nowrap fw-medium mb-0">90%</h6>
+                                        </div>
+
+                                        <div class="actions d-flex mt-3">
+                                            <a href="{{ route('client.campaigns.edit', $item->id) }}" class="btn btn-primary w-100 me-1">
+                                                <i class="ti ti-pencil me-2"></i>
+                                                {{ __('trans.global.edit') }}
+                                            </a>
+                                            <a href="" class="btn btn-outline-primary w-100 ms-1">
+                                                <i class="ti ti-copy me-2"></i>
+                                                {{ __('trans.global.copy') }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+
+                        {{-- <div class="col-lg-6">
                             <div class="card shadow-none border mb-2" style="padding: 14px;">
                                 <div class="card-body p-0">
                                     <div class="img position-relative mb-3">
@@ -141,7 +205,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>

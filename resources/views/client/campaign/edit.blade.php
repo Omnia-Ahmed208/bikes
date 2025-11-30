@@ -48,6 +48,7 @@
 
         <form id="multi-step-form" class="mt-4" action="{{ route('client.campaigns.update', $campaign->id) }}" method="post" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
 
             {{-- campaign details --}}
             <div class="step step-1">
@@ -132,7 +133,7 @@
                                 </div>
 
                                 <div class="delete_btn">
-                                    <button type="button" class="btn" onclick="deleteFile('{{ $campaign->file }}')">
+                                    <button type="button" class="btn" onclick="deleteFile()">
                                         <img src="{{ asset('backend/img/icons/delete.svg') }}" alt="delete icon">
                                     </button>
                                 </div>
@@ -161,7 +162,7 @@
                                 </label>
                             </div>
 
-                            <div id="preview" class="mt-3"></div>
+                            {{-- <div id="preview" class="mt-3"></div> --}}
                         </div>
 
                         <div class="mb-3">
@@ -188,8 +189,6 @@
 
                         <div class="mb-3">
                             <label class="h5 mb-2" for="date_time">{{ __('trans.campaign.date_time') }}</label>
-                            {{-- <input type="text" class="form-control dateRange dateRange_total"
-                            id="date_time" name="date_time" dir="{{ AppDir() }}" required/> --}}
 
                             <input type="text" class="form-control dateRange dateRange_total"
                                 id="date_time" name="date_time"
@@ -294,7 +293,7 @@
             window.translations = {
                 to: "{{ __('trans.global.to') }}"
             };
-    
+
             flatpickr(".dateRange", {
                 mode: "range",
                 enableTime: true,
@@ -343,7 +342,6 @@
                 }
             }
 
-            fetchRegions();
             $('#country_id').on('change', fetchRegions);
             $(window).on('load', fetchRegions);
 
@@ -382,7 +380,7 @@
 
             let filePreview = '';
 
-            if (['jpg','jpeg','png','gif','svg','webp'].includes(extension)) {
+            if (['jpg','jpeg','png'].includes(extension)) {
                 filePreview = `<img src="${url}" width="40" height="40" class="rounded" style="object-fit: cover">`;
             } else if (extension === 'mp4') {
                 filePreview = `

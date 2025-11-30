@@ -24,7 +24,13 @@ class CampaignController extends Controller
      */
     public function index()
     {
-        return view('client.campaign.index');
+        $campaigns = Campaign::where('user_id', Auth::user()->id)
+        ->with(['region'])
+        ->orderBy('id', 'desc')
+        ->take(2)
+        ->get();
+
+        return view('client.campaign.index', compact('campaigns'));
     }
 
     /**
@@ -58,6 +64,11 @@ class CampaignController extends Controller
         $dateStr = str_replace('—', 'to', $request->date_time); // استبدل الـ dash بـ 'to'
         $dateParts = explode('to', $dateStr);
 
+        if (strpos($dateStr, __('trans.global.to')) !== false) {
+            $dateStr = str_replace(__('trans.global.to'), 'to', $request->date_time);
+            $dateParts = explode('to', $dateStr);
+        }
+
         if(count($dateParts) < 2){
             return back()->withErrors(['date_time' => 'Please select a valid start and end date.'])->withInput();
         }
@@ -80,7 +91,7 @@ class CampaignController extends Controller
         }
 
         $ads_price = AdsPrice::where('country_id', $request->country_id)
-        ->where('region', $request->region)->first();
+        ->where('region_id', $request->region_id)->first();
 
         $campaign->user_id           = Auth::user()->id;
         $campaign->title             = $request->title;
@@ -123,7 +134,67 @@ class CampaignController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'title'             => 'required|string',
+            'country_id'        => 'required|exists:countries,id',
+            'region_id'         => 'required|exists:regions,id',
+            'bikes_count'       => 'required|integer',
+            'media'             => 'nullable|file|mimes:jpeg,png,jpg,mp4|max:2048',
+            'media_duration'    => 'required|integer',
+            'campaign_duration' => 'required|string',
+            'date_time'         => 'required|string',
+        ]);
+
+        $campaign = Campaign::findOrFail($id);
+
+        // list($start, $end) = explode(' to ', $request->date_time);
+        $dateStr = str_replace('—', 'to', $request->date_time); // استبدل الـ dash بـ 'to'
+        $dateParts = explode('to', $dateStr);
+
+        if (strpos($dateStr, __('trans.global.to')) !== false) {
+            $dateStr = str_replace(__('trans.global.to'), 'to', $request->date_time);
+            $dateParts = explode('to', $dateStr);
+        }
+
+        if(count($dateParts) < 2){
+            return back()->withErrors(['date_time' => 'Please select a valid start and end date.'])->withInput();
+        }
+
+        $start = trim($dateParts[0]);
+        $end = trim($dateParts[1]);
+
+        $campaign->start_date = date('Y-m-d', strtotime($start));
+        $campaign->start_time = date('H:i', strtotime($start));
+        $campaign->end_date = date('Y-m-d', strtotime($end));
+        $campaign->end_time = date('H:i', strtotime($end));
+
+        if($request->hasFile('media')) {
+            if($campaign->file){
+                unlink(public_path($campaign->file));
+            }
+
+            $media = $request->file('media');
+            $media_name = time() . '.' . $media->getClientOriginalExtension();
+            $media->move(public_path('uploads/user_' . Auth::user()->id . '/campaigns/'), $media_name);
+            $campaign->file = 'uploads/user_' . Auth::user()->id . '/campaigns/' . $media_name;
+
+            $campaign->file_type = $request->file('media')->getClientOriginalExtension() == 'mp4' ? 'video' : 'image';
+        }
+
+        $ads_price = AdsPrice::where('country_id', $request->country_id)
+        ->where('region_id', $request->region_id)->first();
+
+        $campaign->title             = $request->title;
+        $campaign->country_id        = $request->country_id;
+        $campaign->region_id         = $request->region_id;
+        $campaign->bikes_count       = $request->bikes_count;
+        $campaign->media_duration    = $request->media_duration;
+        $campaign->campaign_duration = $request->campaign_duration;
+        $campaign->price             = $ads_price ?? 0;
+        $campaign->save();
+
+        // return redirect()->route('client.campaigns.live')->with('success',  __('trans.alert.success.done_create'));
+        return back()->with('payment_success',  __('trans.alert.success.done_create'));
     }
 
     /**
@@ -137,7 +208,7 @@ class CampaignController extends Controller
     public function campaigns_live(request $request)
     {
         if ($request->ajax()) {
-            $query = Campaign::with(['region']);
+            $query = Campaign::where('user_id', Auth::user()->id)->with(['region']);
 
             if($request->status != 'all'){
                 $query->where('status', $request->status);
@@ -175,7 +246,7 @@ class CampaignController extends Controller
 
     public function campaigns_live_export(request $request)
     {
-        $query = Campaign::with(['region']);
+        $query = Campaign::where('user_id', Auth::user()->id)->with(['region']);
 
         if($request->status != 'all'){
             $query->where('status', $request->status);

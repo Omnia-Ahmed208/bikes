@@ -259,7 +259,7 @@
                 { data: 'id' },
                 { data: 'file',
                     render: function (data, type, full, meta) {
-                        return `<img src="{{ url('') }}/${data}" class="rounded" width="40" height="40">`;
+                        return `<img src="{{ url('') }}/${data}" class="rounded" width="40" height="40" style="object-fit: cover">`;
                     }
                 },
                 { data: 'title' },
@@ -480,8 +480,8 @@
                     <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                         <div class="card shadow-none border mb-2" style="padding: 14px;">
                             <div class="card-body p-0">
-                                <div class="img position-relative mb-3">
-                                    <img src="${imageUrl}" class="img-fluid rounded w-100" alt="${campaign.title}">
+                                <div class="img position-relative mb-3" style="height: 200px;">
+                                    <img src="${imageUrl}" class="img-fluid rounded w-100 h-100" alt="${campaign.title}">
                                     <div class="position-absolute top-0 start-0 badge rounded-pill bg-label-primary m-2">
                                         {{ __('trans.campaign.remaining') }}
                                         (x)
