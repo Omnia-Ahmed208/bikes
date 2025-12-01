@@ -174,7 +174,7 @@ function renderBarChart(elementId, labels = [], data = [], barColor = '#0077B6',
                 y: {
                     position: isRtl ? 'right' : 'left',
                     min: 0,
-                    max: 400,
+                    // max: 100,
                     // max: suggestedMax,
                     grid: {
                         color: '#e0e0e0',
@@ -186,7 +186,7 @@ function renderBarChart(elementId, labels = [], data = [], barColor = '#0077B6',
                         align: isRtl ? 'end' : 'start',
                         precision: 0,
                         ticks: { stepSize: 100, color: '#333' }
-                        // stepSize: Math.ceil(suggestedMax / 5) // خطوات ديناميكية
+                        // stepSize: Math.ceil(suggestedMax / 5)
                     }
                 }
             }

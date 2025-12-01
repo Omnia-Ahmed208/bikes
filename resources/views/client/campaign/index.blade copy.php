@@ -3,7 +3,7 @@
 @section('content')
 
    <!-- Content -->
-   <div class="container-xxl flex-grow-1 container-p-y">
+    <div class="container-xxl flex-grow-1 container-p-y">
         @php
             $startYear = \Carbon\Carbon::now()->startOfYear()->format('d-m-Y');
             $endYear = \Carbon\Carbon::now()->endOfYear()->format('d-m-Y');
@@ -64,9 +64,7 @@
                                     <h4 class="fw-bold mx-2 mb-0">
                                         {{ $live_campaigns_count }}
                                     </h4>
-                                    <div class="percentage-success p-1 px-2 rounded-pill">
-                                        {{ $live_campaigns_percentage_abs }}%
-                                    </div>
+                                    <div class="percentage-success p-1 px-2 rounded-pill">0.43%</div>
                                 </div>
                             </div>
                             <div class="col-6" style="justify-items: end">
@@ -90,9 +88,7 @@
                                     <h4 class="fw-bold mx-2 mb-0">
                                         {{ $scheduled_campaigns_count }}
                                     </h4>
-                                    <div class="percentage-secondary p-1 px-2 rounded-pill">
-                                       {{ $scheduled_campaigns_percentage_abs }}%
-                                    </div>
+                                    <div class="percentage-secondary p-1 px-2 rounded-pill">0.43%</div>
                                 </div>
                             </div>
                             <div class="col-6" style="justify-items: end">
@@ -112,9 +108,7 @@
                                     <h4 class="fw-bold mx-2 mb-0">
                                         {{ $finished_campaigns_count }}
                                     </h4>
-                                    <div class="percentage-danger p-1 px-2 rounded-pill">
-                                        {{ $finished_campaigns_percentage_abs }}%
-                                    </div>
+                                    <div class="percentage-danger p-1 px-2 rounded-pill">0.43%</div>
                                 </div>
                             </div>
                             <div class="col-6" style="justify-items: end">
@@ -253,67 +247,65 @@
                 <div class="row px-3">
                     @foreach ($campaigns as $item)
                         <div class="col-lg-6">
-                            <a href="{{ route('client.campaigns.show', $item->id) }}">
-                                <div class="card shadow-none border mb-2" style="padding: 14px;">
-                                    <div class="card-body p-0">
-                                        <div class="img position-relative mb-3" style="height: 300px;">
-                                            <img src="{{ asset($item->file) }}" class="img-fluid w-100 h-100" alt="">
+                            <div class="card shadow-none border mb-2" style="padding: 14px;">
+                                <div class="card-body p-0">
+                                    <div class="img position-relative mb-3" style="height: 300px;">
+                                        <img src="{{ asset($item->file) }}" class="img-fluid w-100 h-100" alt="">
 
-                                            @php
-                                                $endDateTime = \Carbon\Carbon::parse($item->end_date . ' ' . $item->end_time);
-                                                $remaining = $endDateTime->diffForHumans(now(), [
-                                                    'parts' => 2,      // عدد الأجزاء (مثلاً: 5 أيام و 3 ساعات)
-                                                    'short' => true,   // صيغة مختصرة
-                                                    'syntax' => \Carbon\CarbonInterface::DIFF_ABSOLUTE,
-                                                    // 'syntax' => \Carbon\CarbonInterface::DIFF_RELATIVE_TO_NOW,
-                                                ]);
+                                        @php
+                                            $endDateTime = \Carbon\Carbon::parse($item->end_date . ' ' . $item->end_time);
+                                            $remaining = $endDateTime->diffForHumans(now(), [
+                                                'parts' => 2,      // عدد الأجزاء (مثلاً: 5 أيام و 3 ساعات)
+                                                'short' => true,   // صيغة مختصرة
+                                                'syntax' => \Carbon\CarbonInterface::DIFF_ABSOLUTE,
+                                                // 'syntax' => \Carbon\CarbonInterface::DIFF_RELATIVE_TO_NOW,
+                                            ]);
 
-                                                $item->remaining_time = $remaining;
-                                            @endphp
+                                            $item->remaining_time = $remaining;
+                                        @endphp
 
-                                            @if (!$endDateTime->isPast())
-                                                <div class="position-absolute top-0 start-0  badge rounded-pill bg-label-primary m-2">
-                                                    {{ __('trans.campaign.remaining') }}
-                                                    ({{ $item->remaining_time }})
-                                                </div>
-                                            @endif
-                                        </div>
-
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <h5 class="title">{{ $item->title }}</h5>
-                                            @if ($item->status == 'live')
-                                                <div class="status btn rounded-pill btn-label-success waves-effect">{{ __('trans.campaign.live') }}</div>
-                                            @elseif($item->status == 'scheduled')
-                                                <div class="status btn rounded-pill btn-label-secondary waves-effect">{{ __('trans.campaign.scheduled') }}</div>
-                                            @elseif($item->status == 'finished')
-                                                <div class="status btn rounded-pill btn-label-danger waves-effect">{{ __('trans.campaign.finished') }}</div>
-                                            @elseif($item->status == 'stopped')
-                                                <div class="status btn rounded-pill btn-label-warning waves-effect">{{ __('trans.campaign.stopped') }}</div>
-                                            @endif
-                                        </div>
-
-                                        <h6 class="mb-0">{{ __('trans.campaign.percentage') }}</h6>
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="progress flex-grow-1" style="height: 4px">
-                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 90%"
-                                                    aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                        @if (!$endDateTime->isPast())
+                                            <div class="position-absolute top-0 start-0  badge rounded-pill bg-label-primary m-2">
+                                                {{ __('trans.campaign.remaining') }}
+                                                ({{ $item->remaining_time }})
                                             </div>
-                                            <h6 class="text-nowrap fw-medium mb-0">90%</h6>
-                                        </div>
+                                        @endif
+                                    </div>
 
-                                        <div class="actions d-flex mt-3">
-                                            <a href="{{ route('client.campaigns.edit', $item->id) }}" class="btn btn-primary w-100 me-1">
-                                                <i class="ti ti-pencil me-2"></i>
-                                                {{ __('trans.global.edit') }}
-                                            </a>
-                                            <a href="" class="btn btn-outline-primary w-100 ms-1">
-                                                <i class="ti ti-copy me-2"></i>
-                                                {{ __('trans.global.copy') }}
-                                            </a>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="title">{{ $item->title }}</h5>
+                                        @if ($item->status == 'live')
+                                            <div class="status btn rounded-pill btn-label-success waves-effect">{{ __('trans.campaign.live') }}</div>
+                                        @elseif($item->status == 'scheduled')
+                                            <div class="status btn rounded-pill btn-label-secondary waves-effect">{{ __('trans.campaign.scheduled') }}</div>
+                                        @elseif($item->status == 'finished')
+                                            <div class="status btn rounded-pill btn-label-danger waves-effect">{{ __('trans.campaign.finished') }}</div>
+                                        @elseif($item->status == 'stopped')
+                                            <div class="status btn rounded-pill btn-label-warning waves-effect">{{ __('trans.campaign.stopped') }}</div>
+                                        @endif
+                                    </div>
+
+                                    <h6 class="mb-0">{{ __('trans.campaign.percentage') }}</h6>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="progress flex-grow-1" style="height: 4px">
+                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 90%"
+                                                aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
+                                        <h6 class="text-nowrap fw-medium mb-0">90%</h6>
+                                    </div>
+
+                                    <div class="actions d-flex mt-3">
+                                        <a href="{{ route('client.campaigns.edit', $item->id) }}" class="btn btn-primary w-100 me-1">
+                                            <i class="ti ti-pencil me-2"></i>
+                                            {{ __('trans.global.edit') }}
+                                        </a>
+                                        <a href="" class="btn btn-outline-primary w-100 ms-1">
+                                            <i class="ti ti-copy me-2"></i>
+                                            {{ __('trans.global.copy') }}
+                                        </a>
                                     </div>
                                 </div>
-                            </a>
+                            </div>
                         </div>
                     @endforeach
 
@@ -449,75 +441,203 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script>
+        // $(document).ready(function () {
+        //     $('.select2').select2({
+        //         minimumResultsForSearch: Infinity
+        //     });
+
+        //     const monthsList = {
+        //         'January': '{{ __('trans.month.january') }}',
+        //         'February': '{{ __('trans.month.february') }}',
+        //         'March': '{{ __('trans.month.march') }}',
+        //         'April': '{{ __('trans.month.april') }}',
+        //         'May': '{{ __('trans.month.may') }}',
+        //         'June': '{{ __('trans.month.june') }}',
+        //         'July': '{{ __('trans.month.july') }}',
+        //         'August': '{{ __('trans.month.august') }}',
+        //         'September': '{{ __('trans.month.september') }}',
+        //         'October': '{{ __('trans.month.october') }}',
+        //         'November': '{{ __('trans.month.november') }}',
+        //         'December': '{{ __('trans.month.december') }}'
+        //     };
+
+        //     // دالة لتنسيق التاريخ بالعربية
+        //     const formatToArabic = (date) => {
+        //         const day = date.getDate();
+        //         const month = monthsList[date.toLocaleString('en-US', { month: 'long' })];
+        //         const year = date.getFullYear();
+        //         return `${day} ${month} ${year}`;
+        //     };
+
+        //     // حساب التواريخ الافتراضية (الشهر الحالي والشهر القادم)
+        //     const today = new Date();
+        //     const nextMonth = new Date();
+        //     nextMonth.setMonth(today.getMonth() + 1);
+
+        //     // تحويل التواريخ إلى الصيغة المطلوبة
+        //     const defaultStartDate = today.toISOString().split('T')[0];
+        //     const defaultEndDate = nextMonth.toISOString().split('T')[0];
+        //     const defaultDisplayText = `${formatToArabic(today)} - ${formatToArabic(nextMonth)}`;
+
+        //     flatpickr(".dateRange", {
+        //         mode: "range",
+        //         dateFormat: "d-m-Y",
+        //         defaultDate: [defaultStartDate, defaultEndDate],
+        //         onChange: function(selectedDates, dateStr, instance) {
+        //             if (selectedDates.length === 2) {
+        //                 const startDate = formatToArabic(selectedDates[0]);
+        //                 const endDate = formatToArabic(selectedDates[1]);
+        //                 instance.input.value = `${startDate} - ${endDate}`;
+        //             }
+        //         },
+        //         onReady: function(selectedDates, dateStr, instance) {
+        //             // تعيين القيمة الافتراضية بالعربية
+        //             instance.input.value =  `${formatToArabic(today)} - ${formatToArabic(nextMonth)}`;
+        //         }
+        //     });
+
+
+        //     renderMiniChart("#totalUsersChart", @json($total_campaigns_chart), "#4CAF50");
+        //     renderMiniChart("#totalUsersChart2", [100, 120, 20, 20, 40, 30, 120, 30, 60, 40, 50, 30, 20], "#4CAF50");
+        //     renderMiniChart("#totalUsersChart3", [10, 10, 10, 10, 10, 10], "#757575");
+        //     renderMiniChart("#totalUsersChart4", [20, 40, 20, 120, 90, 130, 80,100], "#D32F2F");
+
+        //     renderBarChart(
+        //         'adsChart',
+        //         ['ads_1', 'ads_2', 'ads_3'],
+        //         [10, 20, 30],
+        //         '#0077B6',
+        //         @json(AppDir() === 'rtl')
+        //     );
+
+        // });
+
+
         $(document).ready(function () {
-            $('.select2').select2({
-                minimumResultsForSearch: Infinity
-            });
+    $('.select2').select2({
+        minimumResultsForSearch: Infinity
+    });
 
-            const monthsList = {
-                'January': '{{ __('trans.month.january') }}',
-                'February': '{{ __('trans.month.february') }}',
-                'March': '{{ __('trans.month.march') }}',
-                'April': '{{ __('trans.month.april') }}',
-                'May': '{{ __('trans.month.may') }}',
-                'June': '{{ __('trans.month.june') }}',
-                'July': '{{ __('trans.month.july') }}',
-                'August': '{{ __('trans.month.august') }}',
-                'September': '{{ __('trans.month.september') }}',
-                'October': '{{ __('trans.month.october') }}',
-                'November': '{{ __('trans.month.november') }}',
-                'December': '{{ __('trans.month.december') }}'
-            };
+    const monthsList = {
+        'January': '{{ __('trans.month.january') }}',
+        'February': '{{ __('trans.month.february') }}',
+        'March': '{{ __('trans.month.march') }}',
+        'April': '{{ __('trans.month.april') }}',
+        'May': '{{ __('trans.month.may') }}',
+        'June': '{{ __('trans.month.june') }}',
+        'July': '{{ __('trans.month.july') }}',
+        'August': '{{ __('trans.month.august') }}',
+        'September': '{{ __('trans.month.september') }}',
+        'October': '{{ __('trans.month.october') }}',
+        'November': '{{ __('trans.month.november') }}',
+        'December': '{{ __('trans.month.december') }}'
+    };
 
-            // دالة لتنسيق التاريخ بالعربية
-            const formatToArabic = (date) => {
-                const day = date.getDate();
-                const month = monthsList[date.toLocaleString('en-US', { month: 'long' })];
-                const year = date.getFullYear();
-                return `${day} ${month} ${year}`;
-            };
+    // دالة لتنسيق التاريخ بالعربية
+    const formatToArabic = (date) => {
+        const day = date.getDate();
+        const month = monthsList[date.toLocaleString('en-US', { month: 'long' })];
+        const year = date.getFullYear();
+        return `${day} ${month} ${year}`;
+    };
 
-            // حساب التواريخ الافتراضية (الشهر الحالي والشهر القادم)
-            const today = new Date();
-            const nextMonth = new Date();
-            nextMonth.setMonth(today.getMonth() + 1);
+    // دالة لتنسيق التاريخ بصيغة d-m-Y للإرسال
+    const formatForServer = (date) => {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+    };
 
-            // تحويل التواريخ إلى الصيغة المطلوبة
-            const defaultStartDate = today.toISOString().split('T')[0];
-            const defaultEndDate = nextMonth.toISOString().split('T')[0];
-            const defaultDisplayText = `${formatToArabic(today)} - ${formatToArabic(nextMonth)}`;
+    // حساب التواريخ الافتراضية
+    const today = new Date();
+    const endOfYear = new Date(today.getFullYear(), 11, 31); // آخر يوم في السنة
 
-            flatpickr(".dateRange", {
-                mode: "range",
-                dateFormat: "d-m-Y",
-                defaultDate: [defaultStartDate, defaultEndDate],
-                onChange: function(selectedDates, dateStr, instance) {
-                    if (selectedDates.length === 2) {
-                        const startDate = formatToArabic(selectedDates[0]);
-                        const endDate = formatToArabic(selectedDates[1]);
-                        instance.input.value = `${startDate} - ${endDate}`;
-                    }
-                },
-                onReady: function(selectedDates, dateStr, instance) {
-                    // تعيين القيمة الافتراضية بالعربية
-                    instance.input.value =  `${formatToArabic(today)} - ${formatToArabic(nextMonth)}`;
-                }
-            });
+    // تحويل التواريخ إلى الصيغة المطلوبة
+    const defaultStartDate = today.toISOString().split('T')[0];
+    const defaultEndDate = endOfYear.toISOString().split('T')[0];
 
-            //=========================== charts ===========================
-            renderMiniChart("#totalUsersChart", @json($total_campaigns_chart), "#4CAF50");
-            renderMiniChart("#totalUsersChart2", @json($live_campaigns_chart), "#4CAF50");
-            renderMiniChart("#totalUsersChart3", @json($scheduled_campaigns_chart), "#757575");
-            renderMiniChart("#totalUsersChart4", @json($finished_campaigns_chart), "#D32F2F");
+    // دالة لتحميل البيانات
+    const loadCampaignData = (startDate, endDate) => {
+        // عرض loader
+        $('#totalUsersChart').html('<div class="spinner-border spinner-border-sm" role="status"></div>');
+        $('#totalUsersChart2').html('<div class="spinner-border spinner-border-sm" role="status"></div>');
+        $('#totalUsersChart3').html('<div class="spinner-border spinner-border-sm" role="status"></div>');
+        $('#totalUsersChart4').html('<div class="spinner-border spinner-border-sm" role="status"></div>');
 
-            renderBarChart(
-                'adsChart',
-                @json($country_labels),
-                @json($country_campaigns_count),
-                '#0077B6',
-                @json(AppDir() === 'rtl')
-            );
+        $.ajax({
+            url: '{{ route("client.campaigns.index") }}',
+            method: 'GET',
+            data: {
+                start_date: startDate,
+                end_date: endDate,
+                ajax: true
+            },
+            success: function(response) {
+                // تحديث الأرقام
+                $('.stats-first-row .col-6:first-child h4.fw-bold.mx-2').eq(0).text(response.campaigns_count);
+                $('.stats-first-row .col-6:first-child h4.fw-bold.mx-2').eq(1).text(response.live_campaigns_count);
+                $('.stats-second-row .col-6:first-child h4.fw-bold.mx-2').eq(0).text(response.scheduled_campaigns_count);
+                $('.stats-second-row .col-6:first-child h4.fw-bold.mx-2').eq(1).text(response.finished_campaigns_count);
 
+                // تحديث النسبة المئوية
+                const percentageDiv = $('.stats-first-row .col-6:first-child .percentage-' + response.total_campaigns_status).first();
+                percentageDiv.attr('class', 'percentage-' + response.total_campaigns_status + ' p-1 px-2 rounded-pill');
+                percentageDiv.text(response.total_campaigns_percentage_abs + '%');
+
+                // إعادة رسم الـ charts
+                renderMiniChart("#totalUsersChart", response.total_campaigns_chart, "#4CAF50");
+                renderMiniChart("#totalUsersChart2", response.live_campaigns_chart, "#4CAF50");
+                renderMiniChart("#totalUsersChart3", response.scheduled_campaigns_chart, "#757575");
+                renderMiniChart("#totalUsersChart4", response.finished_campaigns_chart, "#D32F2F");
+            },
+            error: function(xhr) {
+                console.error('Error loading data:', xhr);
+                // إعادة رسم البيانات الأصلية
+                renderMiniChart("#totalUsersChart", @json($total_campaigns_chart ?? []), "#4CAF50");
+                renderMiniChart("#totalUsersChart2", @json($live_campaigns_chart ?? []), "#4CAF50");
+                renderMiniChart("#totalUsersChart3", @json($scheduled_campaigns_chart ?? []), "#757575");
+                renderMiniChart("#totalUsersChart4", @json($finished_campaigns_chart ?? []), "#D32F2F");
+            }
         });
+    };
+
+    // تهيئة Flatpickr
+    const flatpickrInstance = flatpickr(".dateRange_total", {
+        mode: "range",
+        dateFormat: "d-m-Y",
+        defaultDate: [defaultStartDate, defaultEndDate],
+        onChange: function(selectedDates, dateStr, instance) {
+            if (selectedDates.length === 2) {
+                const startDate = formatToArabic(selectedDates[0]);
+                const endDate = formatToArabic(selectedDates[1]);
+                instance.input.value = `${startDate} - ${endDate}`;
+
+                // تحميل البيانات الجديدة
+                const startDateFormatted = formatForServer(selectedDates[0]);
+                const endDateFormatted = formatForServer(selectedDates[1]);
+                loadCampaignData(startDateFormatted, endDateFormatted);
+            }
+        },
+        onReady: function(selectedDates, dateStr, instance) {
+            // تعيين القيمة الافتراضية بالعربية
+            instance.input.value = `${formatToArabic(today)} - ${formatToArabic(endOfYear)}`;
+        }
+    });
+
+    // رسم الـ charts الأولية
+    renderMiniChart("#totalUsersChart", @json($total_campaigns_chart ?? []), "#4CAF50");
+    renderMiniChart("#totalUsersChart2", @json($live_campaigns_chart ?? []), "#4CAF50");
+    renderMiniChart("#totalUsersChart3", @json($scheduled_campaigns_chart ?? []), "#757575");
+    renderMiniChart("#totalUsersChart4", @json($finished_campaigns_chart ?? []), "#D32F2F");
+
+    renderBarChart(
+        'adsChart',
+        ['ads_1', 'ads_2', 'ads_3'],
+        [10, 20, 30],
+        '#0077B6',
+        @json(AppDir() === 'rtl')
+    );
+});
     </script>
 @endpush

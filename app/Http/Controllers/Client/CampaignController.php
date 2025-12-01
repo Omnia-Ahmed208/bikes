@@ -7,6 +7,7 @@ use App\Models\AdsPrice;
 use App\Models\Campaign;
 use App\Models\Country;
 use App\Models\Region;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -19,58 +20,267 @@ class CampaignController extends Controller
 {
     /**
      * Display a listing of the resource.
-     */
-    public function index()
+    */
+    public function index(Request $request)
     {
-        $campaigns = Campaign::where('user_id', Auth::user()->id)
-        ->with(['region'])
-        ->orderBy('id', 'desc')
-        ->take(2)
-        ->get();
-
         $userId = Auth::user()->id;
 
-        $campaigns_count = Campaign::where('user_id', Auth::user()->id)->count();
-        $live_campaigns_count = Campaign::where('user_id', Auth::user()->id)->where('status', 'live')->count();
-        $scheduled_campaigns_count = Campaign::where('user_id', Auth::user()->id)->where('status', 'scheduled')->count();
-        $finished_campaigns_count = Campaign::where('user_id', Auth::user()->id)->where('status', 'finished')->count();
+        // Get date range from request or use default (current year)
+        $startDate = $request->start_date
+            ? Carbon::createFromFormat('d-m-Y', $request->start_date)->startOfDay()
+            : Carbon::now()->startOfYear();
+
+        $endDate = $request->end_date
+            ? Carbon::createFromFormat('d-m-Y', $request->end_date)->endOfDay()
+            : Carbon::now()->endOfYear();
+
+        // Get previous period for comparison
+        $daysDiff = $startDate->diffInDays($endDate);
+        $previousStartDate = $startDate->copy()->subDays($daysDiff + 1);
+        $previousEndDate = $startDate->copy()->subDay();
+
+        $all_campaigns = Campaign::where('user_id', $userId)
+        ->with(['region', 'country'])
+        ->whereBetween('created_at', [$startDate, $endDate])
+        ->orderBy('id', 'desc')
+        // ->take(2)
+        ->get();
+
+        $campaigns_count = Campaign::where('user_id', $userId)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->count();
+        $live_campaigns_count = Campaign::where('user_id', $userId)->where('status', 'live')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->count();
+        $scheduled_campaigns_count = Campaign::where('user_id', $userId)->where('status', 'scheduled')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->count();
+        $finished_campaigns_count = Campaign::where('user_id', $userId)->where('status', 'finished')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->count();
+
+        // Previous period counts for comparison
+        $previous_campaigns_count = Campaign::where('user_id', $userId)
+            ->whereBetween('created_at', [$previousStartDate, $previousEndDate])
+            ->count();
+
+        $previous_live_campaigns_count = Campaign::where('user_id', $userId)->where('status', 'live')
+            ->whereBetween('created_at', [$previousStartDate, $previousEndDate])
+            ->count();
+
+        $previous_scheduled_campaigns_count = Campaign::where('user_id', $userId)->where('status', 'scheduled')
+            ->whereBetween('created_at', [$previousStartDate, $previousEndDate])
+            ->count();
+
+        $previous_finished_campaigns_count = Campaign::where('user_id', $userId)->where('status', 'finished')
+            ->whereBetween('created_at', [$previousStartDate, $previousEndDate])
+            ->count();
 
         $calcChange = fn($current, $previous) => $previous > 0
             ? round((($current - $previous) / $previous) * 100, 2)
             : 100;
 
-        $months = collect(range(5, 0))->map(fn($i) => now()->subMonths($i)->format('Y-m'));
-
-        // ==== الإحصائيات الحالية ====
-        $current_campaigns = Campaign::where('user_id', $userId)
-        ->whereDate('created_at', today())
-        ->count();
-        $previous_campaigns = Campaign::where('user_id', $userId)
-            ->whereDate('created_at', today()->subDay())
-            ->count();
-        $total_campaigns_percentage = $calcChange($current_campaigns, $previous_campaigns);
+        $total_campaigns_percentage = $calcChange($campaigns_count, $previous_campaigns_count);
         $total_campaigns_percentage_abs = abs($total_campaigns_percentage);
-        $total_campaigns_status = $total_campaigns_percentage >= 0 ? 'success' : 'danger';
+        $total_campaigns_status = $total_campaigns_percentage > 0 ? 'success' : 'danger';
+        $total_campaigns_chart = $this->getCampaignsChartData($userId, $startDate, $endDate);
 
-        // ==== بيانات الرسوم ====
-        $total_campaigns_chart = $months->map(fn($month) =>
-            Campaign::whereYear('created_at', substr($month, 0, 4))
-                ->whereMonth('created_at', substr($month, 5, 2))
-                ->count()
-        );
+        $live_campaigns_percentage = $calcChange($live_campaigns_count, $previous_live_campaigns_count);;
+        // $live_campaigns_percentage = $live_campaigns_count == 0 ? 0 : round(($live_campaigns_count - $previous_campaigns_count) / $previous_campaigns_count * 100);
+        $live_campaigns_percentage_abs = abs($live_campaigns_percentage);
+        $live_campaigns_status = $live_campaigns_percentage > 0 ? 'success' : 'danger';
+        $live_campaigns_chart = $this->getCampaignsChartData($userId, $startDate, $endDate);
+
+        $scheduled_campaigns_percentage = $calcChange($scheduled_campaigns_count, $previous_scheduled_campaigns_count);
+        $scheduled_campaigns_percentage_abs = abs($scheduled_campaigns_percentage);
+        $scheduled_campaigns_status = $scheduled_campaigns_percentage > 0 ? 'success' : 'danger';
+        $scheduled_campaigns_chart = $this->getCampaignsChartData($userId, $startDate, $endDate);
+
+        $finished_campaigns_percentage = $calcChange($finished_campaigns_count, $previous_finished_campaigns_count);
+        $finished_campaigns_percentage_abs = abs($finished_campaigns_percentage);
+        $finished_campaigns_status = $finished_campaigns_percentage > 0 ? 'success' : 'danger';
+        $finished_campaigns_chart = $this->getCampaignsChartData($userId, $startDate, $endDate);
+
+
+        // =========== Ads countries
+        // // أسماء الدول
+        $country_labels = $all_campaigns->map(function ($campaign) {
+            return $campaign->country ? $campaign->country->name : 'Unknown';
+        })->unique()->values()->toArray();
+
+        // عدد الحملات في كل دولة
+        $country_campaigns_count = $all_campaigns->groupBy(function ($campaign) {
+            return $campaign->country ? $campaign->country->name : 'Unknown';
+        })->map->count()->values()->toArray();
+
+        $campaigns = $all_campaigns->take(2);
 
         return view('client.campaign.index', compact([
             'campaigns',
             'campaigns_count',
-            'total_campaigns_status',
-            'total_campaigns_percentage_abs',
-            'total_campaigns_chart',
-            
             'live_campaigns_count',
             'scheduled_campaigns_count',
             'finished_campaigns_count',
 
+            'total_campaigns_percentage',
+            'total_campaigns_percentage_abs',
+            'total_campaigns_status',
+            'total_campaigns_chart',
+
+            'live_campaigns_percentage',
+            'live_campaigns_percentage_abs',
+            'live_campaigns_status',
+            'live_campaigns_chart',
+
+            'scheduled_campaigns_percentage',
+            'scheduled_campaigns_percentage_abs',
+            'scheduled_campaigns_status',
+            'scheduled_campaigns_chart',
+
+            'finished_campaigns_percentage',
+            'finished_campaigns_percentage_abs',
+            'finished_campaigns_status',
+            'finished_campaigns_chart',
+
+            'country_labels',
+            'country_campaigns_count',
         ]));
+    }
+
+    public function index3(Request $request)
+    {
+        $userId = Auth::user()->id;
+
+        // Get date range from request or use default (current year)
+        $startDate = $request->start_date
+            ? Carbon::createFromFormat('d-m-Y', $request->start_date)->startOfDay()
+            : Carbon::now()->startOfYear();
+
+        $endDate = $request->end_date
+            ? Carbon::createFromFormat('d-m-Y', $request->end_date)->endOfDay()
+            : Carbon::now()->endOfYear();
+
+        // Get previous period for comparison
+        $daysDiff = $startDate->diffInDays($endDate);
+        $previousStartDate = $startDate->copy()->subDays($daysDiff + 1);
+        $previousEndDate = $startDate->copy()->subDay();
+
+        // Current period campaigns
+        $campaigns = Campaign::where('user_id', $userId)
+            ->with(['region'])
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->orderBy('id', 'desc')
+            ->take(2)
+            ->get();
+
+        // Current period counts
+        $campaigns_count = Campaign::where('user_id', $userId)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->count();
+
+        $live_campaigns_count = Campaign::where('user_id', $userId)
+            ->where('status', 'live')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->count();
+
+        $scheduled_campaigns_count = Campaign::where('user_id', $userId)
+            ->where('status', 'scheduled')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->count();
+
+        $finished_campaigns_count = Campaign::where('user_id', $userId)
+            ->where('status', 'finished')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->count();
+
+        // Previous period counts for comparison
+        $previous_campaigns_count = Campaign::where('user_id', $userId)
+            ->whereBetween('created_at', [$previousStartDate, $previousEndDate])
+            ->count();
+
+        // Calculate percentage change
+        $total_campaigns_percentage = 0;
+        $total_campaigns_percentage_abs = 0;
+        $total_campaigns_status = 'secondary';
+
+        if ($previous_campaigns_count > 0) {
+            $total_campaigns_percentage = (($campaigns_count - $previous_campaigns_count) / $previous_campaigns_count) * 100;
+            $total_campaigns_percentage_abs = abs(round($total_campaigns_percentage, 2));
+            $total_campaigns_status = $total_campaigns_percentage >= 0 ? 'success' : 'danger';
+        }
+
+        // Prepare chart data (last 12 months or custom period)
+        $total_campaigns_chart = $this->getCampaignsChartData($userId, $startDate, $endDate);
+
+        return view('client.campaign.index', compact([
+            'campaigns',
+            'campaigns_count',
+            'live_campaigns_count',
+            'scheduled_campaigns_count',
+            'finished_campaigns_count',
+
+            'total_campaigns_percentage',
+            'total_campaigns_percentage_abs',
+            'total_campaigns_status',
+            'total_campaigns_chart',
+        ]));
+    }
+
+    private function getCampaignsChartData($userId, $startDate, $endDate)
+    {
+        $daysDiff = $startDate->diffInDays($endDate);
+
+        // If period is less than 60 days, show daily data
+        if ($daysDiff <= 60) {
+            $data = [];
+            $currentDate = $startDate->copy();
+
+            while ($currentDate <= $endDate) {
+                $count = Campaign::where('user_id', $userId)
+                    ->whereDate('created_at', $currentDate)
+                    ->count();
+
+                $data[] = $count;
+                $currentDate->addDay();
+            }
+
+            return $data;
+        }
+
+        // If period is less than 2 years, show monthly data
+        if ($daysDiff <= 730) {
+            $data = [];
+            $currentDate = $startDate->copy()->startOfMonth();
+            $endMonth = $endDate->copy()->endOfMonth();
+
+            while ($currentDate <= $endMonth) {
+                $count = Campaign::where('user_id', $userId)
+                    ->whereYear('created_at', $currentDate->year)
+                    ->whereMonth('created_at', $currentDate->month)
+                    ->count();
+
+                $data[] = $count;
+                $currentDate->addMonth();
+            }
+
+            return $data;
+        }
+
+        // For longer periods, show yearly data
+        $data = [];
+        $currentYear = $startDate->year;
+        $endYear = $endDate->year;
+
+        while ($currentYear <= $endYear) {
+            $count = Campaign::where('user_id', $userId)
+                ->whereYear('created_at', $currentYear)
+                ->count();
+
+            $data[] = $count;
+            $currentYear++;
+        }
+
+        return $data;
     }
 
     /**
@@ -152,7 +362,11 @@ class CampaignController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $campaign = Campaign::with(['country', 'region'])->findOr($id, function () {
+            return back()->with('error', __('trans.alert.error.data_not_found'));
+        });
+
+        return view('client.campaign.show', compact('campaign'));
     }
 
     /**
