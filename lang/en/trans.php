@@ -71,6 +71,7 @@ return [
         'total_price' => 'Total Price',
         'pay_and_publish' => 'Pay and Publish',
         'under_review' => 'Campaign is being sent for review before publication.',
+        'execution_percentage' => 'Execution Percentage',
     ],
 
     'schedule' => [

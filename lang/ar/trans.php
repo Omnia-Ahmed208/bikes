@@ -70,7 +70,9 @@ return [
         'summary' => 'ملخص الحملة',
         'total_price' => 'إجمالي المبلغ',
         'pay_and_publish' => 'إتمام الدفع ونشر الحملة',
-        'under_review' => 'جاري إرسال الحملة للمراجعة قبل النشر.'
+        'under_review' => 'جاري إرسال الحملة للمراجعة قبل النشر.',
+        'execution_percentage' => 'نسبة التنفيذ',
+
     ],
 
     'schedule' => [
