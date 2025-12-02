@@ -25,7 +25,7 @@
         <div class="card shadow-none border mb-2" style="padding: 14px;">
             <div class="card-body p-0">
                 <div class="img position-relative mb-3" style="height: 500px;">
-                    <img src="{{ asset($campaign->file) }}" class="img-fluid w-100 h-100" alt="">
+                    <img src="{{ asset($campaign->file) }}" class="img-fluid rounded w-100 h-100" loading="lazy" alt="">
 
                     @php
                         $endDateTime = \Carbon\Carbon::parse($campaign->end_date . ' ' . $campaign->end_time);
@@ -151,9 +151,9 @@
 
                 <div class="tab-content shadow-none p-0 mt-4 border" id="table-view">
                     <div class="card">
-                        <div class="card-datatable text-nowrap">
-                            <table class="custom_table table">
-                                <thead>
+                        <div class="card-datatable text-nowrap" style="background: #eee">
+                            <table class="custom_table table bg-white p-5 rounded">
+                                <thead style="background: #eee">
                                     <tr>
                                         <th class="text-center">#</th>
                                         <th class="text-center">{{ __('trans.campaign.duration') }}</th>
@@ -186,7 +186,9 @@
 
 @endsection
 
-
+@section('css')
+   .s
+@endsection
 
 @push('js')
     <script>
@@ -210,7 +212,7 @@
             // Scroll options
             scrollY: false,
             scrollX: true,
-            dom: '<"row d-flex flex-wrap justify-content-between align-items-center"<"col-12 col-sm-6 d-flex ms-2"f>>t'+
+            dom: '<"row bg-white rounded d-flex flex-wrap justify-content-between align-items-center"<"col-12 col-sm-6 d-flex ms-2"f>>t'+
                 '<"row align-items-center"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6 d-flex justify-content-end align-items-center"lp>>',
 
             initComplete: function() {

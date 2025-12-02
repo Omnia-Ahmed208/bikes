@@ -480,43 +480,45 @@
 
                 const card = `
                     <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                        <div class="card shadow-none border mb-2" style="padding: 14px;">
-                            <div class="card-body p-0">
-                                <div class="img position-relative mb-3" style="height: 200px;">
-                                    <img src="${imageUrl}" class="img-fluid rounded w-100 h-100" alt="${campaign.title}">
-                                    <div class="position-absolute top-0 start-0 badge rounded-pill bg-label-primary m-2">
-                                        {{ __('trans.campaign.remaining') }}
-                                        (x)
-                                        {{ __('trans.campaign.days') }}
+                        <a href="{{ url('client/campaigns/${campaign.id}') }}">
+                            <div class="card shadow-none border mb-2" style="padding: 14px;">
+                                <div class="card-body p-0">
+                                    <div class="img position-relative mb-3" style="height: 200px;">
+                                        <img src="${imageUrl}" class="img-fluid rounded w-100 h-100" alt="${campaign.title}">
+                                        <div class="position-absolute top-0 start-0 badge rounded-pill bg-label-primary m-2">
+                                            {{ __('trans.campaign.remaining') }}
+                                            (x)
+                                            {{ __('trans.campaign.days') }}
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h5 class="title">${campaign.title}</h5>
-                                    <div class="status">${statusBadge}</div>
-                                </div>
-
-                                <h6 class="mb-0">{{ __('trans.campaign.percentage') }}</h6>
-                                <div class="d-flex align-items-center gap-2">
-                                    <div class="progress flex-grow-1" style="height: 4px">
-                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 90%"
-                                            aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="title">${campaign.title}</h5>
+                                        <div class="status">${statusBadge}</div>
                                     </div>
-                                    <h6 class="text-nowrap fw-medium mb-0">90%</h6>
-                                </div>
 
-                                <div class="actions d-flex mt-3">
-                                    <a href="${editUrl}" class="btn btn-primary w-100 me-1">
-                                        <i class="ti ti-pencil me-2"></i>
-                                        {{ __('trans.global.edit') }}
-                                    </a>
-                                    <a href="javascript:;" class="btn btn-outline-primary w-100 ms-1">
-                                        <i class="ti ti-copy me-2"></i>
-                                        {{ __('trans.global.copy') }}
-                                    </a>
+                                    <h6 class="mb-0">{{ __('trans.campaign.percentage') }}</h6>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="progress flex-grow-1" style="height: 4px">
+                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 90%"
+                                                aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <h6 class="text-nowrap fw-medium mb-0">90%</h6>
+                                    </div>
+
+                                    <div class="actions d-flex mt-3">
+                                        <a href="${editUrl}" class="btn btn-primary w-100 me-1">
+                                            <i class="ti ti-pencil me-2"></i>
+                                            {{ __('trans.global.edit') }}
+                                        </a>
+                                        <a href="javascript:;" class="btn btn-outline-primary w-100 ms-1">
+                                            <i class="ti ti-copy me-2"></i>
+                                            {{ __('trans.global.copy') }}
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 `;
 
