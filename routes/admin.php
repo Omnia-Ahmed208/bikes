@@ -16,4 +16,8 @@ Route::middleware(['guard:admin'])->group(function ()
     // routes/web.php
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
     Route::resource('users', 'UserController');
+
+    // ads or campaigns
+    Route::get('campaigns/export', 'CampaignController@campaigns_export')->name('campaigns.export');
+    Route::resource('campaigns', 'CampaignController');
 });

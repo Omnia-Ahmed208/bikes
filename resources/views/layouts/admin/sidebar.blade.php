@@ -1,7 +1,7 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
-        <a href="{{ url('/') }}" class="app-brand-link">
-            <span class="app-brand-logo demo">
+        <a href="{{ url('/admin') }}" class="app-brand-link">
+            {{-- <span class="app-brand-logo demo">
                 <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         fill-rule="evenodd"
@@ -26,7 +26,7 @@
                     d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
                     fill="#0077b6" />
                 </svg>
-            </span>
+            </span> --}}
             <span class="app-brand-text demo menu-text fw-bold">Logo</span>
         </a>
     </div>
@@ -37,14 +37,14 @@
         <!-- Dashboards -->
         <li class="menu-item active">
             <a href="{{ UrlLang('admin/dashboard') }}" class="menu-link text-dark">
-                <i class="menu-icon tf-icons ti ti-home"></i>
+                <i class="menu-icon tf-icons ti ti-layout-dashboard"></i>
                 <div>{{ __('trans.dashboard.title') }}</div>
             </a>
         </li>
 
         <!-- account_management -->
         <li class="menu-item">
-            <a href="javascript:void(0)" class="menu-link text-dark menu-toggle">
+            <a href="javascript:void(0)" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-users"></i>
                 <div>{{ __('trans.account_management.title') }}</div>
             </a>
@@ -62,9 +62,91 @@
             </ul> --}}
         </li>
 
+        <!-- live_tracking -->
+        <li class="menu-item">
+            <a href="javascript:void(0)" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-map"></i>
+                <div>{{ __('trans.live_tracking.title') }}</div>
+            </a>
+        </li>
+
+        <!-- fleet_management -->
+        <li class="menu-item">
+            <a href="javascript:void(0)" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-route"></i>
+                <div>{{ __('trans.fleet_management.title') }}</div>
+            </a>
+        </li>
+
+        <!-- maintenance -->
+        <li class="menu-item">
+            <a href="javascript:void(0)" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-tools"></i>
+                <div>{{ __('trans.maintenance.management') }}</div>
+            </a>
+        </li>
+
+        <!-- ads -->
+        <li class="menu-item">
+            <a href="javascript:void(0)" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-ad"></i>
+                <div>{{ __('trans.ads.management') }}</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="javascript:void(0)" class="menu-link">
+                        <div="Tabler">{{ __('trans.ads.review') }}</div=>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('admin.campaigns.index') }}" class="menu-link">
+                        <div="Tabler">{{ __('trans.ads.title') }}</div=>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="javascript:void(0);" class="menu-link">
+                        <div="Fontawesome">{{ __('trans.ads.reports') }}</div=>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="javascript:void(0);" class="menu-link">
+                        <div="Fontawesome">{{ __('trans.ads.pricing') }}</div=>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- geographical_area -->
+        <li class="menu-item">
+            <a href="javascript:void(0)" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-map-pin"></i>
+                <div>{{ __('trans.geographical_area.title') }}</div>
+            </a>
+        </li>
+
+        <!-- camera -->
+        <li class="menu-item">
+            <a href="javascript:void(0)" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-camera"></i>
+                <div>{{ __('trans.camera.title') }}</div>
+            </a>
+            {{-- <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="javascript:void(0);" class="menu-link">
+                        <div="Tabler">{{ __('trans.campaign.title') }}</div=>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="javascript:void(0);" class="menu-link">
+                        <div="Fontawesome">{{ __('trans.schedule.title') }}</div=>
+                    </a>
+                </li>
+            </ul> --}}
+        </li>
+
         <!-- statistics -->
         <li class="menu-item">
-            <a href="javascript:void(0)" class="menu-link text-dark">
+            <a href="javascript:void(0)" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-chart-bar"></i>
                 <div>{{ __('trans.statistic.title') }}</div>
             </a>
@@ -72,7 +154,7 @@
 
         <!-- notifications -->
         <li class="menu-item">
-            <a href="{{ UrlLang('admin/notifications') }}" class="menu-link text-dark">
+            <a href="javascript:void(0)" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-bell"></i>
                 <div>{{ __('trans.notification.title') }}</div>
             </a>
@@ -80,23 +162,24 @@
 
         <!-- setting -->
         <li class="menu-item">
-            <a href="javascript:void(0)" class="menu-link text-dark menu-toggle">
+            <a href="javascript:void(0)" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-settings"></i>
                 <div>{{ __('trans.setting.title') }}</div>
             </a>
             {{-- <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="javascript:void(0);" class="menu-link text-dark">
+                    <a href="javascript:void(0);" class="menu-link">
                         <div="Tabler">Tabler</div=>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="javascript:void(0);" class="menu-link text-dark">
+                    <a href="javascript:void(0);" class="menu-link">
                         <div="Fontawesome">Fontawesome</div=>
                     </a>
                 </li>
             </ul> --}}
         </li>
+
 
     </ul>
 </aside>

@@ -72,6 +72,7 @@ return [
         'pay_and_publish' => 'Pay and Publish',
         'under_review' => 'Campaign is being sent for review before publication.',
         'execution_percentage' => 'Execution Percentage',
+        'user_name' => 'User Name'
     ],
 
     'schedule' => [
@@ -79,15 +80,22 @@ return [
     ],
 
     'ads' => [
-        'title' => 'Mobile Advertising',
+        'title' => 'Advertising',
+        'mobile_ads' => 'Mobile Advertising',
+        'management' => 'Ads Management',
+        'review' => 'Ads review',
+        'reports' => 'Ads reports',
+        'pricing' => 'Ads pricing',
     ],
 
     'energy_monitoring' => [
         'title' => 'Energy and fuel monitoring',
     ],
 
-    'smart_maintenance' => [
-        'title' => 'Smart Maintenance',
+    'maintenance' => [
+        'title' => 'Maintenance',
+        'management' => 'Maintenance',
+        'smart_maintenance' => 'Smart Maintenance',
     ],
 
     'fleet_management' => [

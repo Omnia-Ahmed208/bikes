@@ -72,7 +72,7 @@ return [
         'pay_and_publish' => 'إتمام الدفع ونشر الحملة',
         'under_review' => 'جاري إرسال الحملة للمراجعة قبل النشر.',
         'execution_percentage' => 'نسبة التنفيذ',
-
+        'user_name' => 'اسم المستخدم',
     ],
 
     'schedule' => [
@@ -80,15 +80,22 @@ return [
     ],
 
     'ads' => [
-        'title' => 'الإعلانات المتنقلة',
+        'title' => 'الإعلانات',
+        'mobile_ads' => 'الإعلانات المتنقلة',
+        'management' => 'إدارة الإعلانات',
+        'review' => 'مراجعة الإعلانات',
+        'reports' => 'تقارير الإعلانات',
+        'pricing' => 'تسعير الإعلانات',
     ],
 
     'energy_monitoring' => [
         'title' => 'مراقبة الطاقة والوقود',
     ],
 
-    'smart_maintenance' => [
-        'title' => 'الصيانة الذكية'
+    'maintenance' => [
+        'title' => 'الصيانة',
+        'management' => 'إدارة الصيانة',
+        'smart_maintenance' => 'الصيانة الذكية',
     ],
 
     'fleet_management' => [

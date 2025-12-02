@@ -62,7 +62,7 @@
         <li class="menu-item">
             <a href="javascript:void(0)" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-tools"></i>
-                <div>{{ __('trans.smart_maintenance.title') }}</div>
+                <div>{{ __('trans.maintenance.smart_maintenance') }}</div>
             </a>
         </li>
 
@@ -78,7 +78,7 @@
         <li class="menu-item">
             <a href="javascript:void(0)" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-ad"></i>
-                <div>{{ __('trans.ads.title') }}</div>
+                <div>{{ __('trans.ads.mobile_ads') }}</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
