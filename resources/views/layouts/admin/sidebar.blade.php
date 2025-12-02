@@ -94,7 +94,7 @@
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="javascript:void(0)" class="menu-link">
+                    <a href="{{ route('admin.campaigns.review') }}" class="menu-link">
                         <div="Tabler">{{ __('trans.ads.review') }}</div=>
                     </a>
                 </li>

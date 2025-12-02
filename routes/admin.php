@@ -18,6 +18,7 @@ Route::middleware(['guard:admin'])->group(function ()
     Route::resource('users', 'UserController');
 
     // ads or campaigns
+    Route::get('campaigns/review', 'CampaignController@campaigns_review')->name('campaigns.review');
     Route::get('campaigns/export', 'CampaignController@campaigns_export')->name('campaigns.export');
     Route::resource('campaigns', 'CampaignController');
 });

@@ -86,6 +86,9 @@ return [
         'review' => 'Ads review',
         'reports' => 'Ads reports',
         'pricing' => 'Ads pricing',
+        'new' => 'New Ads',
+        'accepted' => 'Accepted Ads',
+        'rejected' => 'Rejected Ads',
     ],
 
     'energy_monitoring' => [

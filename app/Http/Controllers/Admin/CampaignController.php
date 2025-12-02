@@ -108,6 +108,45 @@ class CampaignController extends Controller
         //
     }
 
+    public function campaigns_review(Request $request)
+    {
+        $new_campaigns_count = Campaign::with(['region', 'user'])->where('approval_status', 'pending')->count();
+        $approved_campaigns_count = Campaign::with(['region', 'user'])->where('approval_status', 'accepted')->count();
+        $not_approved_campaigns_count = Campaign::with(['region', 'user'])->where('approval_status', 'rejected')->count();
+
+        if ($request->ajax()) {
+            $query = Campaign::with(['region', 'user']);
+
+            if($request->status != 'all'){
+                $query->where('approval_status', $request->status);
+            }
+
+            if ($request->filled('sort_filter') && $request->sort_filter != 'all') {
+                switch ($request->sort_filter) {
+                    case 'name':
+                        $query->orderBy('title', 'asc');
+                        break;
+                    case 'latest':
+                        $query->orderBy('created_at', 'desc');
+                        break;
+                    case 'oldest':
+                        $query->orderBy('created_at', 'asc');
+                        break;
+                    default:
+                        $query->orderBy('id', 'asc');
+                }
+            } else {
+                $query->orderBy('id', 'asc');
+            }
+
+            $campaigns = $query->get();
+
+            return DataTables::of($campaigns)->toJson();
+        }
+
+        return view('admin.campaign.review', compact('new_campaigns_count', 'approved_campaigns_count', 'not_approved_campaigns_count'));
+    }
+
     public function campaigns_export(request $request)
     {
         $query = Campaign::with(['region', 'user']);
