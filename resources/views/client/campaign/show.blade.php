@@ -234,6 +234,7 @@
                     '</a>'
                 );
 
+                $('.dataTables_filter').css('visibility', 'visible');
             }
         });
 

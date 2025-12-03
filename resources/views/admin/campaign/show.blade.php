@@ -228,7 +228,8 @@
                         '<i class="ti ti-download me-1"></i> {{ __("trans.global.download") }}' +
                     '</a>'
                 );
-
+                
+                $('.dataTables_filter').css('visibility', 'visible');
             }
         });
 

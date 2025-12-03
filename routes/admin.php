@@ -23,4 +23,7 @@ Route::middleware(['guard:admin'])->group(function ()
     Route::get('campaigns/review', 'CampaignController@campaigns_review')->name('campaigns.review');
     Route::get('campaigns/export', 'CampaignController@campaigns_export')->name('campaigns.export');
     Route::resource('campaigns', 'CampaignController');
+
+    Route::get('/ajax/get/regions', 'Client\CampaignPricingController@getRegions');
+    Route::resource('campaigns-pricing', 'CampaignPricingController');
 });

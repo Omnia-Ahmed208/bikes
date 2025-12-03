@@ -32,8 +32,8 @@ return new class extends Migration
             $table->enum('status', ['live', 'finished', 'scheduled', 'stopped'])->default('scheduled')->nullable();
             $table->enum('approval_status', ['accepted', 'rejected', 'pending'])->default('pending')->nullable();
 
-            $table->integer('views_count')->default('0')->nullable();
-            $table->integer('progress')->default('0')->nullable();
+            // $table->integer('views_count')->default('0')->nullable();
+            // $table->integer('progress')->default('0')->nullable();
 
             $table->string('notes')->nullable();
 

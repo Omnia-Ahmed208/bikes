@@ -25,6 +25,18 @@ return [
         'title' => 'Geographical Areas',
     ],
 
+    'pricing' => [
+        'title' => 'Ads Pricing',
+        'add_new' => 'Add Price',
+        'country' => 'Country',
+        'region' => 'Region',
+        'price' => 'Price',
+        'actions' => 'Actions',
+        'info' => 'Pricing Information',
+        'price' => 'Price',
+        'price_text' => 'enter price',
+    ],
+
     'campaign' => [
         'title' => 'Campaigns',
         'add_new' => 'Add New',
