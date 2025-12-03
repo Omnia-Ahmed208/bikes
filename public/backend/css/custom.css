@@ -235,3 +235,59 @@ select[name="DataTables_Table_0_length"]{padding: 0 0 0 30px !important; border:
     justify-content: center;
     align-items: center;
 }
+
+/* ============== progress circle ============== */
+.progress-circle-small {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 20px;
+}
+
+.progress-circle-small svg {
+    width: 80px;
+    height: 80px;
+}
+
+.progress-circle-small .bg {
+    fill: none;
+    stroke-width: 3px;
+    stroke: #D4D9DC;
+}
+
+.progress-circle-small .progress {
+    fill: none;
+    stroke-width: 3px;
+    stroke: #0077b6;
+    stroke-linecap: round;
+    stroke-dasharray: 232.36;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    stroke-dashoffset: 200;
+    animation: progress-animation 2.5s ease-in-out, appear 1s;
+}
+
+.progress-circle-small .text {
+    position: absolute;
+    width: 100%;
+    top: 33px;
+    font-size: 14px;
+    text-align: center;
+    font-weight: bold;
+    line-height: 16px;
+}
+
+.progress-circle-small .text .small {
+    font-size: 12px;
+    color: #fff;
+}
+
+@keyframes progress-animation {
+  from {
+    stroke-dashoffset: 233;
+  }
+  to {
+    stroke-dashoffset: 200;
+  }
+}

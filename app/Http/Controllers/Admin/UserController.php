@@ -58,7 +58,7 @@ class UserController extends Controller
         $user->img   = $img_profile;
         $user->save();
 
-        return redirect('/admin/users')->with('success',  __('trans.alert.success.done_create'));
+        return redirect('/admin/users')->with('success',  __('trans.alert.success.data_created'));
     }
 
     /**
@@ -107,13 +107,13 @@ class UserController extends Controller
         $user->img   = $img_profile;
         $user->save();
 
-        return back()->with('success',  __('trans.alert.success.done_update'));
+        return back()->with('success',  __('trans.alert.success.data_updated'));
     }
 
 
     public function destroy(User $user)
     {
         $user->delete();
-        return back()->with('success',  __('trans.alert.success.done_delete'));
+        return back()->with('success',  __('trans.alert.success.data_deleted'));
     }
 }

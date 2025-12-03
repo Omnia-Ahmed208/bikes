@@ -108,6 +108,23 @@ class CampaignController extends Controller
         //
     }
 
+    public function campaigns_accept(Request $request)
+    {
+        $campaign = Campaign::find($request->id);
+        $campaign->approval_status = 'accepted';
+        $campaign->save();
+        return redirect()->back()->with('success', __('trans.alert.success.campaign_accepted'));
+    }
+
+    public function campaigns_reject(Request $request)
+    {
+        $campaign = Campaign::find($request->id);
+        $campaign->approval_status = 'rejected';
+        $campaign->notes = $request->notes;
+        $campaign->save();
+        return back()->with('success', __('trans.alert.success.campaign_rejected'));
+    }
+
     public function campaigns_review(Request $request)
     {
         $new_campaigns_count = Campaign::with(['region', 'user'])->where('approval_status', 'pending')->count();

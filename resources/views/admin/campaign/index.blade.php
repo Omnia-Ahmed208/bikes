@@ -250,7 +250,7 @@
                 { data: 'id' },
                 { data: 'file',
                     render: function (data, type, full, meta) {
-                        return `<img src="{{ url('') }}/${data}" class="rounded" width="40" height="40" style="object-fit: cover">`;
+                        return `<img src="{{ url('') }}/${data}" class="rounded" width="40" height="40" style="object-fit: cover" loading="lazy">`;
                     }
                 },
                 { data: 'title' },
@@ -293,6 +293,19 @@
                         );
                     }
                 },
+                {
+                    target: -1,
+                    render: function (data, type, full, meta) {
+                        return `
+                        <div class="progress-circle-small">
+                            <div class="text">10%</div>
+                            <svg>
+                                <circle class="bg" cx="40" cy="40" r="25"></circle>
+                                <circle class="progress" cx="40" cy="40" r="25"></circle>
+                            </svg>
+                        </div>`;
+                    }
+                }
             ],
             language: {
                 lengthMenu: "{{ __('trans.global.lengthMenu') }}",
@@ -456,7 +469,7 @@
                             <div class="card shadow-none border mb-2" style="padding: 14px;">
                                 <div class="card-body p-0">
                                     <div class="img position-relative mb-3" style="height: 200px;">
-                                        <img src="${imageUrl}" class="img-fluid rounded w-100 h-100" alt="${campaign.title}">
+                                        <img src="${imageUrl}" class="img-fluid rounded w-100 h-100" alt="${campaign.title}" loading="lazy">>
                                         <div class="position-absolute top-0 start-0 badge rounded-pill bg-label-primary m-2">
                                             {{ __('trans.campaign.remaining') }}
                                             (x)
@@ -479,7 +492,7 @@
                                     </div>
 
                                     <div class="user-info d-flex align-items-center mt-2">
-                                        <img src="${userImageUrl}" class="img-fluid rounded-circle" width="40" height="40" alt="${campaign.user.name}">
+                                        <img src="${userImageUrl}" class="img-fluid rounded-circle" width="40" height="40" alt="${campaign.user.name}" loading="lazy">>
                                         <h6 class="ms-2 mb-0">${campaign.user.name}</h6>
                                     </div>
                                 </div>

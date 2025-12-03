@@ -212,7 +212,7 @@
 
                         <div class="d-flex align-items-center mb-2">
                             <div class="xs-icons text-dark p-2">
-                                <i class="ti ti-clock ti-xs"></i>
+                                <i class="fa fa-play-circle fa-md"></i>
                             </div>
                             <p class="fw-bold mx-2 mb-0">
                                 {{ __('trans.dashboard.time_shown') }}

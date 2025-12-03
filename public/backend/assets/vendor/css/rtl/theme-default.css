@@ -98,7 +98,7 @@ body {
 }
 
 a.bg-primary:hover, a.bg-primary:focus {
-  background-color: #6d62e4 !important;
+  background-color: #166f9f !important;
 }
 
 .dropdown-notifications-item:not(.mark-as-read) .dropdown-notifications-read span {

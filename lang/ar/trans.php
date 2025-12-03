@@ -89,6 +89,9 @@ return [
         'new' => 'الإعلانات الجديدة',
         'accepted' => 'الإعلانات المقبولة',
         'rejected' => 'الإعلانات المرفوضة',
+        'reject' => 'رفض الإعلان',
+        'notes' => 'ملاحظات',
+        'notes_text' => 'يرجى ذكر الملاحظات أو الأسباب التي أدت لرفض الإعلان.',
     ],
 
     'energy_monitoring' => [
@@ -195,6 +198,7 @@ return [
         'view' => 'عرض',
         'delete' => 'حذف',
         'copy' => 'نسخ',
+        'send' => 'ارسال',
         'close' => 'إغلاق',
         'cancel' => 'إلغاء',
         'search' => 'بحث',
@@ -237,16 +241,20 @@ return [
         'are_you_sure' => 'هل أنت متأكد؟',
 
         'success' => [
-            'done_create' => 'تم حفظ البيانات',
-            'done_update' => 'تم تعديل البيانات',
-            'done_delete' => 'تم حذف البيانات',
+            'data_created' => 'تم حفظ البيانات',
+            'data_updated' => 'تم تعديل البيانات',
+            'data_deleted' => 'تم حذف البيانات',
+
+            'campaign_accepted' => 'تم قبول الحملة',
+            'campaign_rejected' => 'تم رفض الحملة',
             'payment_success' => 'تم الدفع بنجاح'
         ],
         'error' => [
             'data_not_found' => 'لم يتم العثور على البيانات',
             'user_not_found' => 'المستخدم غير موجود',
             'invalid_email_or_password' => 'البريد الإلكتروني أو الباسورد غير صحيح',
-            'old_password_incorrect' => 'كلمة المرور السابقة غير صحيحة'
+            'old_password_incorrect' => 'كلمة المرور السابقة غير صحيحة',
+            'something_error' => 'حدث خطأ ما',
         ],
     ],
 

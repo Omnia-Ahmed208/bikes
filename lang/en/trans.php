@@ -89,6 +89,9 @@ return [
         'new' => 'New Ads',
         'accepted' => 'Accepted Ads',
         'rejected' => 'Rejected Ads',
+        'reject' => 'Reject Ad',
+        'notes' => 'Notes',
+        'notes_text' => 'Please note the reason or reasons for rejecting the ad.',
     ],
 
     'energy_monitoring' => [
@@ -195,6 +198,7 @@ return [
         'view' => 'View',
         'delete' => 'Delete',
         'copy' => 'Copy',
+        'send' => 'Send',
         'close' => 'Close',
         'cancel' => 'Cancel',
         'search' => 'Search',
@@ -236,19 +240,12 @@ return [
         'are_you_sure' => 'Are you sure?',
 
         'success' => [
-            'done_create' => 'Data created successfully',
-            'done_updated' => 'Data updated successfully',
-            'done_deleted' => 'Data deleted successfully',
+            'data_created' => 'Data created successfully',
+            'data_updated' => 'Data updated successfully',
+            'data_deleted' => 'Data deleted successfully',
 
-            'registered_successfully' => 'Registered successfully',
-            'logged_in_successfully' => 'Logged in successfully',
-            'otp_verified_successfully' => 'OTP verified successfully',
-            'logged_out_successfully' => 'Logged out successfully',
-            'otp_sent_successfully' => 'OTP sent successfully',
-            'appointment_cancelled' => 'Appointment cancelled successfully',
-            'file_uploaded' => 'File uploaded successfully',
-            'medicine_completed_successfully' => 'Great! Medicine completed successfully',
-            'medicine_deleted' => 'Medicine deleted from medical record',
+            'campaign_accepted' => 'Campaign accepted',
+            'campaign_rejected' => 'Campaign rejected',
             'payment_success' => 'Payment success',
         ],
         'error' => [
@@ -256,10 +253,11 @@ return [
             'user_not_found' => 'User not found',
             'invalid_email_or_password' => 'Invalid email or password',
             'old_password_incorrect' => 'Old password is incorrect',
+            'something_error' => 'Something went wrong',
         ],
     ],
 
-    'logo' => 'Qr Digital Health',
+    'logo' => 'Logo',
     'arabic' => 'Arabic',
     'english' => 'English',
     'welcome' => 'Welcome, ',

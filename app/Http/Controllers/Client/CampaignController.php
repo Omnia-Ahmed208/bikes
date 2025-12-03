@@ -353,8 +353,8 @@ class CampaignController extends Controller
         $campaign->price             = $ads_price ?? 0;
         $campaign->save();
 
-        // return redirect()->route('client.campaigns.live')->with('success',  __('trans.alert.success.done_create'));
-        return back()->with('payment_success',  __('trans.alert.success.done_create'));
+        // return redirect()->route('client.campaigns.live')->with('success',  __('trans.alert.success.data_created'));
+        return back()->with('payment_success',  __('trans.alert.success.data_created'));
     }
 
     /**
@@ -447,8 +447,8 @@ class CampaignController extends Controller
         $campaign->price             = $ads_price ?? 0;
         $campaign->save();
 
-        // return redirect()->route('client.campaigns.live')->with('success',  __('trans.alert.success.done_create'));
-        return back()->with('payment_success',  __('trans.alert.success.done_create'));
+        // return redirect()->route('client.campaigns.live')->with('success',  __('trans.alert.success.data_created'));
+        return back()->with('payment_success',  __('trans.alert.success.data_created'));
     }
 
     /**
