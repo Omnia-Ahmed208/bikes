@@ -1,24 +1,26 @@
-@extends('layouts.client.app')
+@extends('layouts.admin.app')
 
 @section('content')
 
    <!-- Content -->
    <div class="container-xxl flex-grow-1 container-p-y">
 
-        <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+        <div class="d-flex align-items-center flex-wrap mb-4">
             <a href="{{ UrlLang('client/campaigns') }}">
-                <i class="ti ti-arrow-{{ AppLang() == 'ar' ? 'right' : 'left' }} fw-bold text-dark"></i>
+                <i class="ti ti-arrow-{{ AppLang() == 'ar' ? 'right' : 'left' }} ti-sm h6 mb-0"></i>
             </a>
 
-            <div class="d-flex">
-                <a href="{{ route('client.campaigns.edit', $campaign->id) }}" class="btn btn-primary w-100 me-1">
-                    <i class="ti ti-pencil me-2"></i>
-                    {{ __('trans.global.edit') }}
-                </a>
-                <a href="" class="btn btn-outline-primary w-100 ms-1">
-                    <i class="ti ti-copy me-2"></i>
-                    {{ __('trans.global.copy') }}
-                </a>
+            <div class="d-flex align-items-center flex-wrap">
+                <h5 class="title mx-2 mb-0">{{ $campaign->title }}</h5>
+                @if ($campaign->status == 'live')
+                    <div class="status rounded-pill badge bg-label-success waves-effect">{{ __('trans.campaign.live') }}</div>
+                @elseif($campaign->status == 'scheduled')
+                    <div class="status rounded-pill badge bg-secondary waves-effect">{{ __('trans.campaign.scheduled') }}</div>
+                @elseif($campaign->status == 'finished')
+                    <div class="status rounded-pill badge bg-label-danger waves-effect">{{ __('trans.campaign.finished') }}</div>
+                @elseif($campaign->status == 'stopped')
+                    <div class="status rounded-pill btbadge bgn-label-warning waves-effect">{{ __('trans.campaign.stopped') }}</div>
+                @endif
             </div>
         </div>
 
@@ -47,20 +49,13 @@
                     @endif
                 </div>
 
-                <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="title">{{ $campaign->title }}</h5>
-                    @if ($campaign->status == 'live')
-                        <div class="status btn rounded-pill btn-label-success waves-effect">{{ __('trans.campaign.live') }}</div>
-                    @elseif($campaign->status == 'scheduled')
-                        <div class="status btn rounded-pill btn-label-secondary waves-effect">{{ __('trans.campaign.scheduled') }}</div>
-                    @elseif($campaign->status == 'finished')
-                        <div class="status btn rounded-pill btn-label-danger waves-effect">{{ __('trans.campaign.finished') }}</div>
-                    @elseif($campaign->status == 'stopped')
-                        <div class="status btn rounded-pill btn-label-warning waves-effect">{{ __('trans.campaign.stopped') }}</div>
-                    @endif
+                <div class="user-info d-flex align-items-center mt-2 mb-4">
+                    <img src="{{ asset($campaign->user->img ?? 'backend/img/user.svg') }}" class="img-fluid rounded-circle" width="40" height="40" alt="{{ $campaign->user->name }}" loading="lazy">
+                    <h6 class="ms-2 mb-0">{{ $campaign->user->name }}</h6>
                 </div>
 
                 <h6 class="mb-0">{{ __('trans.campaign.percentage') }}</h6>
+
                 <div class="d-flex align-items-center gap-2">
                     <div class="progress flex-grow-1" style="height: 4px">
                         <div class="progress-bar bg-primary" role="progressbar" style="width: 90%"

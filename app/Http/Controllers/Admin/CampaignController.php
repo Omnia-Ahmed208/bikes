@@ -81,7 +81,11 @@ class CampaignController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $campaign = Campaign::with(['country', 'region', 'user'])->findOr($id, function () {
+            return back()->with('error', __('trans.alert.error.data_not_found'));
+        });
+
+        return view('admin.campaign.show', compact('campaign'));
     }
 
     /**

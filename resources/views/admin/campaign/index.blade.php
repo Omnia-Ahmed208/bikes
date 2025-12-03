@@ -469,7 +469,7 @@
                             <div class="card shadow-none border mb-2" style="padding: 14px;">
                                 <div class="card-body p-0">
                                     <div class="img position-relative mb-3" style="height: 200px;">
-                                        <img src="${imageUrl}" class="img-fluid rounded w-100 h-100" alt="${campaign.title}" loading="lazy">>
+                                        <img src="${imageUrl}" class="img-fluid rounded w-100 h-100" alt="${campaign.title}" loading="lazy">
                                         <div class="position-absolute top-0 start-0 badge rounded-pill bg-label-primary m-2">
                                             {{ __('trans.campaign.remaining') }}
                                             (x)
@@ -492,7 +492,7 @@
                                     </div>
 
                                     <div class="user-info d-flex align-items-center mt-2">
-                                        <img src="${userImageUrl}" class="img-fluid rounded-circle" width="40" height="40" alt="${campaign.user.name}" loading="lazy">>
+                                        <img src="${userImageUrl}" class="img-fluid rounded-circle" width="40" height="40" alt="${campaign.user.name}" loading="lazy">
                                         <h6 class="ms-2 mb-0">${campaign.user.name}</h6>
                                     </div>
                                 </div>

@@ -210,8 +210,7 @@
                 { data: 'id' },
                 { data: 'file',
                     render: function (data, type, full, meta) {
-                        return '';
-                        // return `<img src="{{ url('') }}/${data}" class="rounded" width="40" height="40" style="object-fit: cover" loading="lazy">`;
+                        return `<img src="{{ url('') }}/${data}" class="rounded" width="40" height="40" style="object-fit: cover" loading="lazy">`;
                     }
                 },
                 { data: 'title' },
