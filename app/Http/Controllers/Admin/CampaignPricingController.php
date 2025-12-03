@@ -53,7 +53,7 @@ class CampaignPricingController extends Controller
         $ads_price->price      = $request->price;
         $ads_price->save();
 
-        return back()->with('success', __('trans.alert.success.data_created'));
+        return redirect()->route('admin.campaigns-pricing.index')->with('success', __('trans.alert.success.data_created'));
     }
 
     /**
@@ -69,11 +69,12 @@ class CampaignPricingController extends Controller
      */
     public function edit(string $id)
     {
+        $countries = Country::get();
         $ads_price = AdsPrice::findOr($id, function () {
             return back()->with('error', __('trans.alert.error.data_not_found'));
         });
 
-        return view('admin.pricing.edit', compact('ads_price'));
+        return view('admin.pricing.edit', compact('ads_price', 'countries'));
     }
 
     /**
@@ -96,7 +97,7 @@ class CampaignPricingController extends Controller
         $ads_price->price      = $request->price;
         $ads_price->save();
 
-        return back()->with('success', __('trans.alert.success.data_updated'));
+        return redirect()->route('admin.campaigns-pricing.index')->with('success', __('trans.alert.success.data_updated'));
     }
 
     /**
