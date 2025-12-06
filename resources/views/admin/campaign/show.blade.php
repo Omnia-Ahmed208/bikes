@@ -141,6 +141,27 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-6">
+                            <canvas id="campaign_performance"></canvas>
+                            <div class="d-flex gap-4">
+                                <div class="mx-4 d-flex align-items-center text-dark">
+                                    <div class="percentage-success-bg rounded-circle me-1" style="width: 8px; height: 8px"></div>
+                                    {{ __('trans.dashboard.strong_performance') }}
+                                </div>
+                                 <div class="mx-4 d-flex align-items-center text-dark">
+                                    <div class="percentage-orange-bg rounded-circle me-1" style="width: 8px; height: 8px"></div>
+                                    {{ __('trans.dashboard.good_performance') }}
+                                </div>
+                                 <div class="mx-4 d-flex align-items-center text-dark">
+                                    <div class="percentage-warning-bg rounded-circle me-1" style="width: 8px; height: 8px"></div>
+                                    {{ __('trans.dashboard.average_performance') }}
+                                </div>
+                                 <div class="mx-4 d-flex align-items-center text-dark">
+                                    <div class="percentage-danger-bg rounded-circle me-1" style="width: 8px; height: 8px"></div>
+                                    {{ __('trans.dashboard.weak_performance') }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -153,15 +174,20 @@
                                         <th class="text-center text-primary">#</th>
                                         <th class="text-center">{{ __('trans.campaign.duration') }}</th>
                                         <th class="text-center">{{ __('trans.campaign.status') }}</th>
-                                        <th class="text-center">{{ __('trans.campaign.date') }}</th>
+                                        <th class="text-center">{{ __('trans.campaign.time') }}</th>
                                         <th class="text-center">{{ __('trans.campaign.execution_percentage') }}</th>
+                                        <th class="text-center">{{ __('trans.campaign.actions') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
                                     <tr>
-                                        <td><input type="checkbox" class="form-check-input"></td>
-                                        <td>{{ $campaign->campaign_duration }}</td>
-                                        <td>{{ $campaign->status }}</td>
+                                        <td>1</td>
+                                        <td>اليوم 1</td>
+                                        <td>
+                                            <div class="status rounded-pill badge bg-label-secondary fs-6">
+                                                {{ __('trans.campaign.not_started') }}
+                                            </div>
+                                        </td>
                                         <td>{{ $campaign->created_at }}</td>
                                         <td>
                                             <div class="progress-circle-small">
@@ -171,6 +197,11 @@
                                                     <circle class="progress" cx="40" cy="40" r="25"></circle>
                                                 </svg>
                                             </div>
+                                        </td>
+                                        <td>
+                                            <a href="javascript:;" class="bg-label-secondary rounded p-2 px-3">
+                                                <i class="fa fa-play-circle text-dark fa-lg"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -186,7 +217,21 @@
 @endsection
 
 @push('js')
+    {{-- Half Doughnut Chart with Chart.js --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+    <script src="{{url('backend')}}/js/percentage.js"></script>
+
     <script>
+        halfDoughnutChart(
+            [
+                '{{ __('trans.dashboard.weak_performance') }}',
+                '{{ __('trans.dashboard.average_performance') }}',
+                '{{ __('trans.dashboard.good_performance') }}',
+                '{{ __('trans.dashboard.strong_performance') }}'
+            ]
+        );
+
         var custom_table = $('.custom_table');
 
         var table = custom_table.DataTable({
@@ -232,7 +277,6 @@
                 $('.dataTables_filter').css('visibility', 'visible');
             }
         });
-
     </script>
 @endpush
 

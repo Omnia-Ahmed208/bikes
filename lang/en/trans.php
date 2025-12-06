@@ -57,6 +57,7 @@ return [
         'price' => 'Price',
         'status' => 'Status',
         'date' => 'Date',
+        'time' => 'Time',
         'actions' => 'Actions',
         'remaining' => 'Remaining',
         'days' => 'Days',
@@ -68,6 +69,7 @@ return [
         'stopped' => 'Stopped',
         'finished' => 'Finished',
         'scheduled' => 'Scheduled',
+        'not_started' => 'Not Started',
 
         'campaign_details' => 'Campaign Details',
         'media_and_capacity' => 'Media and Capacity',

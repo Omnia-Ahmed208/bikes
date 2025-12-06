@@ -238,6 +238,27 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-6">
+                    <canvas id="campaign_performance"></canvas>
+                    <div class="d-flex gap-4">
+                        <div class="mx-4 d-flex align-items-center text-dark">
+                            <div class="percentage-success-bg rounded-circle me-1" style="width: 8px; height: 8px"></div>
+                            {{ __('trans.dashboard.strong_performance') }}
+                        </div>
+                            <div class="mx-4 d-flex align-items-center text-dark">
+                            <div class="percentage-orange-bg rounded-circle me-1" style="width: 8px; height: 8px"></div>
+                            {{ __('trans.dashboard.good_performance') }}
+                        </div>
+                            <div class="mx-4 d-flex align-items-center text-dark">
+                            <div class="percentage-warning-bg rounded-circle me-1" style="width: 8px; height: 8px"></div>
+                            {{ __('trans.dashboard.average_performance') }}
+                        </div>
+                            <div class="mx-4 d-flex align-items-center text-dark">
+                            <div class="percentage-danger-bg rounded-circle me-1" style="width: 8px; height: 8px"></div>
+                            {{ __('trans.dashboard.weak_performance') }}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -358,11 +379,23 @@
 
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
     <script src="{{url('backend')}}/select2/select2.js"></script>
     <script src="{{url('backend')}}/js/percentage.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+
     <script>
+        halfDoughnutChart(
+            [
+                '{{ __('trans.dashboard.weak_performance') }}',
+                '{{ __('trans.dashboard.average_performance') }}',
+                '{{ __('trans.dashboard.good_performance') }}',
+                '{{ __('trans.dashboard.strong_performance') }}'
+            ]
+        );
+
         $(document).ready(function () {
             $('.select2').select2({
                 minimumResultsForSearch: Infinity

@@ -57,6 +57,7 @@ return [
         'price' => 'السعر',
         'status' => 'الحالة',
         'date' => 'التاريخ',
+        'time' => 'الوقت',
         'actions' => 'الاجراءات',
         'remaining' => 'متبقي',
         'days' => 'أيام',
@@ -68,6 +69,7 @@ return [
         'stopped' => 'متوقفة مؤقتًا',
         'finished' => 'منتهية',
         'scheduled' => 'مجدولة',
+        'not_started' => 'لم يبدء',
 
         'campaign_details' => 'تفاصيل الحملة',
         'media_and_capacity' => 'الوسائط والسعة',

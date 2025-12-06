@@ -90,6 +90,12 @@
 .percentage-secondary-bg{
     background-color: #757575;
 }
+.percentage-warning-bg{
+    background-color: #FFC107;
+}
+.percentage-orange-bg{
+    background-color: #F39C12;;
+}
 
 [dir=rtl] .bg-menu-theme.menu-vertical .menu-item.active > .menu-link:not(.menu-toggle) {
     background: #E3F3FA !important;

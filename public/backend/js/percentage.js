@@ -207,3 +207,241 @@ function renderBarChart(elementId, labels = [], data = [], barColor = '#0077B6',
 
     return barChart;
 }
+
+
+
+
+
+ // Expenses Radial Bar Chart
+ function radialBarChart(){
+   const expensesRadialChartEl = document.querySelector('#expensesChart'),
+   expensesRadialChartConfig = {
+       chart: {
+       height: 145,
+       sparkline: {
+           enabled: true
+       },
+       parentHeightOffset: 0,
+       type: 'radialBar'
+       },
+       colors: [config.colors.warning],
+       series: [78],
+       plotOptions: {
+       radialBar: {
+           offsetY: 0,
+           startAngle: -90,
+           endAngle: 90,
+           hollow: {
+           size: '65%'
+           },
+           track: {
+           strokeWidth: '45%',
+           background: borderColor
+           },
+           dataLabels: {
+           name: {
+               show: false
+           },
+           value: {
+               fontSize: '22px',
+               color: headingColor,
+               fontWeight: 600,
+               offsetY: -5
+           }
+           }
+       }
+       },
+       grid: {
+       show: false,
+       padding: {
+           bottom: 5
+       }
+       },
+       stroke: {
+       lineCap: 'round'
+       },
+       labels: ['Progress'],
+       responsive: [
+       {
+           breakpoint: 1442,
+           options: {
+           chart: {
+               height: 400
+           },
+           plotOptions: {
+               radialBar: {
+               dataLabels: {
+                   value: {
+                   fontSize: '18px'
+                   }
+               },
+               hollow: {
+                   size: '60%'
+               }
+               }
+           }
+           }
+       },
+       {
+           breakpoint: 1025,
+           options: {
+           chart: {
+               height: 136
+           },
+           plotOptions: {
+               radialBar: {
+               hollow: {
+                   size: '65%'
+               },
+               dataLabels: {
+                   value: {
+                   fontSize: '18px'
+                   }
+               }
+               }
+           }
+           }
+       },
+       {
+           breakpoint: 769,
+           options: {
+           chart: {
+               height: 120
+           },
+           plotOptions: {
+               radialBar: {
+               hollow: {
+                   size: '55%'
+               }
+               }
+           }
+           }
+       },
+       {
+           breakpoint: 426,
+           options: {
+           chart: {
+               height: 145
+           },
+           plotOptions: {
+               radialBar: {
+               hollow: {
+                   size: '65%'
+               }
+               }
+           },
+           dataLabels: {
+               value: {
+               offsetY: 0
+               }
+           }
+           }
+       },
+       {
+           breakpoint: 376,
+           options: {
+           chart: {
+               height: 105
+           },
+           plotOptions: {
+               radialBar: {
+               hollow: {
+                   size: '60%'
+               }
+               }
+           }
+           }
+       }
+       ]
+   };
+
+   if (typeof expensesRadialChartEl !== undefined && expensesRadialChartEl !== null) {
+    const expensesRadialChart = new ApexCharts(expensesRadialChartEl, expensesRadialChartConfig);
+    expensesRadialChart.render();
+   }
+ }
+
+
+
+// function halfDoughnutChart(labels) {
+//     var ctx = document.getElementById("campaign_performance");
+//     var myChart = new Chart(ctx, {
+//     //     type: 'doughnut',
+//     //     data: {
+//     //         labels: labels,
+//     //         datasets: [{
+//     //             label: '# of Votes',
+//     //             data: [25, 25, 25, 25, 0],
+//     //             backgroundColor: [
+//     //                 '#D32F2F',
+//     //                 '#FFB300',
+//     //                 '#F39C12',
+//     //                 '#4CAF50',
+//     //                 '#00bcd4',
+//     //             ],
+//     //             borderWidth: 5,      // ← سماكة الفاصل
+//     //             borderColor: '#fff', // ← لون الفاصل
+//     //         }]
+//     //     },
+//     //     options: {
+//     //         legend: {
+//     //             display: false
+//     //         },
+//     //         cutoutPercentage: 56,
+//     //         rotation: 1 * Math.PI,
+//     //         circumference: 1 * Math.PI
+//     //     }
+//     // });
+// }
+function halfDoughnutChart(labels) {
+    var ctx = document.getElementById("campaign_performance");
+
+    var segmentValues = [0, 25, 50, 100]; // القيم التي تريد عرضها
+
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        plugins: [ChartDataLabels],
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '# of Votes',
+                data: [25, 25, 25, 25],
+                backgroundColor: [
+                    '#D32F2F',
+                    '#FFB300',
+                    '#F39C12',
+                    '#4CAF50',
+                ],
+                borderWidth: 4,
+                borderColor: '#fff',
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            cutoutPercentage: 56,
+            rotation: 1 * Math.PI,
+            circumference: 1 * Math.PI,
+
+            tooltips: {
+                enabled: false // إخفاء tooltip
+            },
+
+            plugins: {
+                datalabels: {
+                    color: '#444C53',
+                    font: {
+                        size: 10,
+                    },
+                    formatter: function(value, ctx) {
+                        return segmentValues[ctx.dataIndex] ?? '';
+                    },
+                    anchor: 'start',
+                    align: 'start',
+                    offset: 1
+                }
+            }
+        }
+    });
+}
