@@ -9,11 +9,11 @@
         </h3>
 
         <div class="card">
-            <div class="card-datatable text-nowrap">
+            <div class="card-datatable text-nowrap pb-0">
                 <table class="custom_table table">
                     <thead>
                         <tr>
-                            <th class="text-center">#</th>
+                            <th class="text-center text-primary">#</th>
                             <th class="text-center">{{ __('trans.pricing.country') }}</th>
                             <th class="text-center">{{ __('trans.pricing.region') }}</th>
                             <th class="text-center">{{ __('trans.pricing.price') }}</th>
@@ -81,7 +81,7 @@
             scrollY: false,
             scrollX: true,
             dom: '<"row d-flex flex-wrap justify-content-between align-items-center"<"col-12 col-sm-6 d-flex ms-2"f>>t'+
-                '<"row align-items-center"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6 d-flex justify-content-end align-items-center"lp>>',
+                '<"row align-items-center table-footer-row py-2"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6 d-flex justify-content-end align-items-center"lp>>',
 
             initComplete: function() {
                 var apiContainer = $(this.api().table().container());
@@ -99,7 +99,7 @@
                         '<i class="ti ti-plus me-1"></i> {{ __("trans.pricing.add_new") }}' +
                     '</a>'
                 );
-                
+
                 $('.dataTables_filter').css('visibility', 'visible');
             }
         });

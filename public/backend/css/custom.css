@@ -197,13 +197,40 @@
 
 
 /* ==================== datatables (dataTable scroll body) ==================== */
+#table-view{border-radius: 14px !important;}
+.dataTables_scroll{padding: 0 20px;}
+.dataTables_scrollHead{background-color: #eee;}
 .dataTables_scrollBody{
     max-height: auto !important;
     height: auto !important;
 }
+.table-footer-row{
+    background: #eee;
+    border-radius: 0 0 14px 14px;
+}
+
+.dark-style .dataTables_scrollHead,
+.dark-style .table-footer-row{
+    background: #25293c;
+}
 
 .dataTables_length{margin: 0 !important; font-size: 14px !important;}
-select[name="DataTables_Table_0_length"]{padding: 0 0 0 30px !important; border: 0; box-shadow: none !important;}
+select[name="DataTables_Table_0_length"]{
+    /* padding: 0 0 0 30px !important; */
+    border: 0;
+    box-shadow: none !important;
+    background: transparent;
+    appearance: auto !important;
+    -webkit-appearance: auto !important;
+    -moz-appearance: auto !important;
+    margin: 0 0px 0 17px;
+    padding: 0 !important;
+}
+
+div.dataTables_wrapper div.dataTables_info{
+    padding: 0;
+    font-size: 16px;
+}
 
 .dataTables_filter,
 .filter_section {
@@ -214,6 +241,7 @@ select[name="DataTables_Table_0_length"]{padding: 0 0 0 30px !important; border:
     .col-sm-12.col-md-6:has(#DataTables_Table_0_length){flex-wrap: wrap; justify-content: center !important;}
     [dir=rtl] div.dataTables_wrapper .dataTables_filter input{margin: 0; display: block; width: 95%}
 }
+/* ==================== */
 
 
 .sm-icons{

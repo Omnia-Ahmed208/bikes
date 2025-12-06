@@ -59,13 +59,13 @@
             <div class="tab-content shadow-none p-0 mt-4">
                 {{-- <div class="tab-pane fade active show" id="navs-pills-top-all" role="tabpanel"> --}}
                     <div class="card">
-                        
-                        <div class="card-datatable text-nowrap">
+
+                        <div class="card-datatable text-nowrap pb-0">
                             <table class="custom_table table">
                                 <thead>
                                     <tr>
                                         {{-- <th class="text-center"></th> --}}
-                                        <th class="text-center">#</th>
+                                        <th class="text-center text-primary">#</th>
                                         <th class="text-center">{{ __('trans.campaign.media') }}</th>
                                         <th class="text-center">{{ __('trans.campaign.name') }}</th>
                                         <th class="text-center">{{ __('trans.campaign.region') }}</th>
@@ -245,7 +245,7 @@
             scrollY: false,
             scrollX: true,
             dom: '<"row d-flex flex-wrap justify-content-between align-items-center"<"col-12 col-sm-6 d-flex ms-2"f>>t'+
-                '<"row align-items-center"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6 d-flex justify-content-end align-items-center"lp>>',
+                '<"row align-items-center table-footer-row py-2"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6 d-flex justify-content-end align-items-center"lp>>',
 
             initComplete: function() {
                 // export btn
